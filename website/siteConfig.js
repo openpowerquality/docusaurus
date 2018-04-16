@@ -20,7 +20,7 @@ const users = [
 
 const siteConfig = {
   title: 'Open Power Quality' /* title for your website */,
-  tagline: 'Open Power Quality develops hardware and software for low-cost distributed power quality data collection, analysis, and visualization.',
+  tagline: 'Open source hardware and software for low-cost distributed power quality data collection, analysis, and visualization.',
   url: 'https://openpowerquality.org' /* your website url */,
   baseUrl: '/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -37,9 +37,9 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    {doc: 'doc4', label: 'Get Involved'},
+    {page: 'help', label: 'About Us'},
+    {blog: true, label: 'News'},
   ],
 
   // If you have users set above, you add it here:
@@ -52,10 +52,10 @@ const siteConfig = {
 
   /* colors for website */
   colors: {
-    primaryColor: "rgb(34, 34, 34)",
-    secondaryColor: "#05A5D1",
+    primaryColor: "#0587b3",
+    secondaryColor: "#6fc1f0",
     tintColor: "#005068",
-    backgroundColor: "#f5fcff"
+    backgroundColor: "#e9faff"
   },
 
   /* custom fonts for website */
