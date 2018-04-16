@@ -14,3 +14,12 @@
 
 @media only screen and (min-width: 1500px) {
 }
+
+footer.nav-footer {
+  background-color: #0587b3;
+}
+
+.darkBackground {
+  background: #0587b3;
+  color: #fff;
+}
