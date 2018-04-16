@@ -23,3 +23,11 @@ footer.nav-footer {
   background: #0587b3;
   color: #fff;
 }
+
+.projectTitle > small {
+  line-height: 1.3em;
+}
+
+.imageAlignTop .blockImage {
+  max-width: 300px;
+}

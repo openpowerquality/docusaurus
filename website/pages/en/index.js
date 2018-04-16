@@ -77,7 +77,6 @@ class HomeSplash extends React.Component {
     let language = this.props.language || '';
     return (
       <SplashContainer>
-        <Logo img_src={imgUrl('docusaurus.svg')}/>
         <div className="inner">
           <ProjectTitle/>
         </div>
@@ -86,24 +85,6 @@ class HomeSplash extends React.Component {
   }
 }
 
-class HomeSplashOriginal extends React.Component {
-  render() {
-    let language = this.props.language || '';
-    return (
-      <SplashContainer>
-        <Logo img_src={imgUrl('docusaurus.svg')}/>
-        <div className="inner">
-          <ProjectTitle/>
-          <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html', language)}>Example Link</Button>
-            <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
-          </PromoSection>
-        </div>
-      </SplashContainer>
-    );
-  }
-}
 
 const Block = props => (
   <Container
@@ -115,19 +96,25 @@ const Block = props => (
 );
 
 const Features = props => (
-  <Block layout="fourColumn">
+  <Block background="light" layout="threeColumn">
     {[
       {
-        content: 'This is the content of my feature',
-        image: imgUrl('docusaurus.svg'),
+        content: 'Each OPQ Box samples the power quality waveform over 15,000 times a second, computing frequency, voltage, and total harmonic distortion, and uploads low fidelity data to our cloud-based middleware using WiFi.',
+        image: imgUrl('opqbox_photo.jpg'),
         imageAlign: 'top',
-        title: 'Feature One',
+        title: 'Power Quality Monitoring',
       },
       {
-        content: 'The content of my second feature',
-        image: imgUrl('docusaurus.svg'),
+        content: 'OPQ Middleware processes the low fidelity PQ data stream. When it detects anomalies, it requests high fidelity waveform data from one or more OPQ Boxes to aid in analysis and interpretation.',
+        image: imgUrl('middleware.png'),
         imageAlign: 'top',
-        title: 'Feature Two',
+        title: 'Dynamic Middleware',
+      },
+      {
+        content: 'OPQ View provides visualization and configuration controls to enable users to understand and interpret power quality locally and across the grid.',
+        image: imgUrl('opqview-landing.png'),
+        imageAlign: 'top',
+        title: 'Visualization and Notification',
       },
     ]}
   </Block>
@@ -143,7 +130,7 @@ const FeatureCallout = props => (
 );
 
 const LearnHow = props => (
-  <Block background="light">
+  <Block >
     {[
       {
         content: 'Talk about learning how to use this',
@@ -220,11 +207,6 @@ class Index extends React.Component {
         <HomeSplash language={language}/>
         <div className="mainContainer">
           <Features/>
-          <FeatureCallout/>
-          <LearnHow/>
-          <TryOut/>
-          <Description/>
-          <Showcase language={language}/>
         </div>
       </div>
     );
