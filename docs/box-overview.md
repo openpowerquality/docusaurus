@@ -1,6 +1,6 @@
 ---
-title: OPQ Box Overview
-sidebar_label: Overview
+title: OPQ Box Design Overview
+sidebar_label: Design Overview
 ---
 
 The goal of OPQBox is to monitor voltage and frequency and detect departures from nominal levels.  It accomplishes this by sampling the waveform 256 times per cycle, extracting power quality measures (including frequency, RMS voltage, and THD), and then transmitting data about these measures to the OPQHub service. 
@@ -33,7 +33,7 @@ Internally, AMC1100 consists of a single die comprised of a $$\Sigma\Delta$$ ana
 
 In order to match the dynamic range of the AMC1100, the $$120V_{ac}$$ is passed through a resistor divider to attenuate it to $$120mV_{ac}$$. The input and output of the isolation amplifier is filtered with a passive first order anti-aliasing filter. The isolated signal is then digitized via a 16bit ADC of the STM32F3 DSP at $$12 KSps$$, which gives 200 data samples per grid cycle. Internally, the digitization process runs asynchronously with the respect to the the DSP CPU, which minimizes timing jitter. We verified that the sampling jitter of the ADC is less then 1us, however due to limited precision equipment an exact figure was not established. The data stream in its digital form is transferred to the Raspberry Pi single board computer (SBC) for analysis.
 
-# Software components
+## Software components
 
 Here is an illustration of the OPQBox software stack:
 

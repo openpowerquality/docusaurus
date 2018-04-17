@@ -35,35 +35,20 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Documentation</h5>
-            <a href={this.docUrl('doc1.html', this.props.language)}>
-              Power Quality Overview
-            </a>
-            <a href={this.docUrl('doc2.html', this.props.language)}>
-              OPQ Boxes
-            </a>
-            <a href={this.docUrl('doc3.html', this.props.language)}>
-              OPQ View
-            </a>
+            <a href={this.docUrl('doc1.html', this.props.language)}>Power Quality Overview</a>
+            <a href={this.docUrl('doc2.html', this.props.language)}>OPQ Boxes</a>
+            <a href={this.docUrl('doc3.html', this.props.language)}>OPQ View</a>
           </div>
           <div>
             <h5>Community</h5>
-            <a
-              href="http://slack.com/openpowerquality"
-              target="_blank"
-              rel="noreferrer noopener">
-              Slack
-            </a>
-            <a
-              href="https://twitter.com/opquality"
-              target="_blank"
-              rel="noreferrer noopener">
-              Twitter
-            </a>
+            <a href="http://slack.com/openpowerquality" target="_blank" rel="noreferrer noopener">Slack</a>
+            <a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a>
           </div>
           <div>
-            <h5>More</h5>
+            <h5>Development</h5>
             <a href={this.props.config.baseUrl + 'blog'}>News</a>
             <a href="https://github.com/openpowerquality">GitHub</a>
+            <a href="https://github.com/openpowerquality/opq/projects/1">Project Board</a>
           </div>
         </section>
       </footer>

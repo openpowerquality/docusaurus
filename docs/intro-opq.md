@@ -1,16 +1,15 @@
 ---
-title: Overview of Open Power Quality
-sidebar_label: Overview
+title: What is OPQ? 
+sidebar_label: What is OPQ?
 ---
 
 The OPQ system consists of four major open source hardware and software components that provide end-to-end support for the capture, triggering, analysis, and reporting of consumer level local and global PQ events. 
 
-  1. OPQBox is a hardware device that detects the electrical waveform from a standard residential outlet and communicates both low and high fidelity representations of the waveform to other OPQ system components. 
-  2. OPQMakai monitors incoming low fidelity data from OPQBoxes, requests high fidelity data when necessary, and stores the results in a MongoDB database.
-  3. OPQMauka analyzes data, creates "events" when it detects anomolies, and can tell OPQMakai to request high fidelity data from one or more OPQBoxes to facilitate analysis.
-  4. OPQView is a visualization platform for displaying the results for data capture and analysis.
+  1. OPQ Box is a hardware device that detects the electrical waveform from a standard residential outlet and communicates both low and high fidelity representations of the waveform to other OPQ system components. 
+  2. OPQ Makai monitors incoming low fidelity data from OPQ Boxes, requests high fidelity data when necessary, and stores the results in a MongoDB database.
+  3. OPQ Mauka analyzes data, creates "events" when it detects anomolies, and can tell OPQ Makai to request high fidelity data from one or more OPQ Boxes to facilitate analysis.
+  4. OPQ View is a visualization platform for displaying the results for data capture and analysis.
   
-
 The following image illustrates how these components work together to take information from wall outlets (on the left side) to the display of analyses in a browser (on the right hand side):
 
 <img src="/docs/assets/intro/system-diagram.png" width="100%">

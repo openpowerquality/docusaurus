@@ -1,15 +1,17 @@
 ---
-title: OPQ Box Installation
-sidebar_label: Installation
+title: OPQ Box User Guide
+sidebar_label: OPQ Box
 ---
 
 ## Obtain an OPQBox
 
-First, obtain an OPQBox and plug it in within range of a wireless access point. When plugged in, it looks like this:
+First, obtain an OPQBox and plug it in within range of a wireless access point. Currently, your options for obtaining an OPQBox are to contact the Open Power Quality research via Professor Philip Johnson (johnson@hawaii.edu). We are working on manufacturing options. 
+
+When plugged in, it looks like this:
 
 <img src="/docs/assets/box/opqbox.jpg" width="400px">
 
-Currently, your options for obtaining an OPQBox are to contact the Open Power Quality research via Professor Philip Johnson (johnson@hawaii.edu). We are working on manufacturing options. 
+
 
 ## Provide the box with your wireless access credentials
 

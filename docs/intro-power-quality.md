@@ -1,7 +1,9 @@
 ---
-title: Power Quality: A brief tutorial
-sidebar_label: PQ Tutorial
+title: A beginners guide to power quality
+sidebar_label: A beginners guide to power quality
 ---
+
+(This chapter will be completed during Summer, 2018.)
 
 ## What is Power Quality?
 

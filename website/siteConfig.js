@@ -88,7 +88,7 @@ const siteConfig = {
   //   repoUrl: 'https://github.com/facebook/test-site',
 
   /* On page navigation for the current documentation page */
-  // onPageNav: 'separate',
+  onPageNav: 'separate',
 };
 
 module.exports = siteConfig;

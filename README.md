@@ -1,5 +1,15 @@
 # OPQ Documentation
 
+### Quick guide
+
+To install: `cd website; npm install`
+
+To run locally: `npm start`
+
+To build: `npm run build`
+
+To publish (to [https://epic-hamilton-7fcef0.netlify.com/](https://epic-hamilton-7fcef0.netlify.com/)): `GIT_USER=username npm run publish-gh-pages`
+
 ### Preliminary site design notes
 
 Navbar:

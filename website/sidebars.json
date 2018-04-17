@@ -1,6 +1,9 @@
 {
   "docs": {
-    "Introduction": ["intro-opq", "intro-power-quality"],
-    "OPQ Box": ["box-overview", "box-installation", "box-manufacturing"]
+    "Introduction": ["intro-opq", "intro-why-power-quality", "intro-power-quality"],
+    "User Guide": ["userguide-hardware", "userguide-software"],
+    "OPQ Box Hardware": ["box-overview", "box-manufacturing"],
+    "Software Services": ["datamodel", "view", "mauka", "health", "protocol", "virtual-machine"],
+    "Deployment": ["deploy-initial-configuration", "deploy-mauka", "deploy-makai", "deploy-view", "deploy-health"]
   }
 }
