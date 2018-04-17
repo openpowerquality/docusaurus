@@ -46,8 +46,8 @@ const siteConfig = {
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/opqlogo.png',
-  footerIcon: 'img/opqlogo.png',
+  headerIcon: 'img/opqlogo_white.png',
+  footerIcon: 'img/opqlogo_white.png',
   favicon: 'img/opq.ico',
 
   /* colors for website */
@@ -80,6 +80,8 @@ const siteConfig = {
     // Highlight.js theme to use for syntax highlighting in code blocks
     theme: 'default',
   },
+
+  markdownPlugins: ['remarkable-katex'],
 
   scripts: ['https://buttons.github.io/buttons.js'],
 

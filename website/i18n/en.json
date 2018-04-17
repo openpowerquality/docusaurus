@@ -4,6 +4,12 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Open source hardware and software for low-cost distributed power quality data collection, analysis, and visualization.",
+    "box-installation": "OPQ Box Installation",
+    "Installation": "Installation",
+    "box-manufacturing": "Manufacturing an OPQ Box",
+    "Manufacturing": "Manufacturing",
+    "box-overview": "OPQ Box Overview",
+    "Overview": "Overview",
     "doc1": "Latin-ish",
     "Example Page": "Example Page",
     "doc2": "document number 2",
@@ -14,9 +20,8 @@
     "Get Involved": "Get Involved",
     "About Us": "About Us",
     "News": "News",
-    "Docusaurus": "Docusaurus",
-    "First Category": "First Category",
-    "Second Category": "Second Category"
+    "OPQ Box": "OPQ Box",
+    "First Category": "First Category"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",
