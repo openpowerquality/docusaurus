@@ -37,7 +37,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'intro-opq', label: 'Documentation'},
-    {doc: 'doc4', label: 'Get Involved'},
+    {doc: 'opportunities', label: 'Opportunities'},
     {page: 'help', label: 'About Us'},
     {blog: true, label: 'News'},
   ],
@@ -95,6 +95,7 @@ const siteConfig = {
 
   /* On page navigation for the current documentation page */
   onPageNav: 'separate',
+  blogSidebarCount: 'ALL',
 };
 
 module.exports = siteConfig;
