@@ -19,7 +19,7 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Open Power Quality' /* title for your website */,
+  title: 'Open Power Quality2' /* title for your website */,
   tagline: 'Open source hardware and software for low-cost distributed power quality data collection, analysis, and visualization.',
   url: 'https://openpowerquality.org' /* your website url */,
   baseUrl: '/' /* base url for your project */,
