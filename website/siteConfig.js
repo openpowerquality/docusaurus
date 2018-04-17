@@ -36,7 +36,7 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
+    {doc: 'intro-opq', label: 'Documentation'},
     {doc: 'doc4', label: 'Get Involved'},
     {page: 'help', label: 'About Us'},
     {blog: true, label: 'News'},
@@ -80,8 +80,6 @@ const siteConfig = {
     // Highlight.js theme to use for syntax highlighting in code blocks
     theme: 'default',
   },
-
-  markdownPlugins: ['remarkable-katex'],
 
   scripts: ['https://buttons.github.io/buttons.js'],
 

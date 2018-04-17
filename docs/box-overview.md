@@ -19,7 +19,7 @@ The following diagram illustrates OPQBox hardware components:
 
 <img src="/docs/assets/box/opqbox_diagram.png" width="100%">
 
-The power system of OPQBox electrically isolates most of the device from the AC mains power. An isolated AC-DC converter generates $$5V_{dc}$$ from the mains $$120V_{ac}$$. 
+The power system of OPQBox electrically isolates most of the device from the AC mains power. An isolated AC-DC converter generates $5V_{dc}$ from the mains $$120V_{ac}$$. 
 
 5V is used to power: (a) the Raspberry Pi, (b) the equipment connected to the expansion port, (c) the 3.3V regulators and voltage reference, and (d) an isolated DC/DC converter. 
 

@@ -1,8 +1,6 @@
 {
   "docs": {
+    "Introduction": ["intro-opq", "intro-power-quality"],
     "OPQ Box": ["box-overview", "box-installation", "box-manufacturing"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
   }
 }
