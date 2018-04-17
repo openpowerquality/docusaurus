@@ -81,7 +81,9 @@ const siteConfig = {
     theme: 'default',
   },
 
-  markdownPlugins: ['remarkable-katex'],
+  markdownPlugins: [function (md) {
+    md.use(require('remarkable-katex'));
+  }],
 
   scripts: ['https://buttons.github.io/buttons.js'],
 
