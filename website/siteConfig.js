@@ -85,7 +85,9 @@ const siteConfig = {
     md.use(require('remarkable-katex'));
   }],
 
-  scripts: ['https://buttons.github.io/buttons.js'],
+  scripts: ['https://buttons.github.io/buttons.js', 'https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.js'],
+
+  stylesheets: ['https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.css'],
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
