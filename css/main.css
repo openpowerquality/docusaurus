@@ -1927,3 +1927,7 @@ footer.nav-footer {
 .mainContainer {
   font-size: 16px;
 }
+
+.projectTitle {
+  font-weight: bold;
+}
