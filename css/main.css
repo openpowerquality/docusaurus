@@ -1923,3 +1923,7 @@ footer.nav-footer {
 .imageAlignTop .blockImage {
   max-width: 300px;
 }
+
+.mainContainer {
+  font-size: 16px;
+}
