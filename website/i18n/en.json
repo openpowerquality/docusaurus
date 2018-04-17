@@ -4,6 +4,7 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Open source hardware and software for low-cost distributed power quality data collection, analysis, and visualization.",
+    "agile-power-monitoring": "Agile Power Monitoring for UH",
     "box-manufacturing": "Manufacturing an OPQ Box",
     "Manufacturing": "Manufacturing",
     "box-overview": "OPQ Box Design Overview",
@@ -20,6 +21,7 @@
     "Mauka": "Mauka",
     "deploy-view": "Deployment: View",
     "View": "View",
+    "g1-pilot-study": "OPQ G1 Pilot Study (2014)",
     "health": "OPQ Health",
     "intro-opq": "What is OPQ?",
     "What is OPQ?": "What is OPQ?",
@@ -28,7 +30,7 @@
     "intro-why-power-quality": "Why care about power quality?",
     "Why care about power quality?": "Why care about power quality?",
     "mauka": "OPQ Mauka",
-    "opportunities": "OPQ Opportunities",
+    "opportunities": "OPQ R&D Opportunities",
     "protocol": "OPQ Protocol",
     "Protocol": "Protocol",
     "userguide-hardware": "OPQ Box User Guide",
@@ -46,7 +48,8 @@
     "User Guide": "User Guide",
     "OPQ Box Hardware": "OPQ Box Hardware",
     "Software Services": "Software Services",
-    "Deployment": "Deployment"
+    "Deployment": "Deployment",
+    "Other": "Other"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

@@ -1,5 +1,5 @@
 ---
-title: OPQ Opportunities
+title: OPQ R&D Opportunities
 ---
 
 Looking for something to do that will beef up your professional portfolio and earn you some independent study credits at the same time? The Open Power Quality project has a number of opportunities available, and you can earn up to 6 credits of ICS 499 or ICS 699 for participating. If you are coming from a different department, we can see if credits for one of your "home" courses can be arranged. Some of these opportunities have the potential to grow into M.S. or Ph.D. dissertations if you are looking for a longer-term research project. 
