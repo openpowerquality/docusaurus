@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>Open Power Quality2 Blog</title>
+        <title>Open Power Quality Blog</title>
         <link>https://openpowerquality.org/blog</link>
-        <description>The best place to stay up-to-date with the latest Open Power Quality2 news and events.</description>
+        <description>The best place to stay up-to-date with the latest Open Power Quality news and events.</description>
         <lastBuildDate>Thu, 12 Apr 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
-            <title>Open Power Quality2 Blog</title>
+            <title>Open Power Quality Blog</title>
             <url>https://openpowerquality.org/img/opqlogo_white.png</url>
             <link>https://openpowerquality.org/blog</link>
         </image>
