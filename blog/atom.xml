@@ -1,78 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://openpowerquality.org/blog</id>
-    <title>Open Power Quality Blog</title>
-    <updated>2017-10-24T06:00:00Z</updated>
+    <title>Open Power Quality2 Blog</title>
+    <updated>2018-04-12T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://openpowerquality.org/blog"/>
-    <subtitle>The best place to stay up-to-date with the latest Open Power Quality news and events.</subtitle>
+    <subtitle>The best place to stay up-to-date with the latest Open Power Quality2 news and events.</subtitle>
     <logo>https://openpowerquality.org/img/opqlogo_white.png</logo>
     <rights>Copyright © 2018 Your Name or Your Company Name</rights>
     <entry>
-        <title type="html"><![CDATA[New Version 1.0.0]]></title>
-        <id>https://openpowerquality.org/blog/2017/10/24/new-version-1.0.0.html</id>
-        <link href="https://openpowerquality.org/blog/2017/10/24/new-version-1.0.0.html">
+        <title type="html"><![CDATA[Negrashov2 wins ARCS Fellowship]]></title>
+        <id>https://openpowerquality.org/blog/2018/04/12/negrashov-arcs-award.html</id>
+        <link href="https://openpowerquality.org/blog/2018/04/12/negrashov-arcs-award.html">
         </link>
-        <updated>2017-10-24T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>This blog post will test file name parsing issues when periods are present.</p>
+        <updated>2018-04-12T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<div style="padding-bottom: 50px">
+<img src="/docs/assets/people/negrashov.jpg" class="center-block img-responsive" style="margin-left: 15px; margin-bottom: 10px; float: right" width="150px">
+<p>In part due to his work on Open Power Quality, ICS Ph.D.</p>
 ]]></summary>
         <author>
-            <name>Eric Nakagawa</name>
-            <uri>http://twitter.com/ericnakagawa</uri>
+            <name>Serge Negrashov</name>
+            <uri>https://sergey-negrashov.github.io/</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Adding RSS Support]]></title>
-        <id>https://openpowerquality.org/blog/2017/09/26/adding-rss.html</id>
-        <link href="https://openpowerquality.org/blog/2017/09/26/adding-rss.html">
+        <title type="html"><![CDATA[OPQ at VIP]]></title>
+        <id>https://openpowerquality.org/blog/2018/04/09/vip-presentations.html</id>
+        <link href="https://openpowerquality.org/blog/2018/04/09/vip-presentations.html">
         </link>
-        <updated>2017-09-26T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>This is a test post.</p>
-<p>A whole bunch of other information.</p>
+        <updated>2018-04-09T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<div style="padding-bottom: 50px">
+<img src="/docs/assets/people/opq-team-march-2018.jpg" class="center-block img-responsive" style="margin-right: 15px; margin-bottom: 10px; float: left" width="250">
+<p>The Open Power Quality Project presented at the S</p>
 ]]></summary>
         <author>
-            <name>Eric Nakagawa</name>
-            <uri>http://twitter.com/ericnakagawa</uri>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Adding RSS Support - RSS Truncation Test]]></title>
-        <id>https://openpowerquality.org/blog/2017/09/25/testing-rss.html</id>
-        <link href="https://openpowerquality.org/blog/2017/09/25/testing-rss.html">
+        <title type="html"><![CDATA[OPQ wins UH President's Green Award]]></title>
+        <id>https://openpowerquality.org/blog/2018/02/08/green-award.html</id>
+        <link href="https://openpowerquality.org/blog/2018/02/08/green-award.html">
         </link>
-        <updated>2017-09-25T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</p>
-<p>This should be truncated.</p>
+        <updated>2018-02-08T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<div style="padding-bottom: 50px">
+<img src="/docs/assets/misc/opq-green-award.jpg" class="center-block img-responsive" style="margin-left: 15px; margin-bottom: 10px; float: right" width="250">
+<p>The Open Power Quality Project won a 2108 University of</p>
 ]]></summary>
         <author>
-            <name>Eric Nakagawa</name>
-            <uri>http://twitter.com/ericnakagawa</uri>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[New Blog Post]]></title>
-        <id>https://openpowerquality.org/blog/2017/04/10/blog-post-two.html</id>
-        <link href="https://openpowerquality.org/blog/2017/04/10/blog-post-two.html">
+        <title type="html"><![CDATA[OPQ presents at Kyushu University's Energy Week ]]></title>
+        <id>https://openpowerquality.org/blog/2018/02/01/kyushu.html</id>
+        <link href="https://openpowerquality.org/blog/2018/02/01/kyushu.html">
         </link>
-        <updated>2017-04-10T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.</p>
+        <updated>2018-02-01T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<div style="padding-bottom: 50px">
+<img style="margin-right: 15px; margin-bottom: 10px; float: left" src="/docs/assets/people/anthony-energy-week-2018.jpg" width="200px">
+<p>Anthony Christe was invited to attend [Energy Week 2018 at Kyushu University,</p>
 ]]></summary>
         <author>
-            <name>Blog Author</name>
-            <uri>http://twitter.com/</uri>
+            <name>Anthony Christe</name>
+            <uri>https://anthonyjchriste.github.io/</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Blog Title]]></title>
-        <id>https://openpowerquality.org/blog/2016/03/11/blog-post.html</id>
-        <link href="https://openpowerquality.org/blog/2016/03/11/blog-post.html">
+        <title type="html"><![CDATA[OPQ Fall 2017 Update]]></title>
+        <id>https://openpowerquality.org/blog/2017/09/06/opq-fall-update.html</id>
+        <link href="https://openpowerquality.org/blog/2017/09/06/opq-fall-update.html">
         </link>
-        <updated>2016-03-11T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.</p>
+        <updated>2017-09-06T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>It's been too long since we published an OPQ news item!  We're working hard on rolling out a vastly improved version of OPQ:</p>
+<ul>
+<li>OPQ now supports a suite of cloud-based services called Mauka, Makai, and View.  This increases the flexibility and scalab</li>
+</ul>
 ]]></summary>
         <author>
-            <name>Blog Author</name>
-            <uri>http://twitter.com/</uri>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2016 Year in Review]]></title>
+        <id>https://openpowerquality.org/blog/2016/12/06/opq-year-end-review.html</id>
+        <link href="https://openpowerquality.org/blog/2016/12/06/opq-year-end-review.html">
+        </link>
+        <updated>2016-12-06T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>Serge Negrashov put together this nice slide deck to summarize progress on the OPQ hardware project. Enjoy!</p>
+<div style="max-width: 600px; padding-bottom: 20px">
+  <script async class="speakerdeck-embed" data-id="6f81fecaf2da4fbfa41a715a6389789b" dat]]></summary>
+        <author>
+            <name>Serge Negrashov</name>
+            <uri>https://sergey-negrashov.github.io/</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OPQBox engineering samples now running!]]></title>
+        <id>https://openpowerquality.org/blog/2016/12/01/opqbox2.html</id>
+        <link href="https://openpowerquality.org/blog/2016/12/01/opqbox2.html">
+        </link>
+        <updated>2016-12-01T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<div style="padding-bottom: 50px">
+<img style="margin-right: 15px; margin-bottom: 10px; float: left" src="/docs/assets/box/opqbox2.JPG" width="250">
+<p>Just in time for the holidays!  We have assembled a small batch of OPQBoxes with our latest design,</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Google groups is dead; long live Slack!]]></title>
+        <id>https://openpowerquality.org/blog/2016/11/30/slack.html</id>
+        <link href="https://openpowerquality.org/blog/2016/11/30/slack.html">
+        </link>
+        <updated>2016-11-30T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>As some of you might have noticed, our <a href="https://groups.google.com/forum/?fromgroups#!forum/openpowerquality">OPQ Google Group</a> has been dormant for quite a while.</p>
+<p>It's not because we haven't been working or communicating, it's because we've moved ov</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OPQBox2 Design, V3]]></title>
+        <id>https://openpowerquality.org/blog/2015/09/22/opqbox2.html</id>
+        <link href="https://openpowerquality.org/blog/2015/09/22/opqbox2.html">
+        </link>
+        <updated>2015-09-22T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>We are super, duper psyched to announce that a <strong>third</strong> design for our second generation OPQBox hardware device is now available for review at the OPQBox2 Repo Home Page.</p>
+<p>We are making engineering samples of this design, although we are also contin</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OPQBox2 Design, V2]]></title>
+        <id>https://openpowerquality.org/blog/2015/01/29/opqbox2.html</id>
+        <link href="https://openpowerquality.org/blog/2015/01/29/opqbox2.html">
+        </link>
+        <updated>2015-01-29T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>We are super psyched to announce that a second design for our second generation OPQBox hardware device is now available for review at the <a href="https://github.com/openpowerquality/archive/tree/master/opqbox2">OPQBox2 Repo Home Page</a>.</p>
+<p>This version of the</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OPQBox2 design available for review]]></title>
+        <id>https://openpowerquality.org/blog/2014/10/27/opqbox2.html</id>
+        <link href="https://openpowerquality.org/blog/2014/10/27/opqbox2.html">
+        </link>
+        <updated>2014-10-27T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>We have recently completed the initial design of the second generation of our OPQBox hardware device.</p>
+<p>If you are interested in reviewing our design, please see the OPQBox2 repository.</p>
+<p>Looking forward to your commments and suggestions!</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pipeline pilot published!]]></title>
+        <id>https://openpowerquality.org/blog/2014/10/20/pilot-study.html</id>
+        <link href="https://openpowerquality.org/blog/2014/10/20/pilot-study.html">
+        </link>
+        <updated>2014-10-20T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>The pilot study of the first generation of OPQ hardware and software is mostly complete, and we have written up our results <a href="g1-pilot-study.md">here</a>.</p>
+<p>The pilot study provided insight into the strengths and weaknesses of our hardware and software</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pipeline pilot begins!]]></title>
+        <id>https://openpowerquality.org/blog/2014/08/01/g1-pilot.html</id>
+        <link href="https://openpowerquality.org/blog/2014/08/01/g1-pilot.html">
+        </link>
+        <updated>2014-08-01T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>The OPQ team is delighted to announce the start of a pilot study to evaluate our Generation 1 (Pipeline) technology.</p>
+<p>The pilot study will involve deployment of 5 OPQBoxes to various locations around Oahu, with the data sent to our [public OPQHub](ht</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Technical Report: Enabling active participation in the Smart Grid through crowdsourced power quality data]]></title>
+        <id>https://openpowerquality.org/blog/2014/04/02/techreport.html</id>
+        <link href="https://openpowerquality.org/blog/2014/04/02/techreport.html">
+        </link>
+        <updated>2014-04-02T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>The OPQ team has published a technical report proposing a three year project to investigate the use of open power quality.</p>
+<p>Abstract: This technical report presents a research project designed to gain insight into the following questions: Can crowds</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OPQ at the Energy Excelerator]]></title>
+        <id>https://openpowerquality.org/blog/2014/02/04/excelerator.html</id>
+        <link href="https://openpowerquality.org/blog/2014/02/04/excelerator.html">
+        </link>
+        <updated>2014-02-04T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>Last week Justin Carland and Philip Johnson participated in the <a href="http://www.energyexcelerator.com/">Energy Excelerator</a>'s 2014 Seed Week program.  Representatives from nine energy-related startups attended an 8 day immersive experience at the Energy</p>
+]]></summary>
+        <author>
+            <name>Philip Johnson</name>
+            <uri>http://philipmjohnson.org</uri>
         </author>
     </entry>
 </feed>
