@@ -21,6 +21,8 @@
     "Mauka": "Mauka",
     "deploy-view": "Deployment: View",
     "View": "View",
+    "developerguide-docusaurus": "Documentation",
+    "Documentation": "Documentation",
     "g1-pilot-study": "OPQ G1 Pilot Study (2014)",
     "health": "OPQ Health",
     "intro-opq": "What is OPQ?",
@@ -40,7 +42,6 @@
     "view": "OPQ View",
     "virtual-machine": "Virtual Machine and Simulator",
     "VM & Sim": "VM & Sim",
-    "Documentation": "Documentation",
     "Opportunities": "Opportunities",
     "News": "News",
     "Introduction": "Introduction",
@@ -48,6 +49,7 @@
     "OPQ Box Hardware": "OPQ Box Hardware",
     "Software Services": "Software Services",
     "Deployment": "Deployment",
+    "Developer Guide": "Developer Guide",
     "Other": "Other"
   },
   "pages-strings": {
