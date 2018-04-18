@@ -38,7 +38,6 @@ const siteConfig = {
   headerLinks: [
     {doc: 'intro-opq', label: 'Documentation'},
     {doc: 'opportunities', label: 'Opportunities'},
-    {page: 'help', label: 'About Us'},
     {blog: true, label: 'News'},
   ],
 
