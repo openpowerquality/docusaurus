@@ -174,21 +174,21 @@ const Testimonials = props => (
                          "*OPQ provides useful infrastructure to support research on the impact of renewable energy on the smart grid.*",
                        image: `${siteConfig.baseUrl}docs/assets/people/kuh.jpg`,
                        imageAlign: "top",
-                       title: 'Anthony Kuh <br/><font size="2">Professor, UH</font><br/><font size="2">Renewable Energy Researcher</font>'
+                       title: '<div style="line-height: 20px">Anthony Kuh <br/><font size="2">Professor, UH</font><br/><font size="2">Renewable Energy Researcher</font></div>'
                      },
                      {
                        content:
                          "*The OPQ Agile Power Monitoring project will help us better understand the UH microgrid.*",
                        image: `${siteConfig.baseUrl}docs/assets/people/topping.png`,
                        imageAlign: "top",
-                       title: 'Miles Topping <br/><font size="2">Director of Energy Management, UH</font><br/><font size="2">Microgrid Manager</font>'
+                       title: '<div style="line-height: 20px">Miles Topping <br/><font size="2">Director of Energy Management, UH</font><br/><font size="2">Microgrid Manager</font></div>'
                      },
                      {
                        content:
                          "*Working on OPQ enables me to learn about hardware, software, data science, software engineering, and sustainability.*",
                        image: `${siteConfig.baseUrl}docs/assets/people/foltz.jpg`,
                        imageAlign: "top",
-                       title: 'Kaila Foltz<br/><font size="2">Student, UH</font><br/><font size="2">Undergraduate CS Major</font>'
+                       title: '<div style="line-height: 20px">Kaila Foltz<br/><font size="2">Student, UH</font><br/><font size="2">Undergraduate CS Major</font></div>'
                      }
                    ]}
                    layout="threeColumn"
