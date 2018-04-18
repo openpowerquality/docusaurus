@@ -129,8 +129,8 @@ const Features = props => (
 );
 
 const OPQFeatures = props => (
-    <div className="productShowcaseSection paddingBottom" style={{ textAlign: 'center' }}>
-      <h2 style={{fontWeight: "bold"}}>Features</h2>
+    <div className="productShowcaseSection paddingBottom" >
+      <h2 style={{ fontWeight: "bold" }}>Features</h2>
       <BlockNoPadding layout="threeColumn">
         {[
           {
@@ -162,6 +162,42 @@ const OPQFeatures = props => (
     </div>
 );
 
+const Testimonials = props => (
+    <div className="productShowcaseSection paddingBottom lightBackground">
+      <h2 style={{ fontWeight: "bold", paddingTop: "25px", paddingBottom: "25px" }}>User Communities</h2>
+      <div className="testimonials">
+        <Container padding={["bottom"]}>
+          <GridBlock align="center"
+              contents={[
+                {
+                  content:
+                      "*OPQ provides useful infrastructure to support research on the impact of renewable energy on the smart grid.*",
+                  image: `${siteConfig.baseUrl}docs/assets/people/kuh.jpg`,
+                  imageAlign: "top",
+                  title: 'Anthony Kuh <br/><font size="2">Professor, UH</font><br/><font size="2">Renewable Energy Researcher</font>'
+                },
+                {
+                  content:
+                      "*The OPQ Agile Power Monitoring project will help us better understand the UH microgrid.*",
+                  image: `${siteConfig.baseUrl}docs/assets/people/topping.png`,
+                  imageAlign: "top",
+                  title: 'Miles Topping <br/><font size="2">Director of Energy Management, UH</font><br/><font size="2">Microgrid Manager</font>'
+                },
+                {
+                  content:
+                      "*Working on OPQ enables me to learn about hardware, software, data science, software engineering, and sustainability.*",
+                  image: `${siteConfig.baseUrl}docs/assets/people/foltz.jpg`,
+                  imageAlign: "top",
+                  title: 'Kaila Foltz<br/><font size="2">Student, UH</font><br/><font size="2">Undergraduate CS Major</font>'
+                }
+              ]}
+              layout="threeColumn"
+          />
+        </Container>
+      </div>
+    </div>
+);
+
 class Index extends React.Component {
   render() {
     let language = this.props.language || '';
@@ -171,6 +207,7 @@ class Index extends React.Component {
           <div className="mainContainer">
             <Features/>
             <OPQFeatures/>
+            <Testimonials/>
           </div>
         </div>
     );

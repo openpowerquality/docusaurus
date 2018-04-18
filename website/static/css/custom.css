@@ -39,3 +39,7 @@ footer.nav-footer {
 .projectTitle {
   font-weight: bold;
 }
+
+.testimonials img {
+  border-radius: 50%;
+}
