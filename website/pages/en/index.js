@@ -166,7 +166,7 @@ const Testimonials = props => (
     <div className="productShowcaseSection paddingBottom lightBackground">
       <h2 style={{ fontWeight: "bold", paddingTop: "25px", paddingBottom: "25px" }}>User Communities</h2>
       <div className="testimonials">
-        <Container padding={["bottom"]}>
+        <Container padding={[]}>
           <GridBlock align="center"
               contents={[
                 {
