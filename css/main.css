@@ -1931,3 +1931,18 @@ footer.nav-footer {
 .projectTitle {
   font-weight: bold;
 }
+
+.testimonials img {
+  border-radius: 5%;
+}
+
+.roundedImageCorner img {
+  border-radius: 5%;
+}
+
+
+
+.team .blockImage {
+  margin-bottom: 0px;
+}
+
