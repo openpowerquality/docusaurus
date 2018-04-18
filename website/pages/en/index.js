@@ -28,11 +28,11 @@ function pageUrl(page, language) {
 class Button extends React.Component {
   render() {
     return (
-      <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={this.props.href} target={this.props.target}>
-          {this.props.children}
-        </a>
-      </div>
+        <div className="pluginWrapper buttonWrapper">
+          <a className="button" href={this.props.href} target={this.props.target}>
+            {this.props.children}
+          </a>
+        </div>
     );
   }
 }
@@ -42,171 +42,137 @@ Button.defaultProps = {
 };
 
 const SplashContainer = props => (
-  <div className="homeContainer">
-    <div className="homeSplashFade">
-      <div className="wrapper homeWrapper">{props.children}</div>
+    <div className="homeContainer">
+      <div className="homeSplashFade">
+        <div className="wrapper homeWrapper">{props.children}</div>
+      </div>
     </div>
-  </div>
 );
 
 const Logo = props => (
-  <div className="projectLogo">
-    <img src={props.img_src}/>
-  </div>
+    <div className="projectLogo">
+      <img src={props.img_src}/>
+    </div>
 );
 
 const ProjectTitle = props => (
-  <h2 className="projectTitle">
-    {siteConfig.title}
-    <small>{siteConfig.tagline}</small>
-  </h2>
+    <h2 className="projectTitle">
+      {siteConfig.title}
+      <small>{siteConfig.tagline}</small>
+    </h2>
 );
 
 const PromoSection = props => (
-  <div className="section promoSection">
-    <div className="promoRow">
-      <div className="pluginRowBlock">{props.children}</div>
+    <div className="section promoSection">
+      <div className="promoRow">
+        <div className="pluginRowBlock">{props.children}</div>
+      </div>
     </div>
-  </div>
 );
 
 class HomeSplash extends React.Component {
   render() {
     let language = this.props.language || '';
     return (
-      <SplashContainer>
-        <div className="inner">
-          <ProjectTitle/>
-        </div>
-      </SplashContainer>
+        <SplashContainer>
+          <div className="inner">
+            <ProjectTitle/>
+          </div>
+        </SplashContainer>
     );
   }
 }
 
-
 const Block = props => (
-  <Container
-    padding={['bottom', 'top']}
-    id={props.id}
-    background={props.background}>
-    <GridBlock align="center" contents={props.children} layout={props.layout}/>
-  </Container>
+    <Container
+        padding={['bottom', 'top']}
+        id={props.id}
+        background={props.background}>
+      <GridBlock align="center" contents={props.children} layout={props.layout}/>
+    </Container>
+);
+
+const BlockNoPadding = props => (
+    <Container
+        padding={[]}
+        id={props.id}
+        background={props.background}>
+      <GridBlock align="center" contents={props.children} layout={props.layout}/>
+    </Container>
 );
 
 const Features = props => (
-  <Block background="light" layout="threeColumn">
-    {[
-      {
-        content: 'Each OPQ Box samples the power quality waveform over 15,000 times a second, computing frequency, voltage, and total harmonic distortion, and uploads low fidelity data to our cloud-based middleware using WiFi.',
-        image: imgUrl('opqbox_photo.jpg'),
-        imageAlign: 'top',
-        title: 'Power Quality Monitoring',
-      },
-      {
-        content: 'OPQ Middleware processes the low fidelity PQ data stream. When it detects anomalies, it requests high fidelity waveform data from one or more OPQ Boxes to aid in analysis and interpretation.',
-        image: imgUrl('middleware.png'),
-        imageAlign: 'top',
-        title: 'Dynamic Middleware',
-      },
-      {
-        content: 'OPQ View provides visualization and configuration controls to enable users to understand and interpret power quality locally and across the grid.',
-        image: imgUrl('opqview-landing.png'),
-        imageAlign: 'top',
-        title: 'Visualization and Notification',
-      },
-    ]}
-  </Block>
-);
-
-const FeatureCallout = props => (
-  <div
-    className="productShowcaseSection paddingBottom"
-    style={{ textAlign: 'center' }}>
-    <h2>Feature Callout</h2>
-    <MarkdownBlock>These are features of this project</MarkdownBlock>
-  </div>
-);
-
-const LearnHow = props => (
-  <Block >
-    {[
-      {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
-      },
-    ]}
-  </Block>
-);
-
-const TryOut = props => (
-  <Block id="try">
-    {[
-      {
-        content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
-      },
-    ]}
-  </Block>
-);
-
-const Description = props => (
-  <Block background="dark">
-    {[
-      {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Description',
-      },
-    ]}
-  </Block>
-);
-
-const Showcase = props => {
-  if ((siteConfig.users || []).length === 0) {
-    return null;
-  }
-  const showcase = siteConfig.users
-    .filter(user => {
-      return user.pinned;
-    })
-    .map((user, i) => {
-      return (
-        <a href={user.infoLink} key={i}>
-          <img src={user.image} alt={user.caption} title={user.caption}/>
-        </a>
-      );
-    });
-
-  return (
-    <div className="productShowcaseSection paddingBottom">
-      <h2>{"Who's Using This?"}</h2>
-      <p>This project is used by all these people</p>
-      <div className="logos">{showcase}</div>
-      <div className="more-users">
-        <a className="button" href={pageUrl('users.html', props.language)}>
-          More {siteConfig.title} Users
-        </a>
-      </div>
+    <div>
+      <Block background="light" layout="threeColumn">
+        {[
+          {
+            content: 'Our custom hardware samples the power quality waveform over 15,000 times a second, computing frequency, voltage, and total harmonic distortion, and uploads low fidelity data to our cloud-based middleware using WiFi.',
+            image: imgUrl('opqbox_photo.jpg'),
+            imageAlign: 'top',
+            title: 'Power Quality Monitoring',
+          },
+          {
+            content: 'OPQ Middleware processes the low fidelity PQ data stream. When it detects anomalies, it requests high fidelity waveform data from one or more OPQ Boxes to aid in analysis and interpretation.',
+            image: imgUrl('middleware.png'),
+            imageAlign: 'top',
+            title: 'Dynamic Middleware',
+          },
+          {
+            content: 'OPQ View provides visualization and configuration controls to enable users to understand and interpret power quality locally and across the grid.',
+            image: imgUrl('opqview-landing.png'),
+            imageAlign: 'top',
+            title: 'Visualization and Notification',
+          },
+        ]}
+      </Block>
     </div>
-  );
-};
+);
+
+const OPQFeatures = props => (
+    <div className="productShowcaseSection paddingBottom" style={{ textAlign: 'center' }}>
+      <h2 style={{fontWeight: "bold"}}>Features</h2>
+      <BlockNoPadding layout="threeColumn">
+        {[
+          {
+            title: 'Easy installation',
+            content: 'Just plug in an OPQ Box to any wall outlet within reach of a WiFi network, then login to OPQ View to indicate where your box is located. Your power quality data will be uploaded to the cloud and available for analysis immediately. You can change the location of your OPQ Box any time you want.',
+          },
+          {
+            title: 'Low and high fidelity data',
+            content: 'While each OPQ Box maintains a high fidelity record of your power waveform for the past hour, it only sends a summary of the maximum and minimum frequency, voltage, and total harmonic distortion observed after each second. If the OPQ middleware feels that more detailed waveform data will be useful, it will request this data from one or more OPQBoxes.',
+          },
+          {
+            title: 'Local vs. Grid-level Anomaly Detection',
+            content: 'When a power quality anomaly is reported by one OPQ Box, our middleware searches to see if a similar anomaly was reported by any other OPQ Boxes.  If so, then the anomaly is classified as grid-level. If there are neighboring OPQ Boxes but none reported a similar anomaly at a similar time, then the anomaly is classified as local.',
+          },
+          {
+            title: 'Configurable alerts',
+            content: 'OPQ gathers data on even minor power quality perturbations, but not all of them are actionable or meaningful to users. We are implementing a configurable alert mechanism so that users are informed when important anomalies occur.',
+          },
+          {
+            title: 'Annotations',
+            content: 'Making power quality data useful often involves understanding the context of an anomaly: what else was happening in the environment at the time of this power quality issue?  To enable this kind of associative analysis, we are implementing an annotation capability so that power quality data can be associated with solar data, weather data, and other meaningful forms of context.',
+          },
+          {
+            title: 'Extensible and Interoperable',
+            content: 'Our middleware provides a plug-in architecture to simplify the addition of new analyses. In addition, we provide a data model specification so that other services can build off OPQ data.',
+          },
+        ]}
+      </BlockNoPadding>
+    </div>
+);
 
 class Index extends React.Component {
   render() {
     let language = this.props.language || '';
-
     return (
-      <div>
-        <HomeSplash language={language}/>
-        <div className="mainContainer">
-          <Features/>
+        <div>
+          <HomeSplash language={language}/>
+          <div className="mainContainer">
+            <Features/>
+            <OPQFeatures/>
+          </div>
         </div>
-      </div>
     );
   }
 }
