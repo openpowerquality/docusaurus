@@ -9,7 +9,7 @@
 </span></div></div></div><div class="blockElement alignCenter threeByGridBlock"><div class="blockContent"><h2><div><span><p>Low and high fidelity data</p>
 </span></div></h2><div><span><p>Each OPQ Box sends a summary of the maximum and minimum frequency, voltage, and total harmonic distortion observed each second. If the OPQ middleware needs higher fidelity data, the OPQ Box can send it.</p>
 </span></div></div></div><div class="blockElement alignCenter threeByGridBlock"><div class="blockContent"><h2><div><span><p>Local and Grid-level Anomalies</p>
-</span></div></h2><div><span><p>When a power quality anomaly is reported by multiple neighboring OPQ Boxes, our middleware classifies it as grid-level. If no neighbors report it, then it's local.</p>
+</span></div></h2><div><span><p>When the same anomaly is reported by multiple OPQ Boxes at the same time, our middleware classifies it as grid-level. If there aren't multiple reports, then it's presumed to be local.</p>
 </span></div></div></div><div class="blockElement alignCenter threeByGridBlock"><div class="blockContent"><h2><div><span><p>Configurable alerts</p>
 </span></div></h2><div><span><p>OPQ gathers data on even minor power quality perturbations, but not all of them are actionable or meaningful to users. We are implementing a configurable alert mechanism to inform users when important anomalies occur.</p>
 </span></div></div></div><div class="blockElement alignCenter threeByGridBlock"><div class="blockContent"><h2><div><span><p>Annotations</p>
