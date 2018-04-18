@@ -46,6 +46,7 @@ class Footer extends React.Component {
             <h5>Development</h5>
             <a href="https://github.com/openpowerquality">GitHub</a>
             <a href="https://github.com/openpowerquality/opq/projects/1">Project Board</a>
+            <a href={this.props.config.baseUrl + 'team.html'}>Developer Team</a>
             <a href={this.docUrl('opportunities.html')}>Opportunities</a>
             <a href="http://www.citeulike.org/group/3370/tag/powerquality">Publications</a>
 

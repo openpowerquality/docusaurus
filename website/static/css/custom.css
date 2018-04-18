@@ -41,5 +41,16 @@ footer.nav-footer {
 }
 
 .testimonials img {
-  border-radius: 50%;
+  border-radius: 5%;
 }
+
+.roundedImageCorner img {
+  border-radius: 5%;
+}
+
+
+
+.team .blockImage {
+  margin-bottom: 0px;
+}
+
