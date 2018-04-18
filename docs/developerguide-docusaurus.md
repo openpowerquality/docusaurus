@@ -30,7 +30,7 @@ Here are some issues to be aware of:
  
   * The docs/ directory cannot contain subdirectories.  So, all of the documentation must exist as a set of top-level files. 
   * AFAIK, the sidebar takes only a list of file names. So, each entry in the sidebar corresponds to a single file name. If you want your documentation to appear as multiple entries in the sidebar, then you must create multiple documentation markdown files.
-  * On a happier note, docusaurus creates a "secondary sidebar" on the right side of the page that essentially provides a table of contents for that page.  This enable rather lengthy top-level documentation files (see [Mauka documentation](mauka.md) as an example) because its internal structure is presented once you navigate to the page. 
+  * On a happier note, docusaurus creates a "secondary sidebar" on the right side of the page that essentially provides a table of contents for that page.  This enables rather lengthy top-level documentation files (see [Mauka documentation](mauka.md) as an example) because its internal structure is presented once you navigate to the page. 
   * The docusaurus runtime environment regenerates the documentation each time it notices a file change. So, you can save out your file, then refresh the page in your browser to see the changes immediately.
 
 ## Adding your new documentation to the sidebar
@@ -45,7 +45,7 @@ If you want to add images, you should first add the image file to the appropriat
 <img src="/docs/assets/view/opqview-landing-page.png" >
 ```
 
-### Adding math
+## Adding math
 
 This site has installed the [remarkable-katex](https://github.com/bradhowes/remarkable-katex) plugin, so it should be possible to insert mathematical equations using LaTeX syntax and surrounded by \$'s.  
 
@@ -72,5 +72,9 @@ npm run publish-gh-pages
  This will create a build/ directory containing your site, then push those files to the gh-pages branch of the docusaurus repo.
  
  At that point, [netlify](http://netlify.com) will notice the change to the gh-pages branch and publish the site.
+ 
+## Advanced usage
+
+If you want to do more advanced changes to the website, you'll need to consult the [docusaurus documentation](https://docusaurus.io/docs/en/installation.html). And be ready to flex your React muscles. 
 
  

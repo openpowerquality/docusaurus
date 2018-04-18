@@ -10,6 +10,8 @@ There are basically three steps to deploying OPQMauka: building the production b
 
 In general, you will build the production bundle from the master branch of OPQMauka. 
 
+First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access). 
+
 In your development environment, be sure you are in the master branch, then change directories into the `opq/mauka/deploy/` directory.
 
 This directory contains the following items:
