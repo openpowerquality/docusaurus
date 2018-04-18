@@ -142,8 +142,8 @@ const OPQFeatures = props => (
           content: 'Each OPQ Box sends a summary of the maximum and minimum frequency, voltage, and total harmonic distortion observed each second. If the OPQ middleware needs higher fidelity data, the OPQ Box can send it.',
         },
         {
-          title: 'Local vs. Grid-level Anomaly Detection',
-          content: 'When a power quality anomaly is reported by multiple neighboring OPQ Boxes, our middleware classifies it as grid-level. If no neighbors report it, then it\'s local',
+          title: 'Local & Grid-level Anomalies',
+          content: 'When a power quality anomaly is reported by multiple neighboring OPQ Boxes, our middleware classifies it as grid-level. If no neighbors report it, then it\'s local.',
         },
         {
           title: 'Configurable alerts',
