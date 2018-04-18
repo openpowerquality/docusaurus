@@ -65,7 +65,12 @@ export GIT_USER=philipmjohnson
 
 Next, invoke the docusaurus publication script:
 
-
+```
+npm run publish-gh-pages
+```
  
+ This will create a build/ directory containing your site, then push those files to the gh-pages branch of the docusaurus repo.
+ 
+ At that point, [netlify](http://netlify.com) will notice the change to the gh-pages branch and publish the site.
 
  
