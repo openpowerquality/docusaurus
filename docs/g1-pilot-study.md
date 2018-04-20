@@ -1,5 +1,5 @@
 ---
-title: OPQ G1 Pilot Study (2014)
+title: G1 Pilot Study (2014)
 ---
 
 

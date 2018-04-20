@@ -6,6 +6,6 @@
     "Software Services": ["datamodel", "view", "mauka", "health", "protocol", "virtual-machine"],
     "Deployment": ["deploy-initial-configuration", "deploy-mauka", "deploy-makai", "deploy-view", "deploy-health"],
     "Developer Guide": ["developerguide-docusaurus"],
-    "Other": ["opportunities", "agile-power-monitoring",  "g1-pilot-study"]
+    "Other": ["roadmap", "opportunities", "agile-power-monitoring",  "g1-pilot-study"]
   }
 }
