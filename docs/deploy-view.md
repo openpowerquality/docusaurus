@@ -38,7 +38,7 @@ Note that *.gz files in the deploy directory are gitignored.
 
 ### Copy deployment files to the server
 
-To copy deployment files to the server, invoke the `deploy-transfer.sh` script. This script creates a new directory whose name is the current timestamp, copies app.tar.gz, deploy-run.sh, and settings.development.json into it, then gzips that directory and secure copies it to emilia.
+To copy deployment files to the server, cd to the opq/view/deploy directory, and invoke the `deploy-transfer.sh` script. This script creates a new directory whose name is the current timestamp, copies app.tar.gz, deploy-run.sh, and settings.development.json into it, then gzips that directory and secure copies it to emilia.
 
 Here is what the invocation of this command should look like:
 

@@ -128,17 +128,17 @@ Here are the steps to enabling your development version of OPQView utilize the p
 
 **1. Obtain an account on emilia.ics.hawaii.edu**
 
-See Anthony who will provide you with the credentials.
+See Anthony who will provide you with the credentials. Usually this will be the account "opquser".
 
 **2. Forward emilia.ics.hawaii.edu:27017 to localhost:27017**
 
 Once you have an account on emilia, you can use ssh port forwarding to create a port on your local machine that acts as if it was the MongoDB port on emilia.  Open a new shell, and execute the following command:
 
 ```
-$ ssh -C -p 29862 -N -L 27017:localhost:27017 user@emilia.ics.hawaii.edu
+$ ssh -C -p 29862 -N -L 27017:localhost:27017 opquser@emilia.ics.hawaii.edu
 ```
 
-You'll need to replace `user` with your username on emilia, and you'll need to supply your password after executing this command. Once you successfully provide your password, port forwarding will have started.  When you no longer want port forwarding, you can control-c or close the shell. 
+You'll need to replace `opquser` if that's not the account you're using, and you'll need to supply the correct password after executing this command. Once you successfully provide your password, port forwarding will have started.  When you no longer want port forwarding, you can control-c or close the shell. 
 
 **3. Run OPQView, specifying an alternative MongoDB port**
 
