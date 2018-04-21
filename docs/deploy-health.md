@@ -87,7 +87,7 @@ drwxr-xr-x 3 opquser opquser    4096 Apr 18 00:07 protobuf
 Find the PID of the current process running OPQ Health process this way:
 
 ```
-$ ps -ef | grep python3
+$ ps -ef | grep health.py
 opquser  10645     1  1 08:56 pts/3    00:00:08 python3 health.py
 opquser  12875 18406  0 09:07 pts/3    00:00:00 grep python3
 ```

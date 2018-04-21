@@ -29,11 +29,7 @@ OPQHealth creates "entries" representing its findings on the current health of t
 
 When OPQHealth starts up, it reads its configuration file to determine what services it should monitor and how frequently it should monitor them.  
 
-Next, it checks each service and writes out an entry to the log file indicating the initial health of each service.
-
-Thereafter, it checks each service at the interval specified in its configuration file.  If the service has not changed its status since the last check (i.e. the service status was "down" and is still "down", or the service status was "up" and is still "up"), then OPQHealth does not publish an entry for that service. If the service *has* changed its status since the last check (i.e. the service was "down" and is now "up", or the service status was "up" and is now "down"), then OPQHealth does publish an entry for that service.  In this way, OPQHealth will publish data that enables users to easily determine which services are up and which are down, as well as how long each service is up before it goes down, as well as how long each service is down before it goes back up.  
-
-OPQHealth also checks its own health in the form of a heartbeat entry.  In its configuration file, there is an entry specifying how frequently OPQHealth should write out an entry about itself.  Under normal circumstances, this heartbeat entry should occur no more than 1-2 times a day in order to keep the size of the log files manageable. System administrators can monitor the log file and/or OPQView to see if OPQHealth has gone down by checking to see if an expected heartbeat entry has not occurred.
+Thereafter, it checks each service at the interval specified in its configuration file, and writes out a line to the logfile and a document to the Health database indicating the status.  
 
 
 ## Installation
@@ -42,13 +38,55 @@ To install OPQHealth, you must first set up the configuration file.  A sample co
 
 ```js
 [
-  { "service": "zeromq", "port": "tcp://127.0.0.1:9881" },
-  { "service": "box", "interval": 60, "boxdata": [ { "boxID": 0 }, { "boxID": 1 }, { "boxID": 3 } ]},
-  { "service": "mauka", "interval": 60, "url": "http://localhost:8911", "plugins": ["StatusPlugin", "IticPlugin", "AcquisitionTriggerPlugin", "VoltageThresholdPlugin", "ThdPlugin", "FrequencyThresholdPlugin" ]},
-  { "service": "makai", "interval": 60, "mongo": "mongodb://localhost:27017", "acquisition_port": "tcp://localhost:9884" },
-  { "service": "view", "interval": 60, "url": "http://emilia.ics.hawaii.edu" },
-  { "service": "mongodb", "interval": 60, "url": "mongodb://localhost:27017/" },
-  { "service": "health", "interval": 86400 }
+    {
+        "service": "zeromq",
+        "port": "tcp://127.0.0.1:9881"
+    },
+    {
+        "service": "box",
+        "interval": 60,
+        "boxdata": [
+          { "boxID": 1 },
+          { "boxID": 2 },
+          { "boxID": 3 },
+          { "boxID": 4 },
+          { "boxID": 5 },
+          { "boxID": 6 }
+        ]
+    },
+    {
+        "service": "mauka",
+        "interval": 60,
+        "url": "http://localhost:8911",
+        "plugins": [
+            "StatusPlugin",
+            "IticPlugin",
+            "AcquisitionTriggerPlugin",
+            "VoltageThresholdPlugin",
+            "ThdPlugin",
+            "FrequencyThresholdPlugin"
+        ]
+    },
+    {
+        "service": "makai",
+        "interval": 60,
+        "mongo": "mongodb://localhost:27017/",
+        "acquisition_port": "tcp://localhost:9884"
+    },
+    {
+        "service": "view",
+        "interval": 60,
+        "url": "http://emilia.ics.hawaii.edu"
+    },
+    {
+        "service": "mongodb",
+        "interval": 60,
+        "url": "mongodb://localhost:27017/"
+    },
+    {
+        "service": "health",
+        "interval": 86400
+    }
 ]
 ```
 
@@ -67,7 +105,6 @@ $ python3 health.py -config configuration.json -log logfile.txt
 Upon startup, OPQHealth prints out information indicating that it successfully read the configuration file and successfully wrote initial entries to the specified logfile. Afterwards, it does not write anything to the console. Here is an example of the log file after startup:
 
 ```
-20180318-09:08:23-10:00 service: health, serviceID:, status: up, info: initial startup
 20180318-09:08:21-10:00 service: box, serviceID: 0, status: up, info:
 20180318-09:08:21-10:00 service: box, serviceID: 1, status: up, info:   
 20180318-09:08:22-10:00 service: box, serviceID: 2, status: down, info:   
@@ -77,15 +114,7 @@ Upon startup, OPQHealth prints out information indicating that it successfully r
 20180318-09:08:22-10:00 service: view, serviceID:, status: up, info:   
 ```
 
-The log file prints out the value of all fields in the data model, comma separated. It always prints out the status of health first upon startup, with an info field value of "initial startup".
-
-Note that there will be no further lines written to the file until the box with id 2 comes up, or any of the other services goes down, or a day has passed, at which point an additional line will be appended indicating that health is still up:
-
-```
-20180319-09:08:23-10:00 service: health, serviceID:, status: up, info:
-```
-
-Of course, the actual elapsed time between these heartbeat log entries for the health system depend upon the value provided in the configuration file.
+The log file prints out the value of all fields in the data model, comma separated. 
 
 Note that each time an entry is added to the log file, a corresponding document is inserted into the health collection.
 
