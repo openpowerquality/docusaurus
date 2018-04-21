@@ -6,7 +6,6 @@
 <url> <loc>https://openpowerquality.org/index.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/index.html" /> </url>
 <url> <loc>https://openpowerquality.org/indexOriginal.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/indexOriginal.html" /> </url>
 <url> <loc>https://openpowerquality.org/team.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/team.html" /> </url>
-<url> <loc>https://openpowerquality.org/users.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/users.html" /> </url>
 <url> <loc>https://openpowerquality.org/blog/2018/04/12/negrashov-arcs-award.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://openpowerquality.org/blog/2018/04/09/vip-presentations.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://openpowerquality.org/blog/2018/02/08/green-award.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
@@ -37,6 +36,7 @@
 <url> <loc>https://openpowerquality.org/docs/intro-opq.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/intro-opq.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/intro-power-quality.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/intro-power-quality.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/intro-why-power-quality.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/intro-why-power-quality.html" /> </url>
+<url> <loc>https://openpowerquality.org/docs/makai.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/makai.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/mauka.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/mauka.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/opportunities.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/opportunities.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/protocol.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/protocol.html" /> </url>
