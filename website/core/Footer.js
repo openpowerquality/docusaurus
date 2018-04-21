@@ -34,6 +34,7 @@ class Footer extends React.Component {
             <a href={this.docUrl('userguide-hardware.html')}>OPQ Box User Guide</a>
             <a href={this.docUrl('userguide-software.html')}>OPQ View User Guide</a>
             <a href={this.docUrl('agile-power-monitoring.html')}>Agile Power Monitoring for UH</a>
+            <a href={this.docUrl('roadmap.html')}>Roadmap</a>
           </div>
           <div>
             <h5>Community</h5>
