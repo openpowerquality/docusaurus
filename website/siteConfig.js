@@ -41,6 +41,8 @@ const siteConfig = {
     {blog: true, label: 'News'},
   ],
 
+  algolia: { apiKey: '9bf16cc78135dbeeb3826894ebbbb2ee', indexName: 'openpowerquality' },
+
   // If you have users set above, you add it here:
   users,
 

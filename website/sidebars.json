@@ -3,7 +3,7 @@
     "Introduction": ["intro-opq", "intro-why-power-quality", "intro-power-quality"],
     "User Guide": ["userguide-hardware", "userguide-software"],
     "OPQ Box Hardware": ["box-overview", "box-manufacturing"],
-    "Software Services": ["datamodel", "view", "mauka", "health", "protocol", "virtual-machine"],
+    "Software Services": ["datamodel", "view", "mauka", "makai", "health", "protocol", "virtual-machine"],
     "Deployment": ["deploy-initial-configuration", "deploy-mauka", "deploy-makai", "deploy-view", "deploy-health"],
     "Developer Guide": ["developerguide-docusaurus"],
     "Other": ["roadmap", "opportunities", "agile-power-monitoring",  "g1-pilot-study"]
