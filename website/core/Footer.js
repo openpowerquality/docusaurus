@@ -41,6 +41,7 @@ class Footer extends React.Component {
             <a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a>
             <a href={this.props.config.baseUrl + 'blog'}>News</a>
             <a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a>
+            <a href={this.props.config.baseUrl + 'contact-us.html'}>Contact Us</a>
           </div>
           <div>
             <h5>Development</h5>
@@ -52,6 +53,10 @@ class Footer extends React.Component {
 
           </div>
         </section>
+        <p style={{textAlign: 'center', color: '#e9faff'}}>Open Power Quality is sponsored by:<br/>
+          <a style={{textAlign: 'center', color: '#e9faff'}} href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/>
+          <a style={{textAlign: 'center', color: '#e9faff'}} href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/>
+          <a style={{textAlign: 'center', color: '#e9faff'}} href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p>
       </footer>
     );
   }

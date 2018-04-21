@@ -1,5 +1,5 @@
 ---
-title: "Negrashov2 wins ARCS Fellowship"
+title: "Negrashov wins ARCS Fellowship"
 author: Serge Negrashov
 authorURL: https://sergey-negrashov.github.io/
 ---

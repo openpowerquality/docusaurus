@@ -9,7 +9,7 @@ There are basically two steps to deploying OPQView: building the production bund
 
 ## Developer system deployment tasks
 
-Do the following in your development environment. 
+First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access). 
 
 ### Build the production bundle
 
