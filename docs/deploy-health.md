@@ -20,7 +20,7 @@ The contents of the `opq/health/deploy/` directory should contain the following 
   * deploy-run.sh:  A script for running the deployment on the server.
   * deploy-transfer.sh: A script for copying the appropriate files to the server.
 
-To copy deployment files to the server, invoke the `deploy-transfer.sh` script. This script creates a new directory whose name is the current timestamp, copies config.json, deploy-run.sh, and health.py into it, then gzips that directory and secure copies it to emilia.
+To copy deployment files to the server, invoke the `deploy-transfer.sh` script. This script creates a new directory whose name is the current timestamp, copies config.json, deploy-run.sh, a protobuf subdirectory, and health.py into it, then gzips that directory and secure copies it to emilia.
 
 Here is what the invocation of this command should look like:
 
