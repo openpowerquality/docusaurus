@@ -19,19 +19,59 @@
 <p><em>info</em>: Info is a field that can be used by OPQHealth to provide additional information about an entry.</p>
 <h2><a class="anchor" aria-hidden="true" id="basic-operation"></a><a href="#basic-operation" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic operation</h2>
 <p>When OPQHealth starts up, it reads its configuration file to determine what services it should monitor and how frequently it should monitor them.</p>
-<p>Next, it checks each service and writes out an entry to the log file indicating the initial health of each service.</p>
-<p>Thereafter, it checks each service at the interval specified in its configuration file.  If the service has not changed its status since the last check (i.e. the service status was &quot;down&quot; and is still &quot;down&quot;, or the service status was &quot;up&quot; and is still &quot;up&quot;), then OPQHealth does not publish an entry for that service. If the service <em>has</em> changed its status since the last check (i.e. the service was &quot;down&quot; and is now &quot;up&quot;, or the service status was &quot;up&quot; and is now &quot;down&quot;), then OPQHealth does publish an entry for that service.  In this way, OPQHealth will publish data that enables users to easily determine which services are up and which are down, as well as how long each service is up before it goes down, as well as how long each service is down before it goes back up.</p>
-<p>OPQHealth also checks its own health in the form of a heartbeat entry.  In its configuration file, there is an entry specifying how frequently OPQHealth should write out an entry about itself.  Under normal circumstances, this heartbeat entry should occur no more than 1-2 times a day in order to keep the size of the log files manageable. System administrators can monitor the log file and/or OPQView to see if OPQHealth has gone down by checking to see if an expected heartbeat entry has not occurred.</p>
+<p>Thereafter, it checks each service at the interval specified in its configuration file, and writes out a line to the logfile and a document to the Health database indicating the status.</p>
 <h2><a class="anchor" aria-hidden="true" id="installation"></a><a href="#installation" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p>To install OPQHealth, you must first set up the configuration file.  A sample configuration file is in json format and looks like this:</p>
 <pre><code class="hljs css js">[
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"zeromq"</span>, <span class="hljs-string">"port"</span>: <span class="hljs-string">"tcp://127.0.0.1:9881"</span> },
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"box"</span>, <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>, <span class="hljs-string">"boxdata"</span>: [ { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">0</span> }, { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">1</span> }, { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">3</span> } ]},
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"mauka"</span>, <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>, <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://localhost:8911"</span>, <span class="hljs-string">"plugins"</span>: [<span class="hljs-string">"StatusPlugin"</span>, <span class="hljs-string">"IticPlugin"</span>, <span class="hljs-string">"AcquisitionTriggerPlugin"</span>, <span class="hljs-string">"VoltageThresholdPlugin"</span>, <span class="hljs-string">"ThdPlugin"</span>, <span class="hljs-string">"FrequencyThresholdPlugin"</span> ]},
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"makai"</span>, <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>, <span class="hljs-string">"mongo"</span>: <span class="hljs-string">"mongodb://localhost:27017"</span>, <span class="hljs-string">"acquisition_port"</span>: <span class="hljs-string">"tcp://localhost:9884"</span> },
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"view"</span>, <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>, <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://emilia.ics.hawaii.edu"</span> },
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"mongodb"</span>, <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>, <span class="hljs-string">"url"</span>: <span class="hljs-string">"mongodb://localhost:27017/"</span> },
-  { <span class="hljs-string">"service"</span>: <span class="hljs-string">"health"</span>, <span class="hljs-string">"interval"</span>: <span class="hljs-number">86400</span> }
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"zeromq"</span>,
+        <span class="hljs-string">"port"</span>: <span class="hljs-string">"tcp://127.0.0.1:9881"</span>
+    },
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"box"</span>,
+        <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>,
+        <span class="hljs-string">"boxdata"</span>: [
+          { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">1</span> },
+          { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">2</span> },
+          { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">3</span> },
+          { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">4</span> },
+          { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">5</span> },
+          { <span class="hljs-string">"boxID"</span>: <span class="hljs-number">6</span> }
+        ]
+    },
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"mauka"</span>,
+        <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>,
+        <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://localhost:8911"</span>,
+        <span class="hljs-string">"plugins"</span>: [
+            <span class="hljs-string">"StatusPlugin"</span>,
+            <span class="hljs-string">"IticPlugin"</span>,
+            <span class="hljs-string">"AcquisitionTriggerPlugin"</span>,
+            <span class="hljs-string">"VoltageThresholdPlugin"</span>,
+            <span class="hljs-string">"ThdPlugin"</span>,
+            <span class="hljs-string">"FrequencyThresholdPlugin"</span>
+        ]
+    },
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"makai"</span>,
+        <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>,
+        <span class="hljs-string">"mongo"</span>: <span class="hljs-string">"mongodb://localhost:27017/"</span>,
+        <span class="hljs-string">"acquisition_port"</span>: <span class="hljs-string">"tcp://localhost:9884"</span>
+    },
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"view"</span>,
+        <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>,
+        <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://emilia.ics.hawaii.edu"</span>
+    },
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"mongodb"</span>,
+        <span class="hljs-string">"interval"</span>: <span class="hljs-number">60</span>,
+        <span class="hljs-string">"url"</span>: <span class="hljs-string">"mongodb://localhost:27017/"</span>
+    },
+    {
+        <span class="hljs-string">"service"</span>: <span class="hljs-string">"health"</span>,
+        <span class="hljs-string">"interval"</span>: <span class="hljs-number">86400</span>
+    }
 ]
 </code></pre>
 <p>The configuration file is an array of objects.  Every object has a field called &quot;service&quot;, which indicates which service the object provides configuration data for.  The remaining fields can vary depending upon the value of the service field.</p>
@@ -42,8 +82,7 @@
 <span class="hljs-built_in">..</span>. writing out initial<span class="hljs-built_in"> health </span>status <span class="hljs-keyword">to</span> logfile.txt
 </code></pre>
 <p>Upon startup, OPQHealth prints out information indicating that it successfully read the configuration file and successfully wrote initial entries to the specified logfile. Afterwards, it does not write anything to the console. Here is an example of the log file after startup:</p>
-<pre><code class="hljs"><span class="hljs-attribute">20180318-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">23</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: health, <span class="hljs-attribute">serviceID</span>:, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>: initial startup
-<span class="hljs-number">20180318</span><span class="hljs-attribute">-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">21</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: box, <span class="hljs-attribute">serviceID</span>: <span class="hljs-number">0</span>, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:
+<pre><code class="hljs"><span class="hljs-attribute">20180318-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">21</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: box, <span class="hljs-attribute">serviceID</span>: <span class="hljs-number">0</span>, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:
 <span class="hljs-number">20180318</span><span class="hljs-attribute">-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">21</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: box, <span class="hljs-attribute">serviceID</span>: <span class="hljs-number">1</span>, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:   
 <span class="hljs-number">20180318</span><span class="hljs-attribute">-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">22</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: box, <span class="hljs-attribute">serviceID</span>: <span class="hljs-number">2</span>, <span class="hljs-attribute">status</span>: down, <span class="hljs-attribute">info</span>:   
 <span class="hljs-number">20180318</span><span class="hljs-attribute">-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">22</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: mauka, <span class="hljs-attribute">serviceID</span>:, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:   
@@ -51,11 +90,7 @@
 <span class="hljs-number">20180318</span><span class="hljs-attribute">-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">22</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: mongodb, <span class="hljs-attribute">serviceID</span>:, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:   
 <span class="hljs-number">20180318</span><span class="hljs-attribute">-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">22</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: view, <span class="hljs-attribute">serviceID</span>:, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:   
 </code></pre>
-<p>The log file prints out the value of all fields in the data model, comma separated. It always prints out the status of health first upon startup, with an info field value of &quot;initial startup&quot;.</p>
-<p>Note that there will be no further lines written to the file until the box with id 2 comes up, or any of the other services goes down, or a day has passed, at which point an additional line will be appended indicating that health is still up:</p>
-<pre><code class="hljs"><span class="hljs-attribute">20180319-09</span>:<span class="hljs-number">08</span>:<span class="hljs-number">23</span><span class="hljs-attribute">-10</span>:<span class="hljs-number">00</span> <span class="hljs-attribute">service</span>: health, <span class="hljs-attribute">serviceID</span>:, <span class="hljs-attribute">status</span>: up, <span class="hljs-attribute">info</span>:
-</code></pre>
-<p>Of course, the actual elapsed time between these heartbeat log entries for the health system depend upon the value provided in the configuration file.</p>
+<p>The log file prints out the value of all fields in the data model, comma separated.</p>
 <p>Note that each time an entry is added to the log file, a corresponding document is inserted into the health collection.</p>
 <h2><a class="anchor" aria-hidden="true" id="detecting-health"></a><a href="#detecting-health" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detecting health</h2>
 <p>OPQHealth assesses the health of each service in the following way:</p>
