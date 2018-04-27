@@ -1,6 +1,6 @@
 {
   "docs": {
-    "Introduction": ["intro-why-power-quality", "intro-opq" ],
+    "Introduction": ["intro-motivation", "intro-opq" ],
     "User Guide": ["userguide-hardware", "userguide-software"],
     "OPQ Box Hardware": ["box-overview", "box-manufacturing"],
     "Software Services": ["datamodel", "view", "mauka", "makai", "health", "protocol", "virtual-machine"],
