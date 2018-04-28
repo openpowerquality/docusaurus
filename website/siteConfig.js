@@ -8,7 +8,7 @@ const siteConfig = {
   projectName: 'docusaurus',
   organizationName: 'openpowerquality',
   headerLinks: [
-    {doc: 'intro-opq', label: 'Documentation'},
+    {doc: 'intro-motivation', label: 'Documentation'},
     {doc: 'opportunities', label: 'Opportunities'},
     {blog: true, label: 'News'},
   ],
