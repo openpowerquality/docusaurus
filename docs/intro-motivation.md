@@ -5,15 +5,15 @@ sidebar_label: Motivation for OPQ
 
 ## The problem with power
 
-Power quality is not currently a concern for most people in the United States.  Just like most citizens assume that their tap water is of adequate quality to drink, most also assume that their electricity is of adequate quality to power their homes and appliances without causing harm. And, in both cases, most people assume that it is the responsibility of public utilities to both monitor and correct any quality problems if they occur.
+Power quality is not currently a concern for most people in the United States.  Just like most people assume that their tap water is of adequate quality to drink, most also assume that their electricity is of adequate quality to power their homes and appliances without causing harm. And, in both cases, most people assume that public utilities will monitor and correct any quality problems if they occur.
 
 Successfully maintaining adequate power quality and providing sufficient amounts of it to meet the rising needs of consumers has been a triumph of electrical utilities for over 100 years.  In recent times, however, there have been changes to the nature of electrical generation and consumption that make power quality of increasing public concern and interest.  
 
-The vision of the Open Power Quality project is to support three major improvements to electrical infrastructure: 
+The vision of the Open Power Quality project is to design and implement technology that supports three important improvements to electrical infrastructure: 
 
-  1. Increase the ability of grids to use distributed, intermittent forms of renewable energy.
-  2. Increase the lifespan and reduce failure rates in consumer electronics due to poor power quality.
-  3. Increase the availability of power quality data to consumers, researchers, and public policy makers.  
+  1. Increase the capacity of small and large electrical grids to employ distributed, intermittent forms of renewable energy.
+  2. Address lifespan and failure rate problems in consumer electronics due to poor power quality.
+  3. Provide an independent, low cost source of useful power quality data to consumers, researchers, and public policy makers.  
 
 Let's look at this vision in a bit more detail.
 
@@ -36,6 +36,14 @@ OPQ intends to provide power quality data that can be used to determine if poten
 Electrical utilities are not necessarily required to be transparent about the quality of power they provide to consumers.  For example, in Hawaii, the utilities are required to make a "best effort" to provide non-harmful voltage and frequency values, but are only required to publicly report on power outages of more than 3 minutes. There is no requirement for utilities to report potentially harmful deviations in voltage, frequency, or THD.  Indeed, in Hawaii, there is not yet infrastructure in place that would enable utilities to collect that information, even if they were asked to report on it.
 
 OPQ intends is to provide an unbiased, independent, third party source of accurate power quality data. This can be used by consumers to better understand the performance of their public utilities, by researchers to devise improvements to grid control, and by public policy makers responsible for designing and implementing regulatory frameworks for electrical utilities.
+
+## OPQ Research Process
+
+Successfully designing and implementing technology to achieve this vision requires innovative research with respect to hardware design, analytics design, and visualization design. To support the research process, OPQ technology is designed for experimentation and innovation in two major ways:
+
+* All software subsystems are designed for extensibility.  Our middleware components (Mauka and Makai) have a plugin architecture. Our visualization component (View) consists of modular UI elements using React. We also provide API endpoints for interoperation with other software systems.
+
+* Our software and hardware are made publicly available using open source licenses. This will facilitate replication, extension, and development of a community of researchers.     
 
 ## Immediate goals for OPQ
 
