@@ -43,11 +43,14 @@ Power quality problems due to frequency fluctuations are fairly uncommon.  Most 
 
 Although characterizing how power can deviate from perfection is interesting, at the end of the day, we want to understand whether a given deviation is actually harmful or not.  
 
-The [Information Technology Industry Council](http://www.itic.org/) has created a standard that specifies what kinds of power quality problems should be tolerated by electronic devices.  The latest version of this standard was published in 1999, and it defines what kinds of voltage fluctuations should be tolerated by electronic devices.  Basically, for very short periods of time, very large deviations from normal voltage should be tolerated, but as the length of time of the deviation increases, the amount of deviation that should be tolerated decreases: 
+The [Information Technology Industry Council](http://www.itic.org/) (ITIC) has created a standard (called the "ITIC Curve") that specifies what kinds of power quality problems should be tolerated by electronic devices.  The latest version of this standard was published in 1999, and it defines what kinds of voltage fluctuations should be tolerated by electronic devices.  Basically, for very short periods of time, very large deviations from normal voltage should be tolerated, but as the length of time of the deviation increases, the amount of deviation that should be tolerated decreases: 
 
 <img src="/docs/assets/intro/itic-curve.png" width="500px">
 
 Note that this standard is simply a recommendation, and there is no requirement that electronic devices actually observe this tolerance to voltage deviations. 
+
+A similar standard is [SEMI F47-0706](http://dom.semi.org/web/wstandards.nsf/19A2E6E9C088D3958825733100743B15/$file/4OverviewofSEMIF47-0706.pdf), which  sets minimum voltage sag immunity requirements for equipment used in the semiconductor industry.
+
 
 
 

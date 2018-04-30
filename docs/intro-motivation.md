@@ -56,8 +56,3 @@ To make progress toward our vision, we are currently focused on achieving the fo
 * Pilot deployment of OPQ to monitor the University of Hawaii at Manoa's microgrid as part of the [Agile Power Monitoring Project](agile-power-monitoring.md).
 
 * Pilot deployment across Oahu to create a grid-wide distributed sensor network for power quality.
-
-The next section provides more details on the design of OPQ.
-
-
-
