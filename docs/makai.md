@@ -17,7 +17,9 @@ Makai uses [0MQ](http://zeromq.org/) for transport and [protobuf](https://develo
 
 The Triggering Broker is used as an endpoint for the low fidelity data (frequency, RMS voltage, and THD measurements ) generated several times per second by OPQ Boxes. It serves as a endpoint for the rest of the OPQ infrastructure for receiving the OPQ Box triggering data stream. After receiving low fidelity OPQ Box data, it forwards the data to the Acquisition Broker for further analysis. 
 
-Every OPQ Box that connects to the Trigger Broker must be authenticated using the 0MQ security suite (CurveMQ). In order to do that, a public key of every OPQ Box must be provided to the Triggering Broker at startup. Furthermore, in order to authenticate the Triggering Broker, its public key is distributed to every OPQ Box. The Triggering Broker uses a SUB socket pair for receiving data from the box and a PUB socket from forwarding data further down the line. 
+Every OPQ Box that connects to the Trigger Broker must be authenticated using the 0MQ security suite (CurveMQ). In order to do that, a public key of every OPQ Box must be provided to the Triggering Broker at startup. Furthermore, in order to authenticate the Triggering Broker, its public key is distributed to every OPQ Box. The Triggering Broker uses a SUB socket pair for receiving data from the box and a PUB socket from forwarding data further down the line. A block diagram of the triggering broker is shown below:
+
+<img src="/docs/assets/makai/trg_brk.png">
 
 ### Configuration
 
@@ -91,6 +93,10 @@ The Triggering Service does not have any inherent logic for triggering stream an
 * *opqapi shared library* : a shared library that defines the plugin interface and communication data structures.
 * *plugins* : a set of dynamic libraries which implements the plugin interface responsible for the triggering stream analysis.
 
+A block diagram of the makai daemon is shown below:
+
+<img src="/docs/assets/makai/makai_daemon.svg">
+
 ### Configuration
 
 The Makai daemon will look for its configuration file in `/etc/opq/makai.conf`, unless it's passed in as a command line argument. A typical configuration for the triggering service is shown bellow:
@@ -135,6 +141,4 @@ Since Rust FFI is designed to interoperate with C/C++ it is quite easy to develo
 
 ### Developing new plugins in other languages
 
-For a natively compiled language, as long as the language has a C/C++ binding, that binding can interplay with Rust. Again the only requirement is a Rust shim which translates the rust types into C/C++ types and finally into the types of a language of your choice. Many interpreted languages such as Python and Javascript have rust bindings for their virtual machines. An example of embedding a VM into the triggering service plugin is shown [here](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/ketos/). 
-
-This [script](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/ketos/main.ket) embeds a Lisp VM into a Rust plugin to provide type translation and runtime Lisp-based analysis and triggering. A similar plugin can be developed for any interpreted language with Rust bindings.
+For a natively compiled language, as long as the language has a C/C++ binding, that binding can interplay with Rust. Again the only requirement is a Rust shim which translates the rust types into C/C++ types and finally into the types of a language of your choice. Many interpreted languages such as Python and Javascript have rust bindings for their virtual machines. An example of embedding a VM into the triggering service plugin is shown [here](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/ketos/). This plugin embeds a Lisp VM into a Rust plugin to provide type translation and runtime Lisp-based analysis and triggering. A similar plugin can be developed for any interpreted language with Rust bindings.
