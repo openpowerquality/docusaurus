@@ -3,22 +3,38 @@ title: Deployment: Makai
 sidebar_label: Makai
 ---
 
-Makai contains three main components:
-* Triggering broker
-* Acquisition broker
-* Triggering service(makai daemon).
+Makai has three main components:
 
-Each one is a self-contained application, requiring their own dependencies. Triggering and acquisition brokers are written in C++ and as such require C/C++ libraries. Makai daemon, the core of the triggering service is written in Rust, which makes dependency management simpler, by delegating it to the `cargo` system. As long as all the dependencies are satisfied, it is sufficient to run `build_and_install.sh` script in the makai directory to install all the makai system, and configure it to run at startup. However, configuration files and need to be copied and edited manually to match your use case.
+1. Triggering broker
+2. Acquisition broker
+3. Triggering service (makai daemon).
 
-## Triggering broker.
-Triggering broker requires the following C/C++ libraries:
+Each one is a self-contained application, requiring their own dependencies. Triggering and acquisition brokers are written in C++ and as such require C/C++ libraries. Makai daemon, the core of the triggering service, is written in Rust, which makes dependency management simpler, by delegating it to the `cargo` system. 
+
+## Simple installation 
+
+At this time, unlike other OPQ services, you must build the Makai service directly from sources on the server machine. 
+
+First, login as opquser on the server. 
+ 
+Change directories to the makai/ directory.
+
+Next, checkout the [opq repository](https://github.com/openpowerquality/opq) into this directory.
+
+As long as all the dependencies are satisfied, it is sufficient to run `build_and_install.sh` script in the opq/makai directory to install all the makai system, and configure it to run at startup. However, configuration files and need to be copied and edited manually to match your use case.
+
+The following sections document how to build each of the three applications manually.
+
+## Build the Triggering Broker
+
+The Triggering Broker requires the following C/C++ libraries:
+
 * ZeroMQ >= v4.2: [Installation instructions](http://zeromq.org/intro:get-the-software)
 * zmqpp >= v4.2 : [Installation instructions](https://github.com/zeromq/zmqpp#installation)
 
 Furthermore the triggering broker requires gcc >= v6.3, as well as a recent version of cmake.
 
-### Building the triggering broker.
-If you would like to build the triggering broker without using the bundled build script follow these steps:
+If you would like to build the Triggering Broker without using `build_and_install.sh`, then follow these steps:
 
 1. `cd TriggeringBroker/` : switch to the triggering broker directory.
 2. `mkdir -p build` : create a directory where the build will take place.
@@ -28,8 +44,10 @@ If you would like to build the triggering broker without using the bundled build
 
 This will generate the `TriggeringBroker` binary. Follow the directions in the [Software Services](/docs/makai.html#configuration) section for configuration.
 
-## Acquisition broker. 
-Acquisition broker requires the following C/C++ libraries:
+## Build the Acquisition Broker
+ 
+The Acquisition Broker requires the following C/C++ libraries:
+
 * ZeroMQ >= v4.2: [Installation instructions](http://zeromq.org/intro:get-the-software)
 * zmqpp >= v4.2 : [Installation instructions](https://github.com/zeromq/zmqpp#installation)
 * protobuf : [Installation instructions](https://github.com/google/protobuf/blob/master/src/README.md)
@@ -37,8 +55,7 @@ Acquisition broker requires the following C/C++ libraries:
 
 Furthermore the acquisition broker requires gcc >= v6.3, as well as a recent version of cmake.
 
-### Building the acquisition broker.
-If you would like to build the acquisition broker without using the bundled build script follow these steps:
+If you would like to build the Acquisition Broker without using `build_and_install.sh`, then follow these steps:
 
 1. `cd AcquisitionBroker/` : switch to the triggering broker directory.
 2. `mkdir -p build` : create a directory where the build will take place.
@@ -48,12 +65,17 @@ If you would like to build the acquisition broker without using the bundled buil
 
 This will generate the `AcquisitionBroker` binary. Follow the directions in the [Software Services](/docs/makai.html#configuration) section for configuration.
 
-## Triggering service. 
-Triggering service is written in rust, and as such most of the dependency management is satisfied via cargo. However there are a few cases where native rust code does not exists for certain libraries. Instead, we use a shim package which wraps a C library. The list of C libraries is shown below:
+## Build the Triggering Service
+ 
+The Triggering Service is written in Rust, and as such most of the dependency management is satisfied via cargo. However there are a few cases where native rust code does not exists for certain libraries. Instead, we use a shim package which wraps a C library. The list of C libraries is shown below:
+
 * protobuf : [Installation instructions](https://github.com/google/protobuf/blob/master/src/README.md)
 * ZeroMQ >= v4.2: [Installation instructions](http://zeromq.org/intro:get-the-software)
 
-Furthermore the acquisition broker requires a stable branch [Rust](https://www.rust-lang.org/en-US/install.html) compiler. 
+The Triggering Service also requires a stable branch of the [Rust](https://www.rust-lang.org/en-US/install.html) compiler.
 
-#Building the makai service.
-If you would like to build the makai service and plugins without using the bundled script, switch into the `TriggeringService` directory and run the `build.sh` script. This will generate the `makai` binary as well as all the plugins in the build directory.
+**Serge: What scripts are invoked to actually build the Triggering Service?**
+
+## Build the Makai Service
+
+If you would like to build the makai service and plugins without using `build_and_install.sh`, switch into the `TriggeringService` directory and run the `build.sh` script. This will generate the `makai` binary as well as all the plugins in the build directory.
