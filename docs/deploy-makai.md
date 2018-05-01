@@ -3,13 +3,9 @@ title: Deployment: Makai
 sidebar_label: Makai
 ---
 
-Makai has three main components:
+Makai has three main components: a Triggering Broker, an Acquisition Broker, and a Triggering Service (the makai daemon).
 
-1. Triggering broker
-2. Acquisition broker
-3. Triggering service (makai daemon).
-
-Each one is a self-contained application, requiring their own dependencies. Triggering and acquisition brokers are written in C++ and as such require C/C++ libraries. Makai daemon, the core of the triggering service, is written in Rust, which makes dependency management simpler, by delegating it to the `cargo` system. 
+Each one is a self-contained application, requiring their own dependencies. The Triggering and Acquisition Brokers are written in C++ and as such require C/C++ libraries. The Makai daemon, the core of the triggering service, is written in Rust. This make dependency management simpler because we can use the `cargo` system. 
 
 ## Simple installation 
 
