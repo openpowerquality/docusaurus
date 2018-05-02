@@ -11,7 +11,11 @@ There are basically two steps to deploying OPQView: building the production bund
 
 First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access). 
 
-Second, make sure you have updated your system with the latest dependencies by running `meteor update` and `meteor npm update`.
+Second, invoke `meteor update` and `meteor npm update` to verify that you have installed the latest versions of all libraries.
+
+Third, invoke `meteor npm run test` to verify that the test cases pass.
+
+Fourth, invoke `meteor npm run start` and then go to http://localhost:3000 to verify that the system runs without problems.
 
 ### Build the production bundle
 
