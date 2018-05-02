@@ -44,4 +44,4 @@ This is a great opportunity if you are interested in alternative forms of fundra
 
 ## Next steps
 
-If you're interested in learning more, the next step is to [contact us](contact.md) and indicate the opportunity or opportunities of interest. The next step is to attend one of our regular weekly project meeting, where you can get to know the members of OPQ and learn more about the project.   If you're still interested, you can sign up for an independent study and get to work!
+If you're interested in learning more, the next step is to [contact us](/contact-us.html) and indicate the opportunity or opportunities of interest. The next step is to attend one of our regular weekly project meeting, where you can get to know the members of OPQ and learn more about the project.   If you're still interested, you can sign up for an independent study and get to work!
