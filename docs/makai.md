@@ -64,7 +64,7 @@ By default, the Acquisition Broker will attempt to load a configuration file loc
   "box_pub": "tcp://*:8194",
   "box_pull": "tcp://*:8196",
   "backend_pull": "tcp://*:9884",
-  "backend_pub": "tcp://*:9882",
+  "backend_pub": "tcp://*:9899",
   "mongo_uri": "mongodb://localhost:27017"
 }
 ```
