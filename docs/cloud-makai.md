@@ -21,6 +21,25 @@ Every OPQ Box that connects to the Trigger Broker must be authenticated using th
 
 <img src="/docs/assets/makai/trg_brk.png">
 
+### Installation 
+
+The Triggering Broker requires the following C/C++ libraries:
+
+* ZeroMQ >= v4.2: [Installation instructions](http://zeromq.org/intro:get-the-software)
+* zmqpp >= v4.2 : [Installation instructions](https://github.com/zeromq/zmqpp#installation)
+
+Furthermore the triggering broker requires gcc >= v6.3, as well as a recent version of cmake.
+
+If you would like to build the Triggering Broker without using `build_and_install.sh`, then follow these steps:
+
+1. `cd TriggeringBroker/` : switch to the triggering broker directory.
+2. `mkdir -p build` : create a directory where the build will take place.
+3. `cd build` : switch to the build directory.
+4. `cmake ..` : run cmake pointing to the source of the triggering broker.
+5. `make` : build the binary.
+
+This will generate the `TriggeringBroker` binary. Follow the directions in the [Software Services](/docs/cloud-makai.html#configuration) section for configuration.
+
 ### Configuration
 
 By default the Triggering Broker will look for its configuration file in `/etc/opq/triggering_broker.json`.  A default configuration file is shown below:
@@ -43,7 +62,7 @@ Fields are as follows:
 
 ### Interface
 
-In order to communicate with the Triggering Broker, connect to the backend port using a ZMQ SUB socket with a language of your choice and subscribe to the OPQ Box IDs you would like to receive data from. Alternatively, an empty subscription will receive data from all devices. Each message contains two frames. The first frame is the Box ID encoded as a string. The second frame contains a protobuf encoded Trigger Message described in the [Protocol](/docs/protocol.html) section.
+In order to communicate with the Triggering Broker, connect to the backend port using a ZMQ SUB socket with a language of your choice and subscribe to the OPQ Box IDs you would like to receive data from. Alternatively, an empty subscription will receive data from all devices. Each message contains two frames. The first frame is the Box ID encoded as a string. The second frame contains a protobuf encoded Trigger Message described in the [Protocol](/docs/cloud-protocol.html) section.
 
 ## Acquisition Broker
 
@@ -51,7 +70,28 @@ The Acquisition Broker is a microservice responsible for high fidelity (raw wave
 
 <img src="/docs/assets/makai/acq_brk.png">
 
-OPQ Boxes connect to the Acquisition Broker's PUB interface and wait for raw data requests. Once a raw data request arrives, it is forwarded to the Acquisition Broker via the PULL interface. Raw waveform data as well as the event request are logged in MongoDB. For the MongoDB schema data model, see the [Data Model](/docs/datamodel.html) section.
+OPQ Boxes connect to the Acquisition Broker's PUB interface and wait for raw data requests. Once a raw data request arrives, it is forwarded to the Acquisition Broker via the PULL interface. Raw waveform data as well as the event request are logged in MongoDB. For the MongoDB schema data model, see the [Data Model](/docs/cloud-datamodel.html) section.
+
+### Installation
+
+The Acquisition Broker requires the following C/C++ libraries:
+
+* ZeroMQ >= v4.2: [Installation instructions](http://zeromq.org/intro:get-the-software)
+* zmqpp >= v4.2 : [Installation instructions](https://github.com/zeromq/zmqpp#installation)
+* protobuf : [Installation instructions](https://github.com/google/protobuf/blob/master/src/README.md)
+* mongocxx : [Installation instructions](http://mongodb.github.io/mongo-cxx-driver/mongocxx-v3/installation/)
+
+Furthermore the acquisition broker requires gcc >= v6.3, as well as a recent version of cmake.
+
+If you would like to build the Acquisition Broker without using `build_and_install.sh`, then follow these steps:
+
+1. `cd AcquisitionBroker/` : switch to the triggering broker directory.
+2. `mkdir -p build` : create a directory where the build will take place.
+3. `cd build` : switch to the build directory.
+4. `cmake ..` : run cmake pointing to the source of the triggering broker.
+5. `make` : build the binary.
+
+This will generate the `AcquisitionBroker` binary. Follow the directions in the [Software Services](/docs/cloud-makai.html#configuration) section for configuration.
 
 ### Configuration
 
@@ -81,11 +121,11 @@ The fields are as follows:
 
 ### Interface
 
-In oder to initiate an event acquisition, a client connects to the Acquisition Broker's PULL interface and sends it a protobuf encoded [ReqtestDataMessage](/docs/protocol.html). Furthermore, any client connected to the PUB interface will be notified of a new event by receiving a text encoded event number.
+In oder to initiate an event acquisition, a client connects to the Acquisition Broker's PULL interface and sends it a protobuf encoded [ReqtestDataMessage](/docs/cloud-protocol.html). Furthermore, any client connected to the PUB interface will be notified of a new event by receiving a text encoded event number.
 
 ## Triggering Service
 
-The Triggering Service is responsible for analyzing the triggering streams from the OPQ Boxes and requesting raw waveforms whenever an anomaly is detected. Furthermore the Acquisition Service maintains the measurements and trends [collections](/docs/datamodel.html). Measurements are a copy of the measurement stream, maintained in the database for only a 24 hour interval, while trends are persistent averages of the measurements stream over a 1 minute window. 
+The Triggering Service is responsible for analyzing the triggering streams from the OPQ Boxes and requesting raw waveforms whenever an anomaly is detected. Furthermore the Acquisition Service maintains the measurements and trends [collections](/docs/cloud-datamodel.html). Measurements are a copy of the measurement stream, maintained in the database for only a 24 hour interval, while trends are persistent averages of the measurements stream over a 1 minute window. 
 
 The Triggering Service does not have any inherent logic for triggering stream analysis. Instead, it relies on analysis plugins loaded from dynamic libraries to analyse the incoming measurements and locate anomalies. This allows multiple analyses. To accomplish this, the Triggering Service consists of three parts:
 
@@ -96,6 +136,17 @@ The Triggering Service does not have any inherent logic for triggering stream an
 A block diagram of the makai daemon is shown below:
 
 <img src="/docs/assets/makai/makai_daemon.svg">
+
+### Installation
+
+The Triggering Service is written in Rust, and as such most of the dependency management is satisfied via cargo. However there are a few cases where native rust code does not exists for certain libraries. Instead, we use a shim package which wraps a C library. The list of C libraries is shown below:
+
+* protobuf : [Installation instructions](https://github.com/google/protobuf/blob/master/src/README.md)
+* ZeroMQ >= v4.2: [Installation instructions](http://zeromq.org/intro:get-the-software)
+
+The Triggering Service also requires a stable branch of the [Rust](https://www.rust-lang.org/en-US/install.html) compiler.
+
+To build the Triggering Service, cd into the `TriggeringService` directory and run the `build.sh` script. This will generate the `makai` binary as well as all the plugins in the build directory.
 
 ### Configuration
 
@@ -129,16 +180,18 @@ The list of fields is shown below:
 * *event_request_expiration_window_ms*	:	internal do not change.
 * *plugins* : a list of plugins with object specific settings. The path field is required.
 
-### Developing new plugins in Rust
+### Developing new plugins
+
+#### Rust
 
 The Triggering Service is implemented in the [Rust](www.rust-lang.org) programing language. Thus, Rus is the most straightforward way to develop triggering service plugins. A simple example of a plugin writen in Rust is found [here](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/print/src/lib.rs). 
 
-The only requirement for a plugin is a struct that implements the [MakaiPlugin](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/opqapi/src/makaiplugin/mod.rs) traits, and that the library includes the `declare_plugin!` macro for bringing this struct across the rust FFI boundary into the daemon type system. Note that the data types `TriggerMessage` and `RequestEventMessage` are auto-generated by protobuf and their description can be found in the [protocol](/docs/protocol.html) section. 
+The only requirement for a plugin is a struct that implements the [MakaiPlugin](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/opqapi/src/makaiplugin/mod.rs) traits, and that the library includes the `declare_plugin!` macro for bringing this struct across the rust FFI boundary into the daemon type system. Note that the data types `TriggerMessage` and `RequestEventMessage` are auto-generated by protobuf and their description can be found in the [protocol](/docs/cloud-protocol.html) section. 
 
-### Developing new plugins in C/C++
+#### C/C++
 
 Since Rust FFI is designed to interoperate with C/C++ it is quite easy to develop analysis plugins in C/C++. The only requirement is a Rust shim which implements the correct traits and defines the translation between the Rust and C/C++ types.
 
-### Developing new plugins in other languages
+#### Other languages
 
 For a natively compiled language, as long as the language has a C/C++ binding, that binding can interplay with Rust. Again the only requirement is a Rust shim which translates the rust types into C/C++ types and finally into the types of a language of your choice. Many interpreted languages such as Python and Javascript have rust bindings for their virtual machines. An example of embedding a VM into the triggering service plugin is shown [here](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/ketos/). This plugin embeds a Lisp VM into a Rust plugin to provide type translation and runtime Lisp-based analysis and triggering. A similar plugin can be developed for any interpreted language with Rust bindings.

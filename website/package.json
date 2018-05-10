@@ -1,4 +1,5 @@
 {
+  "private": true,
   "scripts": {
     "examples": "docusaurus-examples",
     "start": "docusaurus-start",
@@ -9,7 +10,7 @@
     "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
-    "docusaurus": "^1.0.12",
+    "docusaurus": "^1.0.15",
     "remarkable-katex": "^1.0.1"
   }
 }

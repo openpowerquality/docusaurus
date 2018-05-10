@@ -7,4 +7,4 @@ sidebar_label: Overview
 
 As shown in this image, the OPQ system consists of two basic components: a set of physical OPQ Boxes that are plugged into wall outlets and communicate via the Internet to a set of services collectively known as OPQ Cloud.
 
-The following sections document both the hardware and software required to create a functional OPQ Box.
+This following sections document the software services and data model that together implement OPQ Cloud.

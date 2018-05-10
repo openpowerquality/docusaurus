@@ -28,9 +28,12 @@ The easiest way to get started is to copy an existing markdown file that seems t
 
 Here are some issues to be aware of:
  
-  * The docs/ directory cannot contain subdirectories.  So, all of the documentation must exist as a set of top-level files. 
+  * The docs/ directory cannot contain subdirectories.  So, all of the documentation must exist as a set of top-level files. To keep things somewhat organized, all of the file names in the docs/ directory are prefixed with their section name.  
+  
   * AFAIK, the sidebar takes only a list of file names. So, each entry in the sidebar corresponds to a single file name. If you want your documentation to appear as multiple entries in the sidebar, then you must create multiple documentation markdown files.
+
   * On a happier note, docusaurus creates a "secondary sidebar" on the right side of the page that essentially provides a table of contents for that page.  This enables rather lengthy top-level documentation files (see [Mauka documentation](mauka.md) as an example) because its internal structure is presented once you navigate to the page. 
+
   * The docusaurus runtime environment regenerates the documentation each time it notices a file change. So, you can save out your file, then refresh the page in your browser to see the changes immediately.
 
 ## Adding your new documentation to the sidebar

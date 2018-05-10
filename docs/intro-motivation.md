@@ -12,7 +12,7 @@ Successfully maintaining adequate power quality and providing sufficient amounts
 The vision of the Open Power Quality project is to design and implement technology that supports three important improvements to electrical infrastructure: 
 
   1. Increase the capacity of small and large electrical grids to employ distributed, intermittent forms of renewable energy.
-  2. Address lifespan and failure rate problems in consumer electronics due to poor power quality.
+  2. Gain insight into lifespan and failure rate problems in consumer electronics due to poor power quality.
   3. Provide an independent, low cost source of useful power quality data to consumers, researchers, and public policy makers.  
 
 Let's look at each part of this vision in a bit more detail.

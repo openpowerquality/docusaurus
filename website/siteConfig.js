@@ -9,7 +9,7 @@ const siteConfig = {
   organizationName: 'openpowerquality',
   headerLinks: [
     {doc: 'intro-motivation', label: 'Documentation'},
-    {doc: 'opportunities', label: 'Opportunities'},
+    {doc: 'other-opportunities', label: 'Opportunities'},
     {blog: true, label: 'News'},
   ],
 
