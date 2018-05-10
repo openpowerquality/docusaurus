@@ -1,7 +1,9 @@
 ---
 title: OPQ View User Guide
-sidebar_label: OPQ View
+sidebar_label: OPQ Cloud
 ---
+
+For users, all access to OPQ Cloud is via a web application called OPQ View. So, the remainder of this user guide will refer to "View" rather than "Cloud" as a way to clarify the actual user interface system.    
 
 ## Landing Page
 
