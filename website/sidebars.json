@@ -2,7 +2,7 @@
   "docs": {
     "Introduction": ["intro-motivation", "intro-power-quality", "intro-opq" ],
     "User Guide": ["userguide-hardware", "userguide-software"],
-    "OPQ Box Hardware": ["box-overview", "box-manufacturing"],
+    "OPQ Box Hardware": ["box-overview", "box-updater", "box-manufacturing"],
     "Software Services": ["datamodel", "view", "mauka", "makai", "health", "protocol", "virtual-machine"],
     "Deployment": ["deploy-initial-configuration", "deploy-mauka", "deploy-makai", "deploy-view", "deploy-health"],
     "Developer Guide": ["developerguide-docusaurus"],
