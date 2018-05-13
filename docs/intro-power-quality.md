@@ -41,6 +41,8 @@ As you can also see from this list, power quality problems are typically charact
 
 <img src="/docs/assets/intro/voltage-dip.jpg" width="500px">
 
+There are several power quality measures not currently calculated by OPQ Box, including [power factor](https://en.wikipedia.org/wiki/Power_factor), [telephone influence factor](https://ieeexplore.ieee.org/document/6373026/), [flicker factor](https://en.wikipedia.org/wiki/Power-line_flicker), and [unbalance factor](http://std.iec.ch/terms/terms.nsf/3385f156e728849bc1256e8c00278ad2/771c5188e62fade5c125793a0043f2a5?OpenDocument).  Future research will determine if these metrics are important to achieving the goals of this project.
+
 ## Causes of power quality problems
 
 So, we know what constitutes "perfect" AC power, and we know the some of the common ways power can fail to achieve it.  But why isn't power always perfect?  
