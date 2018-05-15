@@ -64,11 +64,9 @@
 <h3><a class="anchor" aria-hidden="true" id="use-snapshot-db-optional"></a><a href="#use-snapshot-db-optional" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use snapshot DB (optional)</h3>
 <p>For OPQView development, it can be useful to initialize your development database with a snapshot of OPQ data. Here are the steps to do so.</p>
 <p><a href="https://docs.mongodb.com/manual/installation/">Install MongoDB</a>.  Even though Meteor comes with a copy of Mongo, you will need to install MongoDB in order to run the mongorestore command.</p>
-<p>Download a snapshot of an OPQ database into a directory outside of the opq repository directory. (This is to avoid unintentional committing of the DB snapshot). Here are links to currently available snapshots:</p>
+<p>Download a snapshot of an OPQ database into a directory outside of the opq repository directory. (This is to avoid unintentional committing of the DB snapshot). Here is a link to a recent DB snapshot:</p>
 <ul>
-<li><a href="https://drive.google.com/open?id=1qiq12WglZ3HdVCSskNH9uz2hNIZMICLe">opq.dump.25jan2018.tar.bz2</a> (766 MB)</li>
-<li><a href="https://drive.google.com/open?id=1M1N_Z0w_BAlE5KoH0D0zUEcnjhCt7VK4">opq.dump.20march2018.tar.gz</a> (3 GB)</li>
-<li><a href="https://drive.google.com/open?id=17bpF4c6KZFERlq1nW_GW6UDLBSdcyYGS">opq.dump.04Apr2018.tar.gz</a> (3 GB)</li>
+<li><a href="https://drive.google.com/file/d/18SYu0cTL9e0p99yp0-w_Ri-1SjtXGYgF/view?usp=sharing">opq.dump.01May2018.tar.gz</a> (4 GB)</li>
 </ul>
 <p>Uncompress the downloaded tar.gz file. (Typically, double-clicking the file name will do the trick.) This will create a directory called &quot;opq&quot;.</p>
 <p>Delete the current contents of your local development OPQ database. To do this, stop Meteor if it is running, then invoke</p>
