@@ -122,7 +122,7 @@ If you are deploying to the development environment (OPQ Sim), use the following
 ```
 ssh -p 3022 pi@localhost
 ```
-
+ 
 ### Unpack tar file with latest release
 
 Change directories into the mauka/ subdirectory, and list the files:
@@ -199,6 +199,19 @@ drwxr-xr-x 5 opquser opquser 4096 May 15 12:52 ..
 -rwxr-xr-x 1 opquser opquser  874 May 15 12:14 deploy-install.sh
 drwxr-xr-x 6 opquser opquser 4096 May 15 12:14 mauka
 drwxr-xr-x 2 opquser opquser 4096 May 15 12:14 scripts
+```
+
+### Prepare server-side environment (one time setup)
+
+These steps will differ depending on the server environment you are working with, therefore they are fairly high-level and you may
+have to do additional research for your specific Linux distribution and environement.
+
+1. Ensure that Python 3.6 or greater is installed.
+2. Ensure that the requirements found in opq/mauka/requirements.txt are installed.
+
+```
+sudo apt-get install -y python3
+pip3 install -r mauka/requirements.txt
 ```
 
 ### Kill the current OPQMauka process
