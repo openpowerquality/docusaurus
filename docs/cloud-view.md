@@ -80,11 +80,9 @@ For OPQView development, it can be useful to initialize your development databas
 
 [Install MongoDB](https://docs.mongodb.com/manual/installation/).  Even though Meteor comes with a copy of Mongo, you will need to install MongoDB in order to run the mongorestore command.  
 
-Download a snapshot of an OPQ database into a directory outside of the opq repository directory. (This is to avoid unintentional committing of the DB snapshot). Here are links to currently available snapshots:
+Download a snapshot of an OPQ database into a directory outside of the opq repository directory. (This is to avoid unintentional committing of the DB snapshot). Here is a link to a recent DB snapshot:
  
-   * [opq.dump.25jan2018.tar.bz2](https://drive.google.com/open?id=1qiq12WglZ3HdVCSskNH9uz2hNIZMICLe) (766 MB)
-   * [opq.dump.20march2018.tar.gz](https://drive.google.com/open?id=1M1N_Z0w_BAlE5KoH0D0zUEcnjhCt7VK4) (3 GB)
-   * [opq.dump.04Apr2018.tar.gz](https://drive.google.com/open?id=17bpF4c6KZFERlq1nW_GW6UDLBSdcyYGS) (3 GB)
+   * [opq.dump.01May2018.tar.gz](https://drive.google.com/file/d/18SYu0cTL9e0p99yp0-w_Ri-1SjtXGYgF/view?usp=sharing) (4 GB)
 
 Uncompress the downloaded tar.gz file. (Typically, double-clicking the file name will do the trick.) This will create a directory called "opq".
 
