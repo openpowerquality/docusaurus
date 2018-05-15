@@ -1,11 +1,11 @@
 {
   "docs": {
-    "Introduction": ["intro-motivation", "intro-power-quality", "intro-opq", "intro-related-work"],
+    "Introduction": ["intro-motivation", "intro-power-quality", "intro-opq", "intro-related-work", "intro-bibliography"],
     "User Guide": ["userguide-hardware", "userguide-software"],
     "OPQ Box": ["box-overview", "box-hardware-design", "box-software-design", "box-updater", "box-manufacturing"],
     "OPQ Cloud": ["cloud-overview", "cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map"],
     "Deployment": ["deploy-initial-configuration", "deploy-mauka", "deploy-makai", "deploy-view", "deploy-health"],
-    "Developer Guide": ["developerguide-docusaurus", "developerguide-virtual-machine"],
+    "Developer Guide": ["developerguide-docusaurus", "developerguide-virtual-machine", "developerguide-bibliography"],
     "Other": ["other-roadmap", "other-opportunities", "other-agile-power-monitoring",  "other-g1-pilot-study"]
   }
 }
