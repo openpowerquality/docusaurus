@@ -63,7 +63,7 @@ This site uses MathJax for mathematical notation. At the current time, you need 
 </script>
 ``` 
 
-See the [OPQ Box Hardware Design source file](https://raw.githubusercontent.com/openpowerquality/docusaurus/master/docs/box-hardware-design.md) for an example of how to insert this script and how to write both inline and standalone mathematical formula.
+See the [OPQ Box Hardware Design source file](https://github.com/openpowerquality/docusaurus/blob/master/docs/box-hardware-design.md) for an example of how to insert this script and how to write both inline and standalone mathematical formula.
 
 ## Publishing the site
 
