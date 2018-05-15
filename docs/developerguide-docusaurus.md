@@ -52,6 +52,8 @@ If you want to add images, you should first add the image file to the appropriat
 
 This site uses MathJax for mathematical notation. 
 
+For standalone formulas, you can use `$$`.  For inline formulas, you must use `\\()` and `\\)`.
+
 See the [OPQ Box Hardware Design source file](https://github.com/openpowerquality/docusaurus/blob/master/docs/box-hardware-design.md) for an example of how to write both inline and standalone mathematical formula.
 
 ## Publishing the site
