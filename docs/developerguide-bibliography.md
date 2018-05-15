@@ -23,6 +23,8 @@ The source files and scripts for generating the Bibliography chapter are maintai
 
 After updating our citation library in Zotero with new citations, right-click on each "collection" in the OPQ group and select "export".  You'll need to export a separate .bib file for each collection that you've updated.  You will need to overwrite the previous version of the file.
 
+If you add or rename a Zotero collection, you'll need to update the `make_related.sh` script to process the new collection name.
+
 Next, bring up a shell, cd into the docusaurus/bibliography directory, and invoke this shell script:
 
 ```
