@@ -72,8 +72,7 @@ Anthony Christe, Sergey Negrashov, and Philip&nbsp;M. Johnson.
  OpenPowerQuality: An Open Source Framework for Power
   Quality Collection, Analysis, Visualization, and Privacy.
  In <em>Proceedings of the Seventh Conference on Innovative
-  Smart Grid Technologies (ISGT2016)</em>, Minneapolis, MN, USA, September
-  2016.
+  Smart Grid Technologies (ISGT2016)</em>, Minneapolis, MN, USA.
 [&nbsp;<a href="http://csdl.ics.hawaii.edu/techreports/2016/16-02/16-02.pdf">.pdf</a>&nbsp;]
 <blockquote><font size="-1">
 As power grids transition from a centralized distribution model to a distributed model, maintaining grid stability requires real-time power quality (PQ) monitoring and visualization. As part of the Open Power Quality (OPQ) project, we designed and deployed a set of open source power quality monitors and an open source cloud-based aggregation and visualization system built with the utility customer in mind. Our aim is to leverage a flexible privacy model combined with inexpensive and easy to use PQ meters in order to deploy a high density power quality monitoring network across the Hawaiian islands. In this paper we describe OPHub, a privacy focused open source PQ visualization along with results of a small scale deployment of our prototype PQ meter across the island of Oahu. Our results demonstrate that OPQ can provide useful power quality data at an order of magnitude less cost than prior approaches.
