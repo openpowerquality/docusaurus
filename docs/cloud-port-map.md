@@ -14,7 +14,7 @@ Listed in order of increasing port number:
 | OPQ Box Updater| 8151 | Updater communication interface |
 | Makai Acquisition Broker| 8194 | Box pub interface |
 | Makai Acquisition Broker | 8196 | Box pull interface |
-| Mauka | 8911 | Plugin interface |
+| Mauka | 8911 | Health status HTTP interface |
 | Makai Triggering Broker | 9880 | Triggering broker interface |
 | Makai Triggering Broker | 9881 | Triggering broker interface |
 | Mauka | 9882 | Mauka Broker sub interface |
