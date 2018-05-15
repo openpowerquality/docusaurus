@@ -38,7 +38,7 @@ Here are some issues to be aware of:
 
 ## Adding your new documentation to the sidebar
 
-As soon as you start writing your documentation, you'll want to add an entry to the sidebar so that you can easily navigate to it. To do this, edit the website/sidebars.json file. Just add the name of your file to the appropriate array of file name strings in the appropriate place. 
+As soon as you start writing your documentation, you'll want to add an entry to the sidebar so that you can easily navigate to it. To do this, edit the website/sidebars.json file. Just add the name of your file to the appropriate array of file name strings in the appropriate place. You will need to re-run `npm start` for the side bar changes to take effect.
 
 ## Adding images
 
