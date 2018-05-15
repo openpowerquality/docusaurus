@@ -30,14 +30,11 @@ const siteConfig = {
 
   highlight: { theme: 'default' },
 
-  markdownPlugins: [function (md) {
-    md.use(require('remarkable-katex'));
-  }],
+  markdownPlugins: [],
 
-  scripts: ['https://buttons.github.io/buttons.js', 'https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.js'],
+  scripts: ['https://buttons.github.io/buttons.js', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'],
 
-  stylesheets: ['https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.css',
-    'https://fonts.googleapis.com/css?family=Gugi'],
+  stylesheets: ['https://fonts.googleapis.com/css?family=Gugi'],
 
   onPageNav: 'separate',
   blogSidebarCount: 'ALL',

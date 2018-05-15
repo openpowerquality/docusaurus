@@ -50,9 +50,20 @@ If you want to add images, you should first add the image file to the appropriat
 
 ## Adding math
 
-This site has installed the [remarkable-katex](https://github.com/bradhowes/remarkable-katex) plugin, so it should be possible to insert mathematical equations using LaTeX syntax and surrounded by \$'s.  
+This site uses MathJax for mathematical notation. At the current time, you need to insert the following script just below the header section of your markdown file in order to enable inline math notation:
 
-Unfortunately, the rendered equations are quite janky; see the [OPQ Box Design Overview](box-overview.md) chapter for examples. Hopefully we'll figure out a way to fix this in future.
+```
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+``` 
+
+See the [OPQ Box Hardware Design source file](https://raw.githubusercontent.com/openpowerquality/docusaurus/master/docs/box-hardware-design.md) for an example of how to insert this script and how to write both inline and standalone mathematical formula.
 
 ## Publishing the site
 
@@ -80,4 +91,3 @@ npm run publish-gh-pages
 
 If you want to do more advanced changes to the website, you'll need to consult the [docusaurus documentation](https://docusaurus.io/docs/en/installation.html). And be ready to flex your React muscles. 
 
- 

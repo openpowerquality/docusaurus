@@ -3,6 +3,16 @@ title: OPQ Box Hardware Design
 sidebar_label: Hardware Design
 ---
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
 The goal of OPQBox is to monitor voltage and frequency and detect departures from nominal levels.  It accomplishes this by sampling the waveform 256 times per cycle, extracting power quality measures (including frequency, RMS voltage, and THD), and then transmitting data about these measures to the OPQHub service. 
 
 OPQBox transmits a "heartbeat" message to OPQHub approximately once a second to indicate that it is connected and functioning. This message includes low fidelity voltage and frequency data.   
