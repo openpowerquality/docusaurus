@@ -1,119 +1,176 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Deployment: Mauka · Open Power Quality</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Deployment: Mauka · Open Power Quality"/><meta property="og:type" content="website"/><meta property="og:url" content="https://openpowerquality.org/index.html"/><meta property="og:description" content="There are basically three steps to deploying OPQMauka: building the production bundle (a Python application) on a development machine, installing OPQMauka on the production machine, and managing the OPQMauka service."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/opq.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://openpowerquality.org/blog/atom.xml" title="Open Power Quality Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://openpowerquality.org/blog/feed.xml" title="Open Power Quality Blog RSS Feed"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gugi"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/javascript" src="/js/mathjax-config.js"></script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/opqlogo_white.png" alt="Open Power Quality"/><h2 class="headerTitleWithLogo">Open Power Quality</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/intro-motivation.html" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/docs/other-opportunities.html" target="_self">Opportunities</a></li><li class=""><a href="/blog" target="_self">News</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Deployment</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Introduction</h3><ul><li class="navListItem"><a class="navItem" href="/docs/intro-motivation.html">Motivation for OPQ</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-power-quality.html">A beginners guide to power quality</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-opq.html">What is OPQ?</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-related-work.html">Related Work</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-bibliography.html">Bibliography</a></li></ul></div><div class="navGroup navGroupActive"><h3>User Guide</h3><ul><li class="navListItem"><a class="navItem" href="/docs/userguide-hardware.html">OPQ Box</a></li><li class="navListItem"><a class="navItem" href="/docs/userguide-software.html">OPQ Cloud</a></li></ul></div><div class="navGroup navGroupActive"><h3>OPQ Box</h3><ul><li class="navListItem"><a class="navItem" href="/docs/box-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/box-hardware-design.html">Hardware Design</a></li><li class="navListItem"><a class="navItem" href="/docs/box-software-design.html">Software Design</a></li><li class="navListItem"><a class="navItem" href="/docs/box-updater.html">Updater</a></li><li class="navListItem"><a class="navItem" href="/docs/box-manufacturing.html">Manufacturing</a></li></ul></div><div class="navGroup navGroupActive"><h3>OPQ Cloud</h3><ul><li class="navListItem"><a class="navItem" href="/docs/cloud-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-datamodel.html">Data Model</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-view.html">View</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-mauka.html">Mauka</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-makai.html">Makai</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-health.html">Health</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-protocol.html">Protocol</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-port-map.html">Port Map</a></li></ul></div><div class="navGroup navGroupActive"><h3>Deployment</h3><ul><li class="navListItem"><a class="navItem" href="/docs/deploy-initial-configuration.html">Initial Configuration</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/deploy-mauka.html">Mauka</a></li><li class="navListItem"><a class="navItem" href="/docs/deploy-makai.html">Makai</a></li><li class="navListItem"><a class="navItem" href="/docs/deploy-view.html">View</a></li><li class="navListItem"><a class="navItem" href="/docs/deploy-health.html">Health</a></li></ul></div><div class="navGroup navGroupActive"><h3>Developer Guide</h3><ul><li class="navListItem"><a class="navItem" href="/docs/developerguide-docusaurus.html">Documentation</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-virtual-machine.html">VM &amp; Sim</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-bibliography.html">Bibliography</a></li></ul></div><div class="navGroup navGroupActive"><h3>Other</h3><ul><li class="navListItem"><a class="navItem" href="/docs/other-roadmap.html">Roadmap</a></li><li class="navListItem"><a class="navItem" href="/docs/other-opportunities.html">R&amp;D Opportunities</a></li><li class="navListItem"><a class="navItem" href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a></li><li class="navListItem"><a class="navItem" href="/docs/other-g1-pilot-study.html">G1 Pilot Study (2014)</a></li></ul></div></div></section></div><script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Deployment: Mauka · Open Power Quality</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Deployment: Mauka · Open Power Quality"/><meta property="og:type" content="website"/><meta property="og:url" content="https://openpowerquality.org/index.html"/><meta property="og:description" content="There are basically three steps to deploying OPQMauka: building the production bundle (a Python application) on a development machine, installing OPQ Mauka on the production machine, and managing the OPQMauka service."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/opq.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://openpowerquality.org/blog/atom.xml" title="Open Power Quality Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://openpowerquality.org/blog/feed.xml" title="Open Power Quality Blog RSS Feed"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gugi"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/javascript" src="/js/mathjax-config.js"></script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/opqlogo_white.png" alt="Open Power Quality"/><h2 class="headerTitleWithLogo">Open Power Quality</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/intro-motivation.html" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/docs/other-opportunities.html" target="_self">Opportunities</a></li><li class=""><a href="/blog" target="_self">News</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Deployment</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Introduction</h3><ul><li class="navListItem"><a class="navItem" href="/docs/intro-motivation.html">Motivation for OPQ</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-power-quality.html">A beginners guide to power quality</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-opq.html">What is OPQ?</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-related-work.html">Related Work</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-bibliography.html">Bibliography</a></li></ul></div><div class="navGroup navGroupActive"><h3>User Guide</h3><ul><li class="navListItem"><a class="navItem" href="/docs/userguide-hardware.html">OPQ Box</a></li><li class="navListItem"><a class="navItem" href="/docs/userguide-software.html">OPQ Cloud</a></li></ul></div><div class="navGroup navGroupActive"><h3>OPQ Box</h3><ul><li class="navListItem"><a class="navItem" href="/docs/box-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/box-hardware-design.html">Hardware Design</a></li><li class="navListItem"><a class="navItem" href="/docs/box-software-design.html">Software Design</a></li><li class="navListItem"><a class="navItem" href="/docs/box-updater.html">Updater</a></li><li class="navListItem"><a class="navItem" href="/docs/box-manufacturing.html">Manufacturing</a></li></ul></div><div class="navGroup navGroupActive"><h3>OPQ Cloud</h3><ul><li class="navListItem"><a class="navItem" href="/docs/cloud-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-datamodel.html">Data Model</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-view.html">View</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-mauka.html">Mauka</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-makai.html">Makai</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-health.html">Health</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-protocol.html">Protocol</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-port-map.html">Port Map</a></li></ul></div><div class="navGroup navGroupActive"><h3>Deployment</h3><ul><li class="navListItem"><a class="navItem" href="/docs/deploy-initial-configuration.html">Initial Configuration</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/deploy-mauka.html">Mauka</a></li><li class="navListItem"><a class="navItem" href="/docs/deploy-makai.html">Makai</a></li><li class="navListItem"><a class="navItem" href="/docs/deploy-view.html">View</a></li><li class="navListItem"><a class="navItem" href="/docs/deploy-health.html">Health</a></li></ul></div><div class="navGroup navGroupActive"><h3>Developer Guide</h3><ul><li class="navListItem"><a class="navItem" href="/docs/developerguide-docusaurus.html">Documentation</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-virtual-machine.html">VM &amp; Sim</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-bibliography.html">Bibliography</a></li></ul></div><div class="navGroup navGroupActive"><h3>Other</h3><ul><li class="navListItem"><a class="navItem" href="/docs/other-roadmap.html">Roadmap</a></li><li class="navListItem"><a class="navItem" href="/docs/other-opportunities.html">R&amp;D Opportunities</a></li><li class="navListItem"><a class="navItem" href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a></li><li class="navListItem"><a class="navItem" href="/docs/other-g1-pilot-study.html">G1 Pilot Study (2014)</a></li></ul></div></div></section></div><script>
           var toggler = document.getElementById('navToggler');
           var nav = document.getElementById('docsNav');
           toggler.onclick = function() {
             nav.classList.toggle('docsSliderActive');
           };
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Deployment: Mauka</h1></header><article><div><span><p>There are basically three steps to deploying OPQMauka: building the production bundle (a Python application) on a development machine, installing OPQMauka on the production machine, and managing the OPQMauka service.</p>
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Deployment: Mauka</h1></header><article><div><span><p>There are basically three steps to deploying OPQMauka: building the production bundle (a Python application) on a development machine, installing OPQ Mauka on the production machine, and managing the OPQMauka service.</p>
 <h2><a class="anchor" aria-hidden="true" id="build-and-deploy-the-production-bundle"></a><a href="#build-and-deploy-the-production-bundle" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Build and deploy the production bundle</h2>
-<p>In general, you will build the production bundle from the master branch of OPQMauka.</p>
+<p>In general, you will build the production bundle from the master branch of OPQ Mauka.</p>
 <p>First, make sure you have <a href="deploy-initial-configuration.html#set-up-opquser-ssh-access">set up opquser ssh access</a>.</p>
 <p>In your development environment, be sure you are in the master branch, then change directories into the <code>opq/mauka/deploy/</code> directory.</p>
 <p>This directory contains the following items:</p>
 <ul>
-<li>deploy-transfer.sh: Builds OPQMauka bundle and transfers to emilia.</li>
-<li>deploy-run.sh: Installs the OPQMauka service and utilities on emilia.</li>
+<li>deploy-build.sh: Builds OPQ Mauka bundle</li>
+<li>deploy-transfer-emilia.sh: Transfers bundle to emilia</li>
+<li>deploy-transfer-sim.sh: Transfers bundle to OPQ Sim</li>
+<li>deploy-install.sh: Installs the OPQMauka service and utilities on emilia.</li>
 <li>mauka-service.sh: Service file that gets installed as system service.</li>
 <li>mauka-cli.sh: Utility script for starting the mauka command line interface.</li>
 <li>mauka-log.sh: Utility script for viewing mauka log.</li>
 <li>[timestamp].tar.bz2 (local copies of created bundles)</li>
 </ul>
-<p>Now invoke <code>./deploy-transfer.sh</code>:</p>
-<p>This script builds a OPQMauka bundle from the current branch as a compressed tar.bz2 archive. Once the archive is built, the script will copy the bundle to the server via SCP.</p>
+<p>Now invoke <code>./deploy-build.sh</code>:</p>
+<p>This script builds a OPQMauka bundle from the current branch as a compressed tar.bz2 archive.</p>
 <p>The following is an example run performed on one of our development machines.</p>
-<pre><code class="hljs">+ cd ../..
+<pre><code class="hljs">$ ./deploy-build.sh 
++ cd ../..
 ++ date +%Y%m%d_%H%M%S
-+ TIMESTAMP=<span class="hljs-number">20180410</span>_131135
-+ mkdir -p mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135
-+ mkdir -p mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135/mauka
-+ cp -r mauka<span class="hljs-regexp">/constants mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ cp -r mauka<span class="hljs-regexp">/mongo mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ cp -r mauka<span class="hljs-regexp">/plugins mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ cp -r mauka<span class="hljs-regexp">/protobuf mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ cp mauka<span class="hljs-regexp">/config.json mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ cp mauka<span class="hljs-regexp">/OpqMauka.py mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ cp mauka<span class="hljs-regexp">/requirements.txt mauka/</span>deploy<span class="hljs-regexp">/20180410_131135/</span>mauka
-+ mkdir -p mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135/scripts
-+ cp mauka<span class="hljs-regexp">/deploy/</span>mauka-cli.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135/scripts
-+ cp mauka<span class="hljs-regexp">/deploy/</span>mauka-log.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135/scripts
-+ cp mauka<span class="hljs-regexp">/deploy/</span>mauka-service.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135/scripts
-+ cp mauka<span class="hljs-regexp">/deploy/</span>deploy-run.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135
-+ tar cvjf mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135.tar.bz2 -C mauka/deploy <span class="hljs-number">20180410</span>_131135
-<span class="hljs-number">20180410</span>_131135/
-<span class="hljs-number">20180410</span>_131135/deploy-run.sh
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>config.json
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>constants/
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>constants/__init__.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>mongo/
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>mongo/mongo.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>OpqMauka.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/AcquisitionTriggerPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/base.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/broker.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/FrequencyThresholdPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/history.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/IticPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/LocalityPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/manager.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/MeasurementPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/mock.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/PrintPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/StatusPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/ThdPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/ThresholdPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/VoltageThresholdPlugin.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>plugins/__init__.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>protobuf/
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>protobuf/opq.proto
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>protobuf/opq_pb2.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>protobuf/util.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>protobuf/__init__.py
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/mauka/</span>requirements.txt
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/scripts/</span>
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/scripts/</span>mauka-cli.sh
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/scripts/</span>mauka-log.sh
-<span class="hljs-number">20180410</span>_131135<span class="hljs-regexp">/scripts/</span>mauka-service.sh
-+ scp -P <span class="hljs-number">29862</span> mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135.tar.bz2 opquser<span class="hljs-meta">@emilia</span>.ics.hawaii.<span class="hljs-string">edu:</span><span class="hljs-regexp">/home/</span>opquser<span class="hljs-regexp">/mauka/</span>.
-<span class="hljs-number">20180410</span>_131135.tar.bz2                                                                                                     <span class="hljs-number">100</span>%   <span class="hljs-number">22</span>KB  <span class="hljs-number">21.6</span>KB/s   <span class="hljs-number">00</span>:<span class="hljs-number">00</span>
-+ rm -rf mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180410</span>_131135
++ TIMESTAMP=<span class="hljs-number">20180515</span>_121432
++ mkdir -p mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432
++ mkdir -p mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432/mauka
++ cp -r mauka<span class="hljs-regexp">/constants mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ cp -r mauka<span class="hljs-regexp">/mongo mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ cp -r mauka<span class="hljs-regexp">/plugins mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ cp -r mauka<span class="hljs-regexp">/protobuf mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ cp mauka<span class="hljs-regexp">/config.json mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ cp mauka<span class="hljs-regexp">/OpqMauka.py mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ cp mauka<span class="hljs-regexp">/requirements.txt mauka/</span>deploy<span class="hljs-regexp">/20180515_121432/</span>mauka
++ mkdir -p mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432/scripts
++ cp mauka<span class="hljs-regexp">/deploy/</span>mauka-cli.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432/scripts
++ cp mauka<span class="hljs-regexp">/deploy/</span>mauka-log.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432/scripts
++ cp mauka<span class="hljs-regexp">/deploy/</span>mauka-service.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432/scripts
++ cp mauka<span class="hljs-regexp">/deploy/</span>deploy-install.sh mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432
++ tar cvjf mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432.tar.bz2 -C mauka/deploy <span class="hljs-number">20180515</span>_121432
+<span class="hljs-number">20180515</span>_121432/
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/scripts/</span>
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/scripts/</span>mauka-cli.sh
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/scripts/</span>mauka-service.sh
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/scripts/</span>mauka-log.sh
+<span class="hljs-number">20180515</span>_121432/deploy-install.sh
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>requirements.txt
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>config.json
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>OpqMauka.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/VoltageThresholdPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/base.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/PrintPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/__init__.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/manager.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/broker.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/FrequencyThresholdPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/history.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/IticPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/StatusPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/LocalityPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/AcquisitionTriggerPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/ThdPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/mock.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/MeasurementPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>plugins/ThresholdPlugin.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>mongo/
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>mongo/mongo.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>constants/
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>constants/__init__.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>protobuf/
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>protobuf/opq.proto
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>protobuf/util.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>protobuf/__init__.py
+<span class="hljs-number">20180515</span>_121432<span class="hljs-regexp">/mauka/</span>protobuf/opq_pb2.py
++ rm -rf mauka<span class="hljs-regexp">/deploy/</span><span class="hljs-number">20180515</span>_121432
 + set +x
 </code></pre>
 <p>Note that *tar.bz2 files in the deploy directory are gitignored.</p>
+<p>Now we can deploy the production bundle either to the production server (emilia) or to a development environment using OPQ Sim. to deploy to the production environment, invoke the deploy-transfer-emilia.sh script passing the bundle as the first and only argument to the script.</p>
+<p><code>./deploy-transfer-emilia.sh [bundle]</code></p>
+<p>Here is an example of running this step on one of our machines.</p>
+<pre><code class="hljs">./deploy-transfer-emilia<span class="hljs-selector-class">.sh</span> <span class="hljs-number">20180515</span>_121432<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span> 
++ DIST=<span class="hljs-number">20180515</span>_121432<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span>
++ scp -P <span class="hljs-number">29862</span> <span class="hljs-number">20180515</span>_121432<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span> opquser@emilia<span class="hljs-selector-class">.ics</span><span class="hljs-selector-class">.hawaii</span><span class="hljs-selector-class">.edu</span>:/home/opquser/mauka/.
+<span class="hljs-number">20180515</span>_121432<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span>  <span class="hljs-number">100%</span>   <span class="hljs-number">21</span>KB <span class="hljs-number">648.7</span>KB/s   <span class="hljs-number">00</span>:<span class="hljs-number">00</span>    
++ set +x
+</code></pre>
 <h2><a class="anchor" aria-hidden="true" id="server-side-deployment-tasks"></a><a href="#server-side-deployment-tasks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Server-side deployment tasks</h2>
-<p>Now ssh to the server to do the remainder of the deployment:</p>
+<p>Now ssh into the server to do the remainder of the deployment.</p>
+<p>If you are deploying to production (emilia), use the following command:</p>
 <pre><code class="hljs">ssh -<span class="hljs-selector-tag">p</span> <span class="hljs-number">29862</span> opquser@emilia<span class="hljs-selector-class">.ics</span><span class="hljs-selector-class">.hawaii</span><span class="hljs-selector-class">.edu</span>
+</code></pre>
+<p>If you are deploying to the development environment (OPQ Sim), use the following command:</p>
+<pre><code class="hljs">ssh -p <span class="hljs-number">3022</span> <span class="hljs-literal">pi</span><span class="hljs-meta">@localhost</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="unpack-tar-file-with-latest-release"></a><a href="#unpack-tar-file-with-latest-release" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Unpack tar file with latest release</h3>
 <p>Change directories into the mauka/ subdirectory, and list the files:</p>
 <pre><code class="hljs">opquser@emilia:~/mauka$ ls -al
-total 32
-drwxr-xr-x <span class="hljs-number"> 2 </span>opquser opquser <span class="hljs-number"> 4096 </span>Apr<span class="hljs-number"> 10 </span>13:19 .
-drwxr-xr-x<span class="hljs-number"> 12 </span>opquser opquser <span class="hljs-number"> 4096 </span>Apr<span class="hljs-number"> 10 </span>12:13 ..
+total 108
+drwxr-xr-x <span class="hljs-number"> 4 </span>opquser opquser <span class="hljs-number"> 4096 </span>May<span class="hljs-number"> 15 </span>12:19 .
+drwxr-xr-x<span class="hljs-number"> 12 </span>opquser opquser <span class="hljs-number"> 4096 </span>May <span class="hljs-number"> 9 </span>13:56 ..
+drwxr-xr-x <span class="hljs-number"> 4 </span>opquser opquser <span class="hljs-number"> 4096 </span>Apr<span class="hljs-number"> 10 </span>13:11 20180410_131135
 -rwxr-xr-x <span class="hljs-number"> 1 </span>opquser opquser<span class="hljs-number"> 22143 </span>Apr<span class="hljs-number"> 10 </span>13:11 20180410_131135.tar.bz2
+drwxr-xr-x <span class="hljs-number"> 4 </span>opquser opquser <span class="hljs-number"> 4096 </span>May <span class="hljs-number"> 9 </span>13:00 20180509_130012
+-rw-r--r-- <span class="hljs-number"> 1 </span>opquser opquser<span class="hljs-number"> 43095 </span>May <span class="hljs-number"> 9 </span>13:00 20180509_130012.tar.bz2
+-rw-r--r-- <span class="hljs-number"> 1 </span>opquser opquser<span class="hljs-number"> 21705 </span>May<span class="hljs-number"> 15 </span>12:19 20180515_121432.tar.bz2
+
 </code></pre>
 <p>You should see one (or more) timestamped tar.bz2 files (and potentially directories). The most recent timestamped tar.bz2 file is the one you just copied over.  Expand it into a directory as follows:</p>
-<pre><code class="hljs">$ tar xf <span class="hljs-number">20180410</span>_131135<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span>
+<pre><code class="hljs">$ tar xfv <span class="hljs-number">20180515</span>_121432<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span>
+</code></pre>
+<p>The untar process will look something like</p>
+<pre><code class="hljs">opquser@emilia:~/mauka$ tar xfv <span class="hljs-number">20180515</span>_121432<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span> 
+<span class="hljs-number">20180515</span>_121432/
+<span class="hljs-number">20180515</span>_121432/scripts/
+<span class="hljs-number">20180515</span>_121432/scripts/mauka-cli<span class="hljs-selector-class">.sh</span>
+<span class="hljs-number">20180515</span>_121432/scripts/mauka-service<span class="hljs-selector-class">.sh</span>
+<span class="hljs-number">20180515</span>_121432/scripts/mauka-log<span class="hljs-selector-class">.sh</span>
+<span class="hljs-number">20180515</span>_121432/deploy-install<span class="hljs-selector-class">.sh</span>
+<span class="hljs-number">20180515</span>_121432/mauka/
+<span class="hljs-number">20180515</span>_121432/mauka/requirements<span class="hljs-selector-class">.txt</span>
+<span class="hljs-number">20180515</span>_121432/mauka/config<span class="hljs-selector-class">.json</span>
+<span class="hljs-number">20180515</span>_121432/mauka/OpqMauka<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/VoltageThresholdPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/base<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/PrintPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/__init__<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/manager<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/broker<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/FrequencyThresholdPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/history<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/IticPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/StatusPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/LocalityPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/AcquisitionTriggerPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/ThdPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/mock<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/MeasurementPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/plugins/ThresholdPlugin<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/mongo/
+<span class="hljs-number">20180515</span>_121432/mauka/mongo/mongo<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/constants/
+<span class="hljs-number">20180515</span>_121432/mauka/constants/__init__<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/protobuf/
+<span class="hljs-number">20180515</span>_121432/mauka/protobuf/opq<span class="hljs-selector-class">.proto</span>
+<span class="hljs-number">20180515</span>_121432/mauka/protobuf/util<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/protobuf/__init__<span class="hljs-selector-class">.py</span>
+<span class="hljs-number">20180515</span>_121432/mauka/protobuf/opq_pb2<span class="hljs-selector-class">.py</span>
 </code></pre>
 <p>Then cd into that directory, and list the contents:</p>
-<pre><code class="hljs">opquser<span class="hljs-variable">@emilia</span><span class="hljs-symbol">:~/mauka</span><span class="hljs-variable">$ </span>cd <span class="hljs-number">20180410_131135</span>/
-opquser<span class="hljs-variable">@emilia</span><span class="hljs-symbol">:~/mauka/</span><span class="hljs-number">20180410_131135</span><span class="hljs-variable">$ </span>ls -al
-total <span class="hljs-number">20</span>
-drwxr-xr-x <span class="hljs-number">4</span> opquser opquser <span class="hljs-number">4096</span> Apr <span class="hljs-number">10</span> <span class="hljs-number">13</span><span class="hljs-symbol">:</span><span class="hljs-number">11</span> .
-drwxr-xr-x <span class="hljs-number">3</span> opquser opquser <span class="hljs-number">4096</span> Apr <span class="hljs-number">10</span> <span class="hljs-number">13</span><span class="hljs-symbol">:</span><span class="hljs-number">20</span> ..
--rwxr-xr-x <span class="hljs-number">1</span> opquser opquser  <span class="hljs-number">874</span> Apr <span class="hljs-number">10</span> <span class="hljs-number">13</span><span class="hljs-symbol">:</span><span class="hljs-number">11</span> deploy-run.sh
-drwxr-xr-x <span class="hljs-number">6</span> opquser opquser <span class="hljs-number">4096</span> Apr <span class="hljs-number">10</span> <span class="hljs-number">13</span><span class="hljs-symbol">:</span><span class="hljs-number">11</span> mauka
-drwxr-xr-x <span class="hljs-number">2</span> opquser opquser <span class="hljs-number">4096</span> Apr <span class="hljs-number">10</span> <span class="hljs-number">13</span><span class="hljs-symbol">:</span><span class="hljs-number">11</span> scripts
-opquser<span class="hljs-variable">@emilia</span><span class="hljs-symbol">:~/mauka/</span><span class="hljs-number">20180410_131135</span><span class="hljs-variable">$
-</span></code></pre>
+<pre><code class="hljs">opquser@emilia:~/mauka$ cd 20180515_121432/
+opquser@emilia:~/mauka/20180515_121432$ ls -al
+total 20
+drwxr-xr-x<span class="hljs-number"> 4 </span>opquser opquser<span class="hljs-number"> 4096 </span>May<span class="hljs-number"> 15 </span>12:14 .
+drwxr-xr-x<span class="hljs-number"> 5 </span>opquser opquser<span class="hljs-number"> 4096 </span>May<span class="hljs-number"> 15 </span>12:52 ..
+-rwxr-xr-x<span class="hljs-number"> 1 </span>opquser opquser <span class="hljs-number"> 874 </span>May<span class="hljs-number"> 15 </span>12:14 deploy-install.sh
+drwxr-xr-x<span class="hljs-number"> 6 </span>opquser opquser<span class="hljs-number"> 4096 </span>May<span class="hljs-number"> 15 </span>12:14 mauka
+drwxr-xr-x<span class="hljs-number"> 2 </span>opquser opquser<span class="hljs-number"> 4096 </span>May<span class="hljs-number"> 15 </span>12:14 scripts
+</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="kill-the-current-opqmauka-process"></a><a href="#kill-the-current-opqmauka-process" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Kill the current OPQMauka process</h3>
 <p>OPQMauka is installed as a system service which runs under the opq system user account. This is a special account that does not have a login shell which provides hardened security. The other advantage to running as a system service is that the service will automatically boot if the server restarts. Further, the service can be managed by the operating system's <code>service</code> command.</p>
 <p>To kill the current OPQMauka service, invoke</p>
 <p><code>sudo service mauka stop</code></p>
 <h3><a class="anchor" aria-hidden="true" id="install-the-new-version-of-opqmauka"></a><a href="#install-the-new-version-of-opqmauka" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install the new version of OPQMauka</h3>
-<p>To install OPQMauka, simple run the <code>deploy-run.sh</code> script as root.</p>
-<pre><code class="hljs">opquser@emilia:~/mauka/20180410_131135$ sudo ./deploy-<span class="hljs-keyword">run</span>.<span class="hljs-keyword">sh</span>
+<p>To install OPQMauka, simple run the <code>deploy-install.sh</code> script as root.</p>
+<pre><code class="hljs">opquser@emilia:~/mauka/20180515_121432$ sudo ./deploy-install.<span class="hljs-keyword">sh</span> 
 + cp scripts/mauka-service.<span class="hljs-keyword">sh</span> /etc/init.<span class="hljs-keyword">d</span>/mauka
 + <span class="hljs-keyword">update</span>-rc.<span class="hljs-keyword">d</span> mauka defaults
 + cp scripts/mauka-<span class="hljs-keyword">cli</span>.<span class="hljs-keyword">sh</span> /usr/<span class="hljs-keyword">local</span>/bin/mauka-<span class="hljs-keyword">cli</span>
