@@ -30,9 +30,10 @@ const siteConfig = {
 
   highlight: { theme: 'default' },
 
-  markdownPlugins: [],
+  markdownPlugins: [function(md) {
+  }],
 
-  scripts: ['https://buttons.github.io/buttons.js', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'],
+  scripts: ['https://buttons.github.io/buttons.js', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML', '/js/mathjax-config.js'],
 
   stylesheets: ['https://fonts.googleapis.com/css?family=Gugi'],
 

@@ -50,20 +50,9 @@ If you want to add images, you should first add the image file to the appropriat
 
 ## Adding math
 
-This site uses MathJax for mathematical notation. At the current time, you need to insert the following script just below the header section of your markdown file in order to enable inline math notation:
+This site uses MathJax for mathematical notation. 
 
-```
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-``` 
-
-See the [OPQ Box Hardware Design source file](https://github.com/openpowerquality/docusaurus/blob/master/docs/box-hardware-design.md) for an example of how to insert this script and how to write both inline and standalone mathematical formula.
+See the [OPQ Box Hardware Design source file](https://github.com/openpowerquality/docusaurus/blob/master/docs/box-hardware-design.md) for an example of how to write both inline and standalone mathematical formula.
 
 ## Publishing the site
 
