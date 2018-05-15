@@ -16,6 +16,7 @@
 <p>To generate a new version of the <a href="/docs/intro-bibliography.html">Bibliography Chapter</a>, first install <a href="https://www.lri.fr/~filliatr/bibtex2html/doc/manual.html">BibTex2HTML</a>. You will need to add the &quot;bibtex2html&quot; command to your PATH environment variable.</p>
 <p>The source files and scripts for generating the Bibliography chapter are maintained in the docusaurus/bibliography directory.</p>
 <p>After updating our citation library in Zotero with new citations, right-click on each &quot;collection&quot; in the OPQ group and select &quot;export&quot;.  You'll need to export a separate .bib file for each collection that you've updated.  You will need to overwrite the previous version of the file.</p>
+<p>If you add or rename a Zotero collection, you'll need to update the <code>make_related.sh</code> script to process the new collection name.</p>
 <p>Next, bring up a shell, cd into the docusaurus/bibliography directory, and invoke this shell script:</p>
 <pre><code class="hljs">$ <span class="hljs-selector-class">.make_related</span><span class="hljs-selector-class">.sh</span>
 </code></pre>
