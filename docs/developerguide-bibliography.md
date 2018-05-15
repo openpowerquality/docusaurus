@@ -21,9 +21,9 @@ To generate a new version of the [Bibliography Chapter](intro-bibliography.md), 
 
 The source files and scripts for generating the Bibliography chapter are maintained in the docusaurus/bibliography directory. 
 
-After updating our citation library in Zotero with new citations, use the "Export" function in Zotero to write a file called "opq.bib" into the docusaurus/bibliography directory. You will need to overwrite the previous version of the file. 
+After updating our citation library in Zotero with new citations, right-click on each "collection" in the OPQ group and select "export".  You'll need to export a separate .bib file for each collection that you've updated.  You will need to overwrite the previous version of the file.
 
-Next, make sure that the opq-pubs.bib file in that directory is up to date.  Add any new publications by OPQ group members to that file.
+If you add or rename a Zotero collection, you'll need to update the `make_related.sh` script to process the new collection name.
 
 Next, bring up a shell, cd into the docusaurus/bibliography directory, and invoke this shell script:
 
@@ -31,7 +31,7 @@ Next, bring up a shell, cd into the docusaurus/bibliography directory, and invok
 $ .make_related.sh
 ```
 
-This will run Bibtex2Html over the opq.bib and opq-pubs.bib files, and write out a new version of docusaurus/docs/intro-bibliography.md.
+This will run Bibtex2Html over all of the exported .bib files, and write out a new version of docusaurus/docs/intro-bibliography.md.
 
 Finally, run docusaurus locally by cd'ing into the docusaurus/website directory and invoking `npm start`.  Take a look at the generated Bibliography chapter and make sure the formatting and links are correct.  
 
