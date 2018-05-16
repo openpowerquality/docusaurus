@@ -14,44 +14,6 @@ OPQ Mauka is a distributed plugin-based middleware for OPQ that provides higher 
   * Global/local event detection/discrimination
   * Integration with other data sources (_i.e._ PV production) 
 
-## Installation
-
-### Install Python
-
-OPQ Mauka requires version **3.5 or greater** of Python. It's suggested that you use your distribution's package manager to install Python 3.5 or greater if its available. Python 3.5 or greater can also be downloaded [here](https://www.python.org/).
-
-### Install Python dependencies
-
-1. Use pip to automatically install the dependencies for this project by referencing the ```mauka/requirements.txt``` file
-```
-pip install -r requirements.txt
-```
-
-### Run Mauka as service (Debian based systems)
-
-If you would like Mauka to start at boot, you must create a service for it. This documentation assumes that SysVinit is used and the start-stop-daemon binary is available (most modern Debian based distributions).
-
-1. Run the script ```util/mauka/mauka-install.sh``` as root
-2. The service will now start automatically at boot
-3. To start the service type ```sudo service mauka start```
-4. To stop the service type ```sudo service mauka stop```
-5. To restart the service type ```suer service mauka restart```
-
-
-*Note: If you successfully create services for OS X or systemd, please let us know!*
-
-### Run Mauka manually (non-Debian based systems)
-
-1. Run ```mauka/OpqMauka.py```
-```
-# Enter the opq/mauka directory
-cd mauka
-
-# Run Mauka
-python3 OpqMauka.py path_to_config.json
-
-```
-
 ## Design
 
 OPQMauka is written in Python 3 and depends on 2 ZMQ brokers as well as a Mongo database. The architecture of OPQMauka is designed in such a way that all analytics are provided by plugins that communicate using publish/subscribe semantics using ZMQ. This allows for a distributed architecture and horizontal scalability. 
@@ -75,12 +37,6 @@ The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plug
 * Configuration/JSON parsing and loading
 * Python multiprocessing primitives 
 * Status/heartbeat notifications
-
-### Measurement Plugin
-
-The [measurement plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/MeasurementPlugin.py) records raw triggering data and aggregates it into a measurements collection in our Mongo database. 
-
-These measurements are mainly used for analyzing long term trends and for display in OPQView. It's possible to control the sampling of raw triggering messages by setting the ```plugins.MeasurementPlugin.sample_every``` key in the configuration file.
 
 ### Threshold Plugin
 
@@ -155,82 +111,9 @@ This plugin employs a deadzone between event messages to ensure that multiple re
 
 ### Status Plugin
 
-The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/StatusPlugin.py) subscribes to heatbeat messages and logs heartbeats from all other plugins (including itself).
+The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/StatusPlugin.py) subscribes to heatbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status can be ascertained by other services.
 
 ### Print Plugin
 
 The [print plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/PrintPlugin.py) subscribes to all topics and prints every message. This plugin is generally disabled and mainly only useful for debuggin purposes.
 
-## Plugin Development
-
-The following steps are required to create a new OPQMauka plugin:
-
-1. Create a new Python module for the plugin in the plugins package (i.e. MyFancyPlugin.py).
-
-2. import the plugin base
-```
-import plugins.base
-```
-
-3. Create a class that extends the base plugin.
-```
-class MyFancyPlugin(plugins.base.MaukaPlugin):
-      ...
-```
-
-4. Create the following module level function
-```
-def run_plugin(config):
-      plugins.base.run_plugin(MyFancyPlugin, config)
-```
-
-5. Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin.
-```
-def __init__(self, config):
-      super().__init__(config, ["foo", "bar"], "MyFancyPlugin")
-```
-
-6. Overload the ```on_message``` from the base class. This is how you will receive all the messages from topics you subscribe to.
-```
-def on_message(self, topic, message):
-      ...
-```
-
-7. Produce messages by invoking the superclasses produce method.
-```
-self.produce("topic", "message")
-```
-
-8. Import and add your plugin in plugins/```__init__.py```.
-```
-from plugins import MyFancyPlugin
-```
-
-9. Add your plugin to the plugin list in ```OpqMauka.py```.
-
-An example plugin template might look something like:
-
-```
-# plugins/MyFancyPlugin.py
-import plugins.base
-
-def run_plugin(config):
-    plugins.base.run_plugin(MyFancyPlugin, config)
-
-def MyFancyPlugin(plugins.base.MaukaPlugin):
-    def __init__(self, config):
-         super().__init__(config, ["foo", "bar"], "MyFancyPlugin")
-
-    def on_message(self, topic, message):
-          print(topic, message)
-```
-
-## Message Injection
-
-It's nice to think of Mauka as a perfect DAG of plugins, but sometimes its convenient to dynamically publish (topic, message) pairs directly into the Mauka system.
-
-This is useful for testing, but also useful for times when we want to run a plugin of historical data. For instance, let's say a new plugin Foo is developed. In order to apply Foo's metric to data that has already been analyzed, we can inject messages into the system targetting the Foo plugin and triggering it to run over the old data.
-
-This functionality is currently contained in [plugins/mock.py](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/mock.py).
-
-The script can either be used as part of an API or as a standalone script. As long as the URL of Mauka's broker is known, we can use this inject messages into the system. This provides control over the topic, message contents, and the type of the contents (string or bytes). 
