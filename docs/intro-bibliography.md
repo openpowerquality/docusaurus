@@ -754,3 +754,33 @@ for PQ data.
 </font></blockquote>
 <p>
 </p>
+
+<p><a name="guo_design_2015"></a>
+
+J.&nbsp;Guo, Y.&nbsp;Zhang, M.&nbsp;A. Young, M.&nbsp;J. Till, A.&nbsp;Dimitrovski, Y.&nbsp;Liu,
+  P.&nbsp;Williging, and Y.&nbsp;Liu.
+ Design and Implementation of a Real-Time Off-Grid
+  Operation Detection Tool from a Wide-Area Measurements
+  Perspective.
+ <em>IEEE Transactions on Smart Grid</em>, 6(4):2080-2087, July 2015.
+[&nbsp;<a href="http://dx.doi.org/10.1109/TSG.2014.2350913">DOI</a>&nbsp;| 
+<a href="https://ieeexplore.ieee.org/document/6894219/?arnumber=6894219">http</a>&nbsp;]
+<blockquote><font size="-1">
+Real-time situational awareness tools are of critical importance to power system operators, especially during emergencies. The availability of electric power has become a linchpin of most post-disaster response efforts, because public and private sector services depend upon it. Knowledge of the scope and extent of facilities impacted, as well as the duration of their dependence on backup power, enables emergency response officials to plan for contingencies and provide a better overall response. Based on the measurement data acquired by the frequency disturbance recorders deployed in the North American power grids, an off-grid detection method is proposed and implemented. This method monitors the critical electrical loads and detects the transition of these loads from an on-grid operation to an off-grid operation, during which the loads are fed by an uninterrupted power supply or a backup generation system. The details of the detection algorithm are presented, and some case studies and off-grid detection scenarios are also provided to verify the effectiveness and robustness. This paper also presents the real-time implementation of this method and several effectively detected off-grid situations. Moreover, two visualization tools are developed to display the real-time system operation condition in an intuitive manor.
+</font></blockquote>
+<p>
+</p>
+
+<p><a name="liu_distribution_2017"></a>
+
+Y.&nbsp;Liu, S.&nbsp;You, W.&nbsp;Yao, Y.&nbsp;Cui, L.&nbsp;Wu, D.&nbsp;Zhou, J.&nbsp;Zhao, H.&nbsp;Liu, and Y.&nbsp;Liu.
+ A Distribution Level Wide Area Monitoring System for the
+  Electric Power Grid: FNET/GridEye.
+ <em>IEEE Access</em>, 5:2329-2338, February 2017.
+[&nbsp;<a href="http://dx.doi.org/10.1109/ACCESS.2017.2666541">DOI</a>&nbsp;| 
+<a href="https://ieeexplore.ieee.org/document/7849130/">http</a>&nbsp;]
+<blockquote><font size="-1">
+The wide area monitoring system (WAMS) is considered a pivotal component of future electric power grids. As a pilot WAMS that has been operated for more than a decade, the frequency monitoring network FNET/GridEye makes use of hundreds of global positioning system-synchronized phasor measurement sensors to capture the increasingly complicated grid behaviors across the interconnected power systems. In this paper, the FNET/GridEye system is overviewed and its operation experiences in electric power grid wide area monitoring are presented. Particularly, the implementation of a number of data analytics applications will be discussed in details. FNET/GridEye lays a firm foundation for the later WAMS operation in the electric power industry.
+</font></blockquote>
+<p>
+</p>

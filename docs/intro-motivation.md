@@ -9,7 +9,7 @@ Power quality is not currently a concern for most people in the United States.  
 
 Successfully maintaining adequate power quality and providing sufficient amounts of it to meet the rising needs of consumers has been a triumph of electrical utilities for over 100 years.  In recent times, however, there have been changes to the nature of electrical generation and consumption that make power quality of increasing public concern and interest.  
 
-The vision of the Open Power Quality project is to design and implement technology that supports three important improvements to electrical infrastructure: 
+The vision of the Open Power Quality project is to design and implement new technology that supports three important improvements to electrical infrastructure: 
 
   1. Increase the capacity of small and large electrical grids to employ distributed, intermittent forms of renewable energy.
   2. Gain insight into lifespan and failure rate problems in consumer electronics due to poor power quality.
@@ -37,13 +37,17 @@ Electrical utilities are not required to be totally transparent about the qualit
 
 OPQ intends is to provide an unbiased, independent, third party source of accurate power quality data. This can be used by consumers to better understand the performance of their public utilities, by researchers to devise improvements to grid control, and by public policy makers responsible for designing and implementing regulatory frameworks for electrical utilities.
 
-## OPQ Research Process
+## What's new about OPQ?
 
-Successfully designing and implementing technology to achieve this vision requires innovative research in power quality hardware design, analytics design, and visualization design. To support the research process, OPQ technology is designed for experimentation and innovation in two major ways:
+Successfully achieving this vision requires innovative research in power quality hardware design, analytics design, and visualization design. To support the research process, the OPQ project has a unique combination of features.
 
-* All software subsystems are designed for extensibility.  Our middleware components (Mauka and Makai) have a plugin architecture. Our visualization component (View) consists of modular UI elements using React. We also provide API endpoints for interoperation with other software systems.
+First, our power quality monitoring hardware device, called "OPQ Box" can be produced for approximately \$700. This is 10 to 100 times less expensive than commercial alternatives. We achieve these cost savings by customizing the capabilities of OPQ Boxes to our specific goals. 
 
-* Our software and hardware are made publicly available using open source licenses. This will facilitate replication, extension, and development of a community of researchers.     
+Second, our architecture is "cloud native", which means that OPQ Boxes cannot be used in a "stand alone", autonomous fashion. Instead, our hardware boxes and cloud-based services perform real-time, two-way communication over the Internet to determine what power quality data must be gathered and analyzed. We do not know of any other power quality monitoring system designed in this way.  
+
+Third, all OPQ software subsystems are designed for extensibility and interoperation.  Our middleware components (Mauka and Makai) provide a plugin architecture.  Our visualization component (View) consists of modular UI elements using React. We also provide API endpoints for interoperation with other software systems.
+
+Third, our software and hardware are made publicly available using open source licenses. This will facilitate replication, extension, and development of a community of researchers.     
 
 ## Immediate goals for OPQ
 
