@@ -56,6 +56,8 @@ The **frequency** field is an *object* with **min**, **max**, and **average** su
 
 The **thd** field is an *object* with **min**, **max**, and **average** sub-fields, which holds the minimum, maximum, and average thd values encountered over a one minute data collection window.
 
+The **location** field is the location of the opqbox.
+
 ## Events and Box Events
 
 When a service (such as Mauka or Makai) notices an anomaly in the measurement data stream it creates an Event document, specifying a set of boxes from which it would like high fidelity data, as well as a time interval for which it would like high fidelity data from each box (if the box has this data avaiable to give).
