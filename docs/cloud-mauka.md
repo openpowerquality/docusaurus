@@ -20,13 +20,24 @@ OPQ Mauka is a distributed plugin-based middleware for OPQ that provides higher 
 
 OPQMauka is written in Python 3 and depends on 2 ZMQ brokers as well as a Mongo database. The architecture of OPQMauka is designed in such a way that all analytics are provided by plugins that communicate using publish/subscribe semantics using ZMQ. This allows for a distributed architecture and horizontal scalability. 
 
-The OPQMauka processing pipeline is implemented as a directed acyclic graph (DAG). Communication between vertexes in the graph is provided via ZeroMQ. Each node in the graph is implemented by an OPQMauka Plugin. Additional analysis plugins can be added to OPQMauka at runtime, without service interruption.
+### Mauka Services
 
-Each OPQMauka Plugin provides a set of topics that it subscribes to and a set of topics that it produces. These topics form the edges between vertexes in our graph. Because each plugin is independent and only relies on retrieving and transmitting data over ZeroMQ, plugins can be implemented in any programming language and executed on any machine in a network. This design allows us to easily scale plugins across multiple machines in order to increase throughput.
+Mauka utilizes several services that are started as separate processes in order to function. A diagram of these services and utilized ports is provided below. Followed by their descriptions.
 
-The following image illustrates the relationship between Mauka and its plugins:
+<img src="/docs/assets/mauka/mauka-services.png">
 
-<img src="/docs/assets/mauka/opqmauka.png" width="400px">
+| Service | Description |
+|---------|-------------|
+| Makai Measurement Bridge | Provides low fidelity measurements to the `Measurement` topic. Data is bridged over a ZMQ proxy. |
+| Makai Event Bridge | Provides event id numbers to the `RequestDataEvent` topic. Data is bridged over a ZMQ proxy.  |
+| Mauka Pub/Sub Broker | Provides a Publish/Subscribe ZMQ broker to all Mauka plugins. This is how plugins within Mauka communicate. |
+| Mauka Plugin Manager | This is a process that manages plugin processes. It also allows developers to interact with plugins at runtime. Plugins can be hot loaded at run time as well. |
+
+### Mauka Plugins
+
+The OPQMauka processing pipeline is implemented as a directed acyclic graph (DAG). Communication between vertexes in the graph is provided via ZeroMQ. Each node in the graph is implemented by an OPQMauka Plugin. Each plugin runs as a seperate process allowing scalability to distributed systems. Additional analysis plugins can be added to OPQMauka at runtime, without service interruption.
+
+Each OPQMauka Plugin provides a set of topics that it subscribes to and a set of topics that it produces. These topics form the edges between vertexes in our graph. Because each plugin is independent and only relies on retrieving and transmitting data over ZeroMQ, plugins can be implemented in any programming language and executed on any machine in a network. This design allows us to easily scale plugins across multiple machines in order to increase throughput.3.
 
 ### Base Plugin
 
@@ -128,7 +139,24 @@ The [print plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plu
 
 The top level of the `opq/mauka` directory contains the following files:
 
+| Files | Description |
+|-------|-------------|
+| OpqMauka.py | Entry point into OPQ Mauka. Provides high level management of plugins. Starts and manages Mauka services. |
+| config.json | Default key-value based configuration values for Mauka |
+| requirements.txt | List of Python dependencies required by Mauka. |
+| mongo.py | Python module providing high level access to the OPQ Mongo database. |
+| constants.py | Python module providing constant values. |
+
 The top level of the `opq/mauka` directory contains the following directories:
+
+| Directory | Description |
+|-------|-------------|
+| deploy | Contains scripts for building and deploying Mauka to emilia or OPQ Sim. |
+| plugins | Contains all Mauka plugin modules |
+| protobuf | Contains the Python protobuf wrapper for OPQ as well as some utilities. This is mainly needed for working with Makai. |
+| services | Contains modules that build the Mauka services layer. |
+| tests | Mauka tests directory. |
+
 
 ### Running in development
 
@@ -162,10 +190,11 @@ def run_plugin(config):
       plugins.base.run_plugin(MyFancyPlugin, config)
 ```
 
-5. Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin.
+5. Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin. Finally, a multiprocess exit event object is passed to the base class with allows the plugin manager to safely terminate plugins.
 ```
-def __init__(self, config):
-      super().__init__(config, ["foo", "bar"], "MyFancyPlugin")
+def __init__(self, config, exit_event):
+      NAME = "MyFancyPlugin"
+      super().__init__(config, ["foo", "bar"], NAME, exit_event)
 ```
 
 6. Overload the ```on_message``` from the base class. This is how you will receive all the messages from topics you subscribe to.
@@ -196,8 +225,9 @@ def run_plugin(config):
     plugins.base.run_plugin(MyFancyPlugin, config)
 
 def MyFancyPlugin(plugins.base.MaukaPlugin):
-    def __init__(self, config):
-         super().__init__(config, ["foo", "bar"], "MyFancyPlugin")
+    def __init__(self, config, exit_event):
+         NAME = "MyFancyPlugin"
+         super().__init__(config, ["foo", "bar"], NAME, exit_event)
 
     def on_message(self, topic, message):
           print(topic, message)
