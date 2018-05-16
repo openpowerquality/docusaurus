@@ -5,7 +5,7 @@ sidebar_label: Related Work
 
 The chapter explains how OPQ fits into current industry solutions and research on power quality monitoring. For the purposes of this review, we exclude utility-side power quality monitoring and analysis systems.
 
-We'll first look at industry power quality monitoring devices and then discuss how they compare to OPQ Box. Then we'll look at industry power quality database software, and how that compares to OPQ Cloud.
+We'll first look at industry power quality monitoring devices and then discuss how they compare to OPQ Box. Then we'll look at industry power quality database software, and how that compares to OPQ Cloud. Finally, we'll look at recent research systems and how they compare to OPQ as a whole.
 
 ## Commercial PQ devices
 
