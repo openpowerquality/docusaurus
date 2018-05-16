@@ -83,9 +83,11 @@ Note that this standard is simply a recommendation, and there is no requirement 
 
 A similar standard is [SEMI F47-0706](http://dom.semi.org/web/wstandards.nsf/19A2E6E9C088D3958825733100743B15/$file/4OverviewofSEMIF47-0706.pdf), which  sets minimum voltage sag immunity requirements for equipment used in the semiconductor industry.
 
-## The role of OPQ
+## PQ and OPQ
 
-To complete this introduction, let's review OPQ's role.  The OPQ project focuses on two issues related to power quality problems: 
+There are many reasons why power quality might be monitored for problems. For example, electrical utilities monitor power quality in order to ensure the correct functioning of the grid. A manufacturing plant may monitor power quality in order to ensure that its equipment will not receive harmful power, and even to ensure that its equipment is not introducing harmful power problems into the grid.   The kinds of power quality monitors used, and the data that is collected, depend upon the goals of the user.
+
+In the case of OPQ, we are gathering power quality data to support goals such as the following:
 
 *(1) Consumer awareness of the potential impact of their power supply on their electronics.* For example, computers are subject to data errors, crashing, or even destruction as a result of voltage deviations such as transients.  This damage can be immediate, or the cumulative impact of multiple transients over time. OPQ increases consumer awareness about whether poor power quality could be a cause of any electronic problems they are experiencing.
 
