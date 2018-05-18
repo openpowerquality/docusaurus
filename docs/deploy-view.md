@@ -108,20 +108,22 @@ drwxr-xr-x 4 opquser opquser 4096 Apr  8 08:55 bundle
 -rw-r--r-- 1 opquser opquser 2279 Apr  8 08:54 settings.development.json
 ```
 
-### Kill the current OPQView process
+### Kill the current OPQView processes
 
-Find the PID of the current running OPQView process this way:
+Find the PID of the two currently running OPQView processes this way:
 
 ```
 $ ps -ef | grep node
-opquser  10645     1  1 08:56 pts/3    00:00:08 node bundle/main
-opquser  12875 18406  0 09:07 pts/3    00:00:00 grep node
+opquser   2048     1  0 16:21 ?        00:00:00 /home/opquser/.meteor/packages/meteor-tool/.1.6.1_1.c76v6p.io9tw++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node --expose-gc /home/opquser/.meteor/packages/meteor-tool/.1.6.1_1.c76v6p.io9tw++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/tools/index.js node bundle/main
+opquser   2069  2048  0 16:21 ?        00:00:10 /home/opquser/.meteor/packages/meteor-tool/.1.6.1_1.c76v6p.io9tw++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node bundle/main
+opquser   4791  4609  0 16:40 pts/3    00:00:00 grep node
 ```
 
-In this case, the PID is 10645. Kill that process with the following command:
+In this case, the PIDs are 2048 and 2069. Kill those processes with the following commands:
 
 ```
-$ kill -9 10645
+$ kill -9 2048
+$ kill -9 2069
 ```
 
 ### Verify that the server is running the correct version of node
