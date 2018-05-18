@@ -10,8 +10,7 @@
     "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
-    "docusaurus": "^1.0.15",
-    "remarkable-katex": "^1.0.1"
+    "docusaurus": "^1.0.15"
   },
   "dependencies": {
     "npm": "^6.0.1"
