@@ -1,6 +1,6 @@
 ---
-title: A beginners guide to power quality
-sidebar_label: A beginners guide to power quality
+title: A beginner's guide to power quality
+sidebar_label: A beginner's guide to power quality
 ---
 
 Power quality is a very complex subject, but to understand the overall goals of the Open Power Quality project, a simplified understanding should suffice.
