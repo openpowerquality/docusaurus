@@ -13,7 +13,7 @@ If you are aware of relevant literature not included here, we would appreciate i
 
 ## OPQ Publications
 
-*This section contains citations to publications produced by member of the OPQ project.*
+*This section contains citations to publications produced by members of the OPQ project.*
 
 
 <!-- This document was automatically generated with bibtex2html 1.96
