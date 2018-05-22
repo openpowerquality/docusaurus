@@ -9,27 +9,13 @@ The goal of the OPQHealth service is provide a diagnostic facility for determini
 
   2. A log file. OPQ Health also publishes its findings into a text file. This enables system administrators to diagnose the health of the system even when MongoDB and/or OPQView are down.
 
-## Health Data Model
-
-OPQHealth creates "entries" representing its findings on the current health of the system that it publishes in two ways: (1) as a single line to its log file, and (2) as a document that it inserts into the MongoDB database. The structure of these entries is summarized in this diagram:
-
-<img src="/docs/assets/health/health.png" width="300px">
-
-*timestamp*:  Each entry has a timestamp, which is a UTC string indicating the time at which the entry was generated.
-
-*service*:  Indicates the OPQ Service whose status is being described in this entry.  Service should be one of the following: "box", "mauka", "makai", "view", "mongodb" and "health".  Yes, OPQHealth reports on its own health!
-
-*serviceID*:  For some services, such as "box", additional identifying information is required.  The serviceID field provides that information. In the case of OPQBoxes, the serviceID field provides the boxID.
-
-*status*:  Status is either "up" or "down".
-
-*info*: Info is a field that can be used by OPQHealth to provide additional information about an entry.
-
 ## Basic operation
 
 When OPQHealth starts up, it reads its configuration file to determine what services it should monitor and how frequently it should monitor them.  
 
-Thereafter, it checks each service at the interval specified in its configuration file, and writes out a line to the logfile and a document to the Health database indicating the status.  
+Thereafter, it checks each service at the interval specified in its configuration file, and writes out a line to the logfile and a document to the Health database indicating the status. 
+
+For more details on the logged data, see the [Health Data Model](cloud-datamodel.md#health). 
 
 
 ## Installation

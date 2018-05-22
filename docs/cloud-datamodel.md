@@ -218,15 +218,18 @@ The **first_name** and **last_name** fields are the user's first and last name.
 
 The **role** field indicates the role of the user in the OPQ system. Currently, there are only two roles: "user" and "admin".
 
-## Zip Codes
+## Health
 
-The **zipcodes** collection contains a mapping from zip codes to latitude and longitude of the central point of the zip code.
+The OPQHealth service creates documents representing its findings on the current health of the system with the following structure:
 
-|**zipcodes**|             |
-|------------|-------------|
-| zipcode (indexed)    | String      |
-| latitude   | Float       |
-| longitude  | Float       |
+<img src="/docs/assets/health/health.png" width="300px">
 
+**timestamp**:  Each entry has a timestamp, which is a UTC string indicating the time at which the entry was generated.
 
+**service**:  Indicates the OPQ Service whose status is being described in this entry.  Service should be one of the following: "box", "mauka", "makai", "view", "mongodb" and "health".  Yes, OPQHealth reports on its own health!
 
+**serviceID**:  For some services, such as "box", additional identifying information is required.  The serviceID field provides that information. In the case of OPQBoxes, the serviceID field provides the boxID.
+
+**status**:  Status is either "up" or "down".
+
+**info**: Info is a field that can be used by OPQHealth to provide additional information about an entry.
