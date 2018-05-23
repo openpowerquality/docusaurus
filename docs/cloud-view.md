@@ -23,9 +23,9 @@ Next, cd into the opq/view/app/ directory and install libraries with:
 $ meteor npm install
 ```
 
-### Configure Settings
+### Configure settings (optional)
 
-The 'start' script loads the settings file located in view/config/settings.development.json.  This file enables you to specify information about the authorized users of the system and the OPQ Boxes.  Currently, editing this file is the only way to manage user and OPQ Box meta-data.  The information about users and OPQ boxes is "upserted" each time the system is started. What this means is that you can edit the contents of the settings.development.json, then restart Meteor, and your changes to users and OPQ Boxes will take effect.  (You do not have to reset the Mongo database.)
+The 'start' script loads the settings file located in view/config/settings.development.json.  This file enables you to specify information about the authorized users of the system and the OPQ Boxes.  Currently, editing this file is the only way to manage user and OPQ Box meta-data.  If the "initializeEntities" field is true, then the information about users and OPQ boxes is "upserted" each time the system is started. What this means is that you can edit the contents of the settings.development.json, set initializeEntities to true, then restart Meteor, and your changes to users and OPQ Boxes will take effect.  (You do not have to reset the Mongo database.)
 
 Here is a simplified example of a settings.development.json file that illustrates its capabilities:
 
@@ -35,6 +35,7 @@ Here is a simplified example of a settings.development.json file that illustrate
   "enableStartupIntegrityCheck": false,
   "integrityCheckCollections": ["fs.files", "fs.chunks"],
   "systemStatsUpdateIntervalSeconds": 10,
+  "initializeEntities": false,
   "opqBoxes" : [
     { "box_id": "5", 
       "name": "Philip's Box", 
@@ -69,6 +70,7 @@ Here are the currently available properties:
 | syncedCronLogging | System Stats are generated through a cron job.  This property should be true or false in order to indicate if logging information should be sent to the console. |
 | enableStartupIntegrityCheck | This boolean indicates whether or not to check that the documents in the Mongo database conform to our data model. |
 | integrityCheckCollections | This array specifies the Mongo collections to check if enableStartupIntegrityCheck is true. |
+| initializeEntities | If true, then the OPQ Box and User Profiles defined in this file will be loaded into the MongoDB database on startup. Prior entity definitions will be overwritten. Default: false. |
 | opqBoxes | An array of objects, each object providing metadata about an OPQBox according to our data model.  Note that for convenience, the `start_time_ms` field in the locations subarray can be either a UTC millisecond value, or a string that can be parsed by Moment and converted to UTC milliseconds. The example above shows both possible ways of specifying the `start_time_ms`. |
 | userProfiles | An array of objects, each object providing metadata about an authorized user of OPQView.  The role field can be either "admin" or "user". |
 
@@ -179,21 +181,45 @@ You should be able to see the OPQView landing page at http://localhost:3000.  It
 
 <img src="/docs/assets/view/opqview-landing-page.png" >
 
-## Testing
+## Development Environment
 
-OPQ View is a client-server system, and so testing must take that architectural reality into account.  Meteor provides support for both "unit" tests, which are tests that are executed only inside the server environment, and "integration" tests, which are tests that are invoked inside the client environment (but which must also interact with the running server).  The [Meteor Guide Chapter on Testing](https://guide.meteor.com/testing.html) is the authoritative reference on Meteor testing. 
+### Meteor
 
-We use the [Mocha](https://mochajs.org/) test runner and  [Chai Expect Assertions](http://chaijs.com/guide/styles/#expect).
+From past experience, developers who are new to Meteor and who are using Windows can find Meteor startup and recompilation times to be excessive.  Mac and Unix developers do not generally experience these issues.  Here are [a collection of Windows-specific Meteor tips](http://courses.ics.hawaii.edu/ics314s18/morea/meteor-1/reading-meteor-tips.html#windows-specific-meteor-tips) that might prove useful.
 
-Each collection class contains its tests in a "sibling" file. For example, the unit tests for UserProfilesCollection.js are located in UserProfilesCollection.test.js, and its integration tests are located in UserProfilesCollection.methods.app-test.js. 
+### IntelliJ IDEA
 
-The test file names are important: Meteor wants unit tests to be in files with the suffix `test.js`, and integration tests to be in files with the suffix `app-test.js`. 
+For OPQ View development, we highly recommend [IntelliJ IDEA](https://www.jetbrains.com/idea/) with plugins for Javascript, Meteor, and ESLint. If you are new to IntelliJ IDEA, we recommend that you review the [ICS 314 Development Environments module](http://courses.ics.hawaii.edu/ics314s18/modules/development-environments/) and more specifically the [Install IntelliJ IDEA experience](http://courses.ics.hawaii.edu/ics314s18/morea/development-environments/experience-install-intellij-idea.html) for detailed instructions on how to install and configure IntelliJ IDEA for effective Javascript development. For example, the ICS SE Code Style preferences help IntelliJ to automatically format code to comply with ESLint.
 
-Many tests require the database to be initialized with test values.  OPQ provides "database fixture" files for this purpose. They are discussed further below.
+### ESLint
 
-### ESLint 
+[ESLint](https://eslint.org/) is a static quality assurance tool that helps ensure that Javascript code conforms to best practices. For example, it can flag uses of `==`,  which should almost always be replaced by `===`.  For novice Javascript developers, ESLint can detect many significant problems in code due to inappropriate language use, and for more experienced Javascript developers, ESLint can help identify places where code can be improved by use of ES6 (and later) language constructs. 
 
-The most minimal form of "testing" (i.e. quality assurance) in OPQ View is [ESLint](https://eslint.org/).  We have set up an ESLint configuration for OPQ View to which all code must comply.  (Or, if it doesn't comply, you must explicitly disable the ESLint rule for the non-compliant code.)  To manually run ESLint over your code base from the command line, you can invoke:
+To install ESLint in your development environment, please follow the instructions in the [Improve code quality using ESLint in IntelliJ](http://courses.ics.hawaii.edu/ics314s18/morea/coding-standards/experience-install-eslint.html).
+
+### React
+
+[React](https://reactjs.org/) is the Javascript framework used to build the OPQ View user interface. More specifically, we use a library built on top of React called [Semantic UI React](https://react.semantic-ui.com/).
+
+If you are not familiar with React or Semantic UI, you might want to work through the [ICS 314 React Module](http://courses.ics.hawaii.edu/ics314s18/modules/react/), which has a curated set of tutorial exercises.  
+
+Once you have basic familiarity with React, you can hopefully become facile with Semantic UI React by reading the OPQ View code. It's pretty straightforward, and the Semantic UI React documentation is excellent.
+
+### Uniforms 
+
+For form implementation, we use the [vazco/uniforms](https://github.com/vazco/uniforms) package, which simplifies form implementation, is well maintained, and works well with both Meteor and Semantic UI.
+
+### React Time Series Charts
+
+For charts and visualizations, our first choice is the [ESNet React Time Series Charts](http://software.es.net/react-timeseries-charts/#/).  This charting library is designed with a variety of special features for time series data visualization.  Please try this package first, and consult other developers if you believe a different package will better suit your visualization needs. 
+
+## Quality Assurance
+
+### Coding standards
+
+As noted above, we use ESLint to help ensure that OPQ View code adheres to the current best practices for Javascript and Meteor development. 
+
+To manually invoke ESLint, invoke `meteor npm run lint`. Here is an example invocation:
 
 ```
 app$ meteor npm run lint
@@ -201,23 +227,41 @@ app$ meteor npm run lint
 > opqview@ lint /Users/philipjohnson/github/openpowerquality/opq/view/app
 > eslint --quiet --ext .jsx --ext .js ./imports
 ```
+Any violations will be reported and the command will exit with a non-zero exit code.
 
-Being able to run ESLint from the commmand line is important in order to support continuous integration, but the best way for developers to maintain compliance with ESLint is to install it into your development environment. We use [IntelliJ IDEA](https://www.jetbrains.com/idea/) with plugins for Javascript, Meteor, and ESLint. 
+Being able to run ESLint from the commmand line is important in order to support continuous integration, but the most efficient way for developers to maintain compliance with ESLint is to install it into your IDE. Please follow the instructions above to install ESLint into IntelliJ IDEA.
 
-### Unit testing
+### Data model testing
 
-To invoke all of the unit tests defined in files with the suffix `test.js`, use `meteor npm run test`. Here is an example invocation of this command
+In OPQ View, [Meteor unit testing](https://guide.meteor.com/testing.html) is implemented as server-side testing of the data model contained in the `view/app/imports/api` directory. A recent version of this directory looks in part like this:
+
+```
+api/
+  base/
+  box-events
+  events/
+  fs-chunks/
+  fs-files/
+  health/
+  locations/
+  measurements/
+  opq/
+  opq-boxes/
+  regions/
+  system-stats/
+  test/
+  trends/
+  users/
+``` 
+
+Most of these directories contain files that implement an entity in the [OPQ Data Model](cloud-datamodel.md), such as "Event" or "Measurement". Each entity is implemented as a Javascript Class that encapsulates access to the underlying MongoDB collection, and also provides higher level methods (such as `define`, `update`, and `remove`) that ensure that the integrity of the data model is maintained as objects are created, modified, and deleted.
+
+To test that these entity implementations work correctly, data model classes have a corresponding test file with suffix `test.js`.   We use the [Mocha](https://mochajs.org/) test runner and  [Chai Expect Assertions](http://chaijs.com/guide/styles/#expect) libraries to implement the tests. 
+
+To manually invoke all of the unit tests, use `meteor npm run test`. Here is an example invocation:
 
 ```
 ~/g/o/o/v/app (master|✔) $ meteor npm run test
-
-> opqview@ pretest /Users/philipjohnson/github/openpowerquality/opq/view/app
-> npm run lint
-
-
-> opqview@ lint /Users/philipjohnson/github/openpowerquality/opq/view/app
-> eslint --quiet --ext .jsx --ext .js ./imports
-
 
 > opqview@ test /Users/philipjohnson/github/openpowerquality/opq/view/app
 > METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha --no-release-check --port 3100
@@ -270,11 +314,15 @@ I20180522-16:07:43.094(-10)? --------------------------------
 
 There should be no server or client failures listed. There will also be no client tests at all. In OPQ View, all unit tests occur on the server side.
 
-### Integration testing
+### Meteor Method testing
 
-Integration tests check that client-level code can interact with the server side appropriately.  To invoke the integration tests, run `meteor npm run test-app`:
+When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via [Meteor Methods](https://guide.meteor.com/methods.html), which are basically a remote procedure call system.
 
-```bash
+We can validate the correct functioning of OPQ View Meteor Methods using Meteor's "full app" testing mode.  This mode runs all of the tests in files named with the suffix `app-test.js`. 
+
+To manually invoke Meteor Method testing, invoke `meteor npm run test-app`. Here is an example invocation:
+
+```default
 ~/g/o/o/v/app (master|✔) $ meteor npm run test-app
 
 > opqview@ test-app /Users/philipjohnson/github/openpowerquality/opq/view/app
@@ -332,7 +380,7 @@ As you can see, in contrast to unit tests, in which only server-side tests are r
 
 ### Continuous Integration
 
-Finally, we have set up continuous integration for OPQ View with [Semaphore CI](https://semaphoreci.com/). The CI process is set up so that each time there is a commit to the master branch of the OPQ repository, the sources are checked out to Semaphore, and the unit tests and integration tests are run.  The results are reported to the #github channel in the OPQ Slack workspace.
+Finally, we have set up continuous integration for OPQ View with [Semaphore CI](https://semaphoreci.com/). The CI process is set up so that each time there is a commit to the master branch of the OPQ repository, the sources are checked out to Semaphore, and ESLint, data model unit tests, and full app Meteor method integration tests are run.  The results are reported to the #github channel in the OPQ Slack workspace.
 
 Consult the [Semaphore CI OPQ workspace](https://semaphoreci.com/openpowerquality/opq/) for more details.
 
