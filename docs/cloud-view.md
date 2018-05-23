@@ -179,6 +179,168 @@ You should be able to see the OPQView landing page at http://localhost:3000.  It
 
 <img src="/docs/assets/view/opqview-landing-page.png" >
 
+## Testing
+
+OPQ View is a client-server system, and so testing must take that architectural reality into account.  Meteor provides support for both "unit" tests, which are tests that are executed only inside the server environment, and "integration" tests, which are tests that are invoked inside the client environment (but which must also interact with the running server).  The [Meteor Guide Chapter on Testing](https://guide.meteor.com/testing.html) is the authoritative reference on Meteor testing. 
+
+We use the [Mocha](https://mochajs.org/) test runner and  [Chai Expect Assertions](http://chaijs.com/guide/styles/#expect).
+
+Each collection class contains its tests in a "sibling" file. For example, the unit tests for UserProfilesCollection.js are located in UserProfilesCollection.test.js, and its integration tests are located in UserProfilesCollection.methods.app-test.js. 
+
+The test file names are important: Meteor wants unit tests to be in files with the suffix `test.js`, and integration tests to be in files with the suffix `app-test.js`. 
+
+Many tests require the database to be initialized with test values.  OPQ provides "database fixture" files for this purpose. They are discussed further below.
+
+### ESLint 
+
+The most minimal form of "testing" (i.e. quality assurance) in OPQ View is [ESLint](https://eslint.org/).  We have set up an ESLint configuration for OPQ View to which all code must comply.  (Or, if it doesn't comply, you must explicitly disable the ESLint rule for the non-compliant code.)  To manually run ESLint over your code base from the command line, you can invoke:
+
+```
+app$ meteor npm run lint
+     
+> opqview@ lint /Users/philipjohnson/github/openpowerquality/opq/view/app
+> eslint --quiet --ext .jsx --ext .js ./imports
+```
+
+Being able to run ESLint from the commmand line is important in order to support continuous integration, but the best way for developers to maintain compliance with ESLint is to install it into your development environment. We use [IntelliJ IDEA](https://www.jetbrains.com/idea/) with plugins for Javascript, Meteor, and ESLint. 
+
+### Unit testing
+
+To invoke all of the unit tests defined in files with the suffix `test.js`, use `meteor npm run test`. Here is an example invocation of this command
+
+```
+~/g/o/o/v/app (master|✔) $ meteor npm run test
+
+> opqview@ pretest /Users/philipjohnson/github/openpowerquality/opq/view/app
+> npm run lint
+
+
+> opqview@ lint /Users/philipjohnson/github/openpowerquality/opq/view/app
+> eslint --quiet --ext .jsx --ext .js ./imports
+
+
+> opqview@ test /Users/philipjohnson/github/openpowerquality/opq/view/app
+> METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha --no-release-check --port 3100
+
+[[[[[ Tests ]]]]]                             
+
+=> Started proxy.                             
+=> Started MongoDB.                           
+I20180522-16:07:41.049(-10)?                  
+I20180522-16:07:41.087(-10)? --------------------------------
+I20180522-16:07:41.088(-10)? ----- RUNNING SERVER TESTS -----
+I20180522-16:07:41.088(-10)? --------------------------------
+I20180522-16:07:41.088(-10)? 
+I20180522-16:07:41.088(-10)? 
+I20180522-16:07:41.089(-10)? 
+I20180522-16:07:41.089(-10)?   LocationsCollection
+=> Started your app.
+
+=> App running at: http://localhost:3100/
+    ✓ #define, #findLocation (212ms)
+I20180522-16:07:41.275(-10)? 
+I20180522-16:07:41.275(-10)?   RegionsCollection
+    ✓ #define, #findLocationsForRegion, #findRegionsForLocation (66ms)
+I20180522-16:07:41.382(-10)? 
+I20180522-16:07:41.382(-10)?   BoxOwnersCollection
+    ✓ #define, #findBoxesWithOwner, #findOwnersWithBox (58ms)
+I20180522-16:07:41.408(-10)? 
+I20180522-16:07:41.408(-10)?   UserProfilesCollection
+    ✓ #define, #isDefined, #findBoxIds, #findDoc, #findOne, #remove (161ms)
+I20180522-16:07:41.572(-10)? 
+I20180522-16:07:41.572(-10)? 
+I20180522-16:07:41.572(-10)?   4 passing (524ms)
+I20180522-16:07:41.572(-10)? 
+I20180522-16:07:41.573(-10)? 
+I20180522-16:07:41.573(-10)? --------------------------------
+I20180522-16:07:41.573(-10)? ----- RUNNING CLIENT TESTS -----
+I20180522-16:07:41.573(-10)? --------------------------------
+I20180522-16:07:43.033(-10)? 
+I20180522-16:07:43.035(-10)? 
+I20180522-16:07:43.036(-10)?   0 passing (3ms)
+I20180522-16:07:43.036(-10)? 
+I20180522-16:07:43.093(-10)? All tests finished!
+I20180522-16:07:43.093(-10)? 
+I20180522-16:07:43.094(-10)? --------------------------------
+I20180522-16:07:43.094(-10)? SERVER FAILURES: 0
+I20180522-16:07:43.094(-10)? CLIENT FAILURES: 0
+I20180522-16:07:43.094(-10)? --------------------------------
+~/g/o/o/v/app (master|✔) $ 
+```
+
+There should be no server or client failures listed. There will also be no client tests at all. In OPQ View, all unit tests occur on the server side.
+
+### Integration testing
+
+Integration tests check that client-level code can interact with the server side appropriately.  To invoke the integration tests, run `meteor npm run test-app`:
+
+```bash
+~/g/o/o/v/app (master|✔) $ meteor npm run test-app
+
+> opqview@ test-app /Users/philipjohnson/github/openpowerquality/opq/view/app
+> METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=nightmare meteor test --full-app --once --driver-package meteortesting:mocha --port 3100
+
+[[[[[ Tests ]]]]]                             
+
+=> Started proxy.                             
+=> Started MongoDB.                           
+I20180522-16:11:43.843(-10)?                  
+I20180522-16:11:43.890(-10)? --------------------------------
+I20180522-16:11:43.891(-10)? --- RUNNING APP SERVER TESTS ---
+I20180522-16:11:43.891(-10)? --------------------------------
+I20180522-16:11:43.892(-10)? 
+I20180522-16:11:43.892(-10)? 
+I20180522-16:11:43.892(-10)? 
+I20180522-16:11:43.893(-10)?   0 passing (0ms)
+I20180522-16:11:43.893(-10)? 
+I20180522-16:11:43.893(-10)? 
+I20180522-16:11:43.893(-10)? --------------------------------
+I20180522-16:11:43.894(-10)? --- RUNNING APP CLIENT TESTS ---
+I20180522-16:11:43.894(-10)? --------------------------------
+I20180522-16:11:44.014(-10)? Defining test user: opqtestuser@hawaii.edu
+=> Started your app.
+
+=> App running at: http://localhost:3100/
+I20180522-16:11:46.286(-10)? 
+I20180522-16:11:46.286(-10)? 
+I20180522-16:11:46.496(-10)?   UserProfilesCollection Meteor Methods 
+I20180522-16:11:46.589(-10)?     Loaded database/fixture/minimal.fixture.json: Defines a single entity in a selection of OPQ collections to show how it's done.
+I20180522-16:11:46.589(-10)? Defining 2 locations documents.
+I20180522-16:11:46.655(-10)? Defining 2 regions documents.
+I20180522-16:11:46.725(-10)? Defining 2 opq_boxes documents.
+I20180522-16:11:46.789(-10)? Defining 2 UserProfiles documents.
+I20180522-16:11:47.056(-10)? Defining 0 events documents.
+I20180522-16:11:47.056(-10)? Defining 0 box_events documents.
+I20180522-16:11:47.056(-10)? Defining 0 trends documents.
+I20180522-16:11:47.426(-10)?     ✓ Verify DB fixture
+I20180522-16:11:47.529(-10)?     ✓ Define Method (103ms)
+I20180522-16:11:47.540(-10)?     ✓ Update Method
+I20180522-16:11:47.558(-10)?     ✓ Remove Method
+I20180522-16:11:47.559(-10)? 
+I20180522-16:11:47.559(-10)? 
+I20180522-16:11:47.560(-10)?   4 passing (1s)
+I20180522-16:11:47.560(-10)? 
+I20180522-16:11:47.608(-10)? All tests finished!
+I20180522-16:11:47.609(-10)? 
+I20180522-16:11:47.609(-10)? --------------------------------
+I20180522-16:11:47.609(-10)? APP SERVER FAILURES: 0
+I20180522-16:11:47.609(-10)? APP CLIENT FAILURES: 0
+I20180522-16:11:47.610(-10)? --------------------------------
+```
+
+As you can see, in contrast to unit tests, in which only server-side tests are run, only client-side tests are invoked in "app-test" mode. 
+
+### Continuous Integration
+
+Finally, we have set up continuous integration for OPQ View with [Semaphore CI](https://semaphoreci.com/). The CI process is set up so that each time there is a commit to the master branch of the OPQ repository, the sources are checked out to Semaphore, and the unit tests and integration tests are run.  The results are reported to the #github channel in the OPQ Slack workspace.
+
+Consult the [Semaphore CI OPQ workspace](https://semaphoreci.com/openpowerquality/opq/) for more details.
+
+
+
+ 
+
+
 
 
  
