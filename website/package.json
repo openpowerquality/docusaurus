@@ -10,9 +10,13 @@
     "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
-    "docusaurus": "^1.0.15"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "docusaurus": "^1.1.4",
+    "react": "^16.4.0",
+    "react-dev-utils": "^5.0.1"
   },
   "dependencies": {
-    "npm": "^6.0.1"
+    "npm": "^6.1.0"
   }
 }
