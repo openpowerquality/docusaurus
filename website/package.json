@@ -10,9 +10,9 @@
     "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
-    "docusaurus": "^1.0.15"
+    "docusaurus": "^1.1.5"
   },
   "dependencies": {
-    "npm": "^6.0.1"
+    "npm": "^6.1.0"
   }
 }
