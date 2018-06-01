@@ -154,7 +154,7 @@
 &gt; eslint <span class="hljs-params">--quiet</span> <span class="hljs-params">--ext</span> <span class="hljs-string">.jsx</span> <span class="hljs-params">--ext</span> <span class="hljs-string">.js</span> <span class="hljs-string">./imports</span>
 </code></pre>
 <p>Any violations will be reported and the command will exit with a non-zero exit code.</p>
-<p>Being able to run ESLint from the commmand line is important in order to support continuous integration, but the most efficient way for developers to maintain compliance with ESLint is to install it into your IDE. Please follow the instructions above to install ESLint into IntelliJ IDEA.</p>
+<p>Being able to run ESLint from the commmand line is important in order to support continuous integration, but the most efficient way for developers to maintain compliance with ESLint is to install it into your IDE. Please follow the instructions <a href="/docs/cloud-view.html#eslint">above</a> to install ESLint into IntelliJ IDEA.</p>
 <h3><a class="anchor" aria-hidden="true" id="data-model-testing"></a><a href="#data-model-testing" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Data model testing</h3>
 <p>In OPQ View, <a href="https://guide.meteor.com/testing.html">Meteor unit testing</a> is implemented as server-side testing of the data model contained in the <code>view/app/imports/api</code> directory. A recent version of this directory looks in part like this:</p>
 <pre><code class="hljs"><span class="hljs-symbol">api</span>/
@@ -175,7 +175,44 @@
   users/
 </code></pre>
 <p>Most of these directories contain files that implement an entity in the <a href="/docs/cloud-datamodel.html">OPQ Data Model</a>, such as &quot;Event&quot; or &quot;Measurement&quot;. Each entity is implemented as a Javascript Class that encapsulates access to the underlying MongoDB collection, and also provides higher level methods (such as <code>define</code>, <code>update</code>, and <code>remove</code>) that ensure that the integrity of the data model is maintained as objects are created, modified, and deleted.</p>
-<p>To test that these entity implementations work correctly, data model classes have a corresponding test file with suffix <code>test.js</code>.   We use the <a href="https://mochajs.org/">Mocha</a> test runner and  <a href="http://chaijs.com/guide/styles/#expect">Chai Expect Assertions</a> libraries to implement the tests.</p>
+<p>To test that these entity implementations work correctly, data model classes have a corresponding test file with suffix <code>test.js</code>.   We use the <a href="https://mochajs.org/">Mocha</a> test runner and  <a href="http://chaijs.com/guide/styles/#expect">Chai Expect Assertions</a> libraries to implement the tests. Here is an excerpt from the <a href="https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/trends/TrendsCollection.test.js">TrendsCollection.test.js</a> file that illustrates unit tests:</p>
+<pre><code class="hljs"><span class="hljs-keyword">if</span> (Meteor.isServer) {
+  describe(<span class="hljs-string">'TrendsCollection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testSuite</span>(<span class="hljs-params"></span>) </span>{
+    before(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setup</span>(<span class="hljs-params"></span>) </span>{
+      Trends.removeAll();
+      OpqBoxes.removeAll();
+    });
+
+    after(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tearDown</span>(<span class="hljs-params"></span>) </span>{
+      Trends.removeAll();
+      OpqBoxes.removeAll();
+    });
+
+    <span class="hljs-keyword">const</span> box_id = <span class="hljs-string">'1'</span>;
+    <span class="hljs-keyword">const</span> calibration_constant = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">const</span> trend1 = { <span class="hljs-attr">min</span>: <span class="hljs-number">-100</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">100</span>, <span class="hljs-attr">average</span>: <span class="hljs-number">0</span> };
+    <span class="hljs-keyword">const</span> trend2 = { <span class="hljs-attr">min</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">average</span>: <span class="hljs-number">0</span> };
+    <span class="hljs-keyword">const</span> trend3 = { <span class="hljs-attr">min</span>: <span class="hljs-number">-50</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">25</span>, <span class="hljs-attr">average</span>: <span class="hljs-number">10</span> };
+    <span class="hljs-keyword">const</span> startDateString = <span class="hljs-string">'2018-01-01T12:00:00'</span>;
+    <span class="hljs-keyword">let</span> timestamp_ms = moment(startDateString).valueOf();
+
+    it(<span class="hljs-string">'#define, #isDefined'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-comment">// Test that we can create and retrieve a simple Trend document.</span>
+      OpqBoxes.define({ box_id, calibration_constant });
+      <span class="hljs-keyword">const</span> trendId = Trends.define({ box_id, timestamp_ms, <span class="hljs-attr">voltage</span>: trend1, <span class="hljs-attr">frequency</span>: trend1, <span class="hljs-attr">thd</span>: trend1 });
+      expect(Trends.isDefined(trendId)).to.exist;
+
+      <span class="hljs-comment">// Add two more trends to January 1, 2018 in order to set up further tests.</span>
+      timestamp_ms += <span class="hljs-number">1</span>;
+      Trends.define({ box_id, timestamp_ms, <span class="hljs-attr">voltage</span>: trend2, <span class="hljs-attr">frequency</span>: trend2, <span class="hljs-attr">thd</span>: trend2 });
+      timestamp_ms += <span class="hljs-number">1</span>;
+      <span class="hljs-comment">// No thd field in this last one.</span>
+      Trends.define({ box_id, timestamp_ms, <span class="hljs-attr">voltage</span>: trend3, <span class="hljs-attr">frequency</span>: trend3 });
+    });
+
+<span class="hljs-comment">// additional unit tests follow... </span>
+</code></pre>
+<p>As you can see, there is code to set up and tear down the test fixture, and a unit test to exercise the define() and isDefined() methods in the Trends class instance.</p>
 <p>To manually invoke all of the unit tests, use <code>meteor npm run test</code>. Here is an example invocation:</p>
 <pre><code class="hljs">~/g/o/o/v/app (master|✔) $ meteor npm run test
 
@@ -229,8 +266,36 @@ I<span class="hljs-number">20180522-16</span>:<span class="hljs-number">07:43.09
 </code></pre>
 <p>There should be no server or client failures listed. There will also be no client tests at all. In OPQ View, all unit tests occur on the server side.</p>
 <h3><a class="anchor" aria-hidden="true" id="meteor-method-testing"></a><a href="#meteor-method-testing" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Meteor Method testing</h3>
-<p>When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via <a href="https://guide.meteor.com/methods.html">Meteor Methods</a>, which are basically a remote procedure call system.</p>
-<p>We can validate the correct functioning of OPQ View Meteor Methods using Meteor's &quot;full app&quot; testing mode.  This mode runs all of the tests in files named with the suffix <code>app-test.js</code>.</p>
+<p>When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via <a href="https://guide.meteor.com/methods.html">Meteor Methods</a>, which is basically a remote procedure call system.</p>
+<p>We can validate the correct functioning of OPQ View's Meteor Methods using Meteor's &quot;full app&quot; testing mode.  This mode runs all of the tests in files named with the suffix <code>app-test.js</code>. In OPQ, the goal of &quot;full app&quot; testing is to exercise the remote procedure calls from the client to the server and make sure they can be invoked correctly.  Here is an excerpt from the <a href="https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/trends/TrendsCollection.methods.app-test.js">TrendsCollection.methods.app-test.js</a> file that shows a test of the &quot;dailyTrends&quot; Meteor Method:</p>
+<pre><code class="hljs"><span class="hljs-keyword">if</span> (Meteor.isClient) {
+  describe(<span class="hljs-string">'TrendsCollection Meteor Methods '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params"></span>) </span>{
+
+    before(<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">await</span> defineTestFixturesMethod.callPromise([<span class="hljs-string">'minimal'</span>, <span class="hljs-string">'trends'</span>]);
+      <span class="hljs-keyword">await</span> withLoggedInUser();
+    });
+
+    it(<span class="hljs-string">'Trends.dailyTrends Method'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">const</span> boxIDs = [<span class="hljs-string">'1000'</span>];
+      <span class="hljs-keyword">const</span> startDate_ms = moment(<span class="hljs-string">'2018-01-01'</span>).valueOf();
+      <span class="hljs-keyword">const</span> endDate_ms = moment(<span class="hljs-string">'2018-01-02'</span>).valueOf();
+      <span class="hljs-keyword">const</span> trendData = <span class="hljs-keyword">await</span> dailyTrends.callPromise({ boxIDs, startDate_ms, endDate_ms });
+      <span class="hljs-keyword">const</span> jan1data = trendData[<span class="hljs-string">'1000'</span>][startDate_ms];
+      expect(jan1data).to.exist;
+      expect(jan1data.frequency.min).to.equal(<span class="hljs-number">60</span>);
+      expect(jan1data.frequency.max).to.equal(<span class="hljs-number">70</span>);
+      expect(jan1data.frequency.average).to.equal(<span class="hljs-number">65</span>);
+      expect(jan1data.frequency.count).to.equal(<span class="hljs-number">2</span>);
+    });
+  });
+}
+</code></pre>
+<p>Testing the remote procedure call (Meteor Method) interface between client and server requires more complex setup than unit testing.  The first complication is that RPC calls are (by definition) asynchronous, and thus there is the possibility of entering &quot;<a href="http://callbackhell.com/">callback hell</a>&quot; if a sequence of asynchronous calls are required to do the tests. In order to avoid this problem, OPQ full app tests use the <a href="https://javascript.info/async-await">async/await</a> constructs in Javascript to force asynchronous code to execute synchronously. In the code above, the before() method calls two asynchronous functions in a row, but the use of async/await means that execution will pause after each call until it completes. This is even more important in the test itself:</p>
+<pre><code class="hljs"><span class="hljs-keyword">const</span> trendData = <span class="hljs-function">await dailyTrends.<span class="hljs-title">callPromise</span><span class="hljs-params">({ boxIDs, startDate_ms, endDate_ms })</span></span>;
+</code></pre>
+<p>In this code, the dailyTrends Meteor Method is called, then execution pauses until it completes, and the results are assigned to the variable trendData. This is much easier to code and understand than providing callback functions.</p>
+<p>There are several utility functions provided to facilitate testing in the <a href="https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/test/test-utilities.js">test-utilities.js</a>. <code>withLoggedInUser</code> logs the client in as a test user (with Admin privileges). Without this, most RPC calls will fail with a &quot;unauthorized or not logged in user&quot; error.  <code>withOpqSubscriptions</code> subscribes the client to a variety of collections in case the test requires access to client-side data.  <code>defineTestFixtures</code> loads test data from the <a href="https://github.com/openpowerquality/opq/tree/master/view/app/private/database/fixture">private/database/fixture</a> directory. This simplifies tests by making it easy to seed the test database with sample data.</p>
 <p>To manually invoke Meteor Method testing, invoke <code>meteor npm run test-app</code>. Here is an example invocation:</p>
 <pre><code class="hljs css default"><span class="hljs-string">~/g/o/o/v/app</span> <span class="hljs-string">(master|✔)</span> <span class="hljs-string">$</span> <span class="hljs-string">meteor</span> <span class="hljs-string">npm</span> <span class="hljs-string">run</span> <span class="hljs-string">test-app</span>
 
