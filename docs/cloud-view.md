@@ -229,7 +229,7 @@ app$ meteor npm run lint
 ```
 Any violations will be reported and the command will exit with a non-zero exit code.
 
-Being able to run ESLint from the commmand line is important in order to support continuous integration, but the most efficient way for developers to maintain compliance with ESLint is to install it into your IDE. Please follow the instructions above to install ESLint into IntelliJ IDEA.
+Being able to run ESLint from the commmand line is important in order to support continuous integration, but the most efficient way for developers to maintain compliance with ESLint is to install it into your IDE. Please follow the instructions [above](cloud-view.md#eslint) to install ESLint into IntelliJ IDEA.
 
 ### Data model testing
 
@@ -256,7 +256,47 @@ api/
 
 Most of these directories contain files that implement an entity in the [OPQ Data Model](cloud-datamodel.md), such as "Event" or "Measurement". Each entity is implemented as a Javascript Class that encapsulates access to the underlying MongoDB collection, and also provides higher level methods (such as `define`, `update`, and `remove`) that ensure that the integrity of the data model is maintained as objects are created, modified, and deleted.
 
-To test that these entity implementations work correctly, data model classes have a corresponding test file with suffix `test.js`.   We use the [Mocha](https://mochajs.org/) test runner and  [Chai Expect Assertions](http://chaijs.com/guide/styles/#expect) libraries to implement the tests. 
+To test that these entity implementations work correctly, data model classes have a corresponding test file with suffix `test.js`.   We use the [Mocha](https://mochajs.org/) test runner and  [Chai Expect Assertions](http://chaijs.com/guide/styles/#expect) libraries to implement the tests. Here is an excerpt from the [TrendsCollection.test.js](https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/trends/TrendsCollection.test.js) file that illustrates unit tests:
+
+```
+if (Meteor.isServer) {
+  describe('TrendsCollection', function testSuite() {
+    before(function setup() {
+      Trends.removeAll();
+      OpqBoxes.removeAll();
+    });
+
+    after(function tearDown() {
+      Trends.removeAll();
+      OpqBoxes.removeAll();
+    });
+
+    const box_id = '1';
+    const calibration_constant = 1;
+    const trend1 = { min: -100, max: 100, average: 0 };
+    const trend2 = { min: 0, max: 0, average: 0 };
+    const trend3 = { min: -50, max: 25, average: 10 };
+    const startDateString = '2018-01-01T12:00:00';
+    let timestamp_ms = moment(startDateString).valueOf();
+
+    it('#define, #isDefined', function test() {
+      // Test that we can create and retrieve a simple Trend document.
+      OpqBoxes.define({ box_id, calibration_constant });
+      const trendId = Trends.define({ box_id, timestamp_ms, voltage: trend1, frequency: trend1, thd: trend1 });
+      expect(Trends.isDefined(trendId)).to.exist;
+
+      // Add two more trends to January 1, 2018 in order to set up further tests.
+      timestamp_ms += 1;
+      Trends.define({ box_id, timestamp_ms, voltage: trend2, frequency: trend2, thd: trend2 });
+      timestamp_ms += 1;
+      // No thd field in this last one.
+      Trends.define({ box_id, timestamp_ms, voltage: trend3, frequency: trend3 });
+    });
+
+// additional unit tests follow... 
+``` 
+
+As you can see, there is code to set up and tear down the test fixture, and a unit test to exercise the define() and isDefined() methods in the Trends class instance.
 
 To manually invoke all of the unit tests, use `meteor npm run test`. Here is an example invocation:
 
@@ -316,9 +356,44 @@ There should be no server or client failures listed. There will also be no clien
 
 ### Meteor Method testing
 
-When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via [Meteor Methods](https://guide.meteor.com/methods.html), which are basically a remote procedure call system.
+When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via [Meteor Methods](https://guide.meteor.com/methods.html), which is basically a remote procedure call system. 
 
-We can validate the correct functioning of OPQ View Meteor Methods using Meteor's "full app" testing mode.  This mode runs all of the tests in files named with the suffix `app-test.js`. 
+We can validate the correct functioning of OPQ View's Meteor Methods using Meteor's "full app" testing mode.  This mode runs all of the tests in files named with the suffix `app-test.js`. In OPQ, the goal of "full app" testing is to exercise the remote procedure calls from the client to the server and make sure they can be invoked correctly.  Here is an excerpt from the [TrendsCollection.methods.app-test.js](https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/trends/TrendsCollection.methods.app-test.js) file that shows a test of the "dailyTrends" Meteor Method:
+
+```
+if (Meteor.isClient) {
+  describe('TrendsCollection Meteor Methods ', function test() {
+
+    before(async function () {
+      await defineTestFixturesMethod.callPromise(['minimal', 'trends']);
+      await withLoggedInUser();
+    });
+
+    it('Trends.dailyTrends Method', async function () {
+      const boxIDs = ['1000'];
+      const startDate_ms = moment('2018-01-01').valueOf();
+      const endDate_ms = moment('2018-01-02').valueOf();
+      const trendData = await dailyTrends.callPromise({ boxIDs, startDate_ms, endDate_ms });
+      const jan1data = trendData['1000'][startDate_ms];
+      expect(jan1data).to.exist;
+      expect(jan1data.frequency.min).to.equal(60);
+      expect(jan1data.frequency.max).to.equal(70);
+      expect(jan1data.frequency.average).to.equal(65);
+      expect(jan1data.frequency.count).to.equal(2);
+    });
+  });
+}
+```
+
+Testing the remote procedure call (Meteor Method) interface between client and server requires more complex setup than unit testing.  The first complication is that RPC calls are (by definition) asynchronous, and thus there is the possibility of entering "[callback hell](http://callbackhell.com/)" if a sequence of asynchronous calls are required to do the tests. In order to avoid this problem, OPQ full app tests use the [async/await](https://javascript.info/async-await) constructs in Javascript to force asynchronous code to execute synchronously. In the code above, the before() method calls two asynchronous functions in a row, but the use of async/await means that execution will pause after each call until it completes. This is even more important in the test itself:
+
+```
+const trendData = await dailyTrends.callPromise({ boxIDs, startDate_ms, endDate_ms });
+```
+
+In this code, the dailyTrends Meteor Method is called, then execution pauses until it completes, and the results are assigned to the variable trendData. This is much easier to code and understand than providing callback functions.
+
+There are several utility functions provided to facilitate testing in the [test-utilities.js](https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/test/test-utilities.js). `withLoggedInUser` logs the client in as a test user (with Admin privileges). Without this, most RPC calls will fail with a "unauthorized or not logged in user" error.  `withOpqSubscriptions` subscribes the client to a variety of collections in case the test requires access to client-side data.  `defineTestFixtures` loads test data from the [private/database/fixture](https://github.com/openpowerquality/opq/tree/master/view/app/private/database/fixture) directory. This simplifies tests by making it easy to seed the test database with sample data.
 
 To manually invoke Meteor Method testing, invoke `meteor npm run test-app`. Here is an example invocation:
 
