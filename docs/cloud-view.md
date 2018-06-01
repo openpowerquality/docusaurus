@@ -453,6 +453,20 @@ I20180522-16:11:47.610(-10)? --------------------------------
 
 As you can see, in contrast to unit tests, in which only server-side tests are run, only client-side tests are invoked in "app-test" mode. 
 
+### meteor npm run test-all
+
+It is a good idea to run all of the tests (i.e. coding standards, data model, and meteor methods) in the following situations:
+
+  * Whenever you update your branch from master (to make sure the update has not introduced bugs into your branch)
+  
+  * Before you merge your changes from your branch into master (to make sure you are not introducing bugs into master)  
+  
+You could invoke the three types of tests individually, but it's easier to run the test-all script which will invoke them all for you with one command:
+
+```
+meteor npm run test-all
+``` 
+
 ### Continuous Integration
 
 Finally, we have set up continuous integration for OPQ View with [Semaphore CI](https://semaphoreci.com/). The CI process is set up so that each time there is a commit to the master branch of the OPQ repository, the sources are checked out to Semaphore, and ESLint, data model unit tests, and full app Meteor method integration tests are run.  The results are reported to the #github channel in the OPQ Slack workspace.
