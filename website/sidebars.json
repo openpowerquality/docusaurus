@@ -1,6 +1,6 @@
 {
   "docs": {
-    "Introduction": ["intro-motivation", "intro-power-quality", "intro-opq", "intro-information-architecture", "intro-related-work", "intro-bibliography"],
+    "Introduction": ["intro-motivation", "intro-power-quality", "intro-system-architecture", "intro-information-architecture", "intro-related-work", "intro-bibliography"],
     "User Guide": ["userguide-hardware", "userguide-software"],
     "OPQ Box": ["box-overview", "box-hardware-design", "box-software-design", "box-updater", "box-manufacturing"],
     "OPQ Cloud": ["cloud-overview", "cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map"],
