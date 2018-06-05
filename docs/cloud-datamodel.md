@@ -215,36 +215,53 @@ The incidents collection contains documents that classify one or more events. An
 
 | Field  | Type  | Description  |
 |--------|-------|--------------|
-| type | String  | The type of classification of the anomaly.  |
-| box_id  | [String] |  An array of boxIDs indicating the boxes associated with this incident. |
-| location | String   Location slug |
-| start_timestamp_ms | Integer | A UTC timestamp indicating when this incident began. |
-| duration_ms | Integer | How long this incident lasted, in milliseconds.  |
-| data_fs_filename | String | Optional filename |
-| data_fs_idx | Integer          | Optional sample index into data_fs_file          |
-| measurements | [Measurement]| List of measurements associated with this incident |
-| anomalies | [Anomaly]    | List of incidents associated with this incident       |
-| metadata | Object | Optional data about this incident. |
+| box_id | str   | Box id       |
+| start_timestamp_ms | int | Start of the incident (ms since epoch) |
+| end_timestamp_ms | int | End of the incident (ms since epoch) |
+| location | str | Location slug |
+| measurement_type | str | One of [VOLTAGE, FREQUENCY, THD, or TRANSIENT] |
+| deviation_from_nominal | float | Absolute value of measurement deviation from nominal |
+| measurements | [Measurement] | Copied from event |
+| gridfs_filename | str | Filename of trimmed waveform copied from event |
+| classifications | [Classification] | List of calssifications that can be applied to incident |
+| annotations | [Annotation] | List of annotations associated with this incident |
+| metadata | obj | Object that consists of key-pair values representing various meta-data for incidents | 
 
 
-Here are some proposed incident types:
+Here are some proposed classifications:
 
 | Field  | Description  |
 |--------|--------------|
-| THD | Exceeds IEEE 1159 recommendations for THD. |
+| THD | Exceeds IEEE 1159 recommendations for THD (5% over 200 ms windows). |
 | ITIC_PROHIBITED | Voltage observed in the ITIC prohibited region. |
 | ITIC_NO_DAMAGE | Voltage observed in the ITIC no damage region. |
-| INSTANTANEOUS_VOLTAGE_SAG |Voltage observed below 90% of nominal value for up to 0.2 seconds (12 cycles at 60 Hz.) |
-| INSTANTANEOUS_VOLTAGE_SWELL | Voltage observed above 110% of nominal value for up to 0.2 seconds (12 cycles at 60 Hz.)|
-| MOMENTARY_VOLTAGE_SAG | Voltage observed below 90% of nominal value for between 0.2 seconds and 2 seconds. |
-| MOMENTARY_VOLTAGE_SWELL| Voltage observed above 110% of nominal value for between 0.2 seconds and 2 seconds. |
-| TEMPORARY_VOLTAGE_SAG | Voltage observed below 90% of nominal value for between 2 seconds and 2 minutes. |
-| TEMPORARY_VOLTAGE_SWELL | Voltage observed above 110% of nominal value for between 2 seconds and 2 minutes. |
-| MOMENTARY_VOLTAGE_INTERRUPTION | Voltage observed below 50% of nominal value for between 0.2 seconds and 2 seconds. |
-| TEMPORARY_VOLTAGE_INTERRUPTION | Voltage observed below 50% of nominal value for between 2 seconds and 2 minutes. |
-| FREQUENCY_SAG | Frequency observed below 98% of nominal value |
-| FREQUENCY_SWELL | Frequency observed above 102% of nominal value |
-| GLOBAL_INCIDENT| (not sure what this means) |
+| VOLTAGE_SAG | Short-term RMS phenomena with observed voltage between 0.1 - 0.9 pu |
+| VOLTAGE_SWELL | Short-term RMS phenomena with observed voltage between 1.1 - 1.8 pu |
+| VOLTAGE_INTERRUPTION | Short-term RMS phenomena with observed voltage less than 0.1 pu |
+| SUSTAINED_VOLTAGE_INTERRUPTION | Long-term RMS phenomena with observed voltage at 0.0 pu with a duration > 1 minute |
+| UNDERVOLTAGE | Long-term RMS phenomena with observed voltage between 0.8 and 0.9 pu with a duration > 1 minute |
+| OVERVOLTAGE | Long-term RMS phenomena with observed voltage between 1.1 and 1.2 pu with a duration > 1 minute |
+| FREQUENCY_SAG | Frequency observed at < 0.1Hz nominal |
+| FREQUENCY_SWELL | Frequency observed at > 0.1Hz nominal |  
+| SEMA_120 | |
+
+*Note: pu stands for "per unit" and in the U.S. 1pu = 120V.*
+
+Further, we can break down short-term RMS phenomena by time range which should also be included in the classifications.
+
+| Field  | Description  |
+|--------|--------------|
+| INSTANTANEOUS | Short-term RMS phenomena with a duration between 0.5 and 30 cycles |
+| MOMENTARY | Short-term RMS phenomena with a duration between 30 cycles and 3 seconds* |
+| TEMPORARY | Short-term RMS phenomena with a duration between 3 seconds and 1 minute |
+
+
+* *Note: A MOMENTARY VOLTAGE_INTERRUPTION can last from 0.5 cycles to 3 seconds* 
+
+## Clusters
+
+A cluster is a representation of aggregate incidents that that provide context from similar annotations, locality, 
+periodicity, and similarity. The actual details are still being implemented and the data model still needs to be filled in. 
 
 ## Users
 
