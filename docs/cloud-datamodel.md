@@ -113,6 +113,56 @@ The OPQ Health service creates documents representing its findings on the curren
 | status | String | Status is either "up" or "down". |
 | info | String  | Info is an optional field that can be used by OPQHealth to provide additional information about an entry. |
 
+## Incidents
+
+**The Incident entity is under construction and not yet available.**
+
+The incidents collection contains documents that classify one or more events. An incident represents a deviation from nominal values for either frequency, voltage, or THD that has been classified. 
+
+| Field  | Type  | Description  |
+|--------|-------|--------------|
+| box_id | String   | Box id       |
+| start_timestamp_ms | Integer | Start of the incident (ms since epoch) |
+| end_timestamp_ms | Integer | End of the incident (ms since epoch) |
+| location | String | Location slug |
+| measurement_type | String | One of [VOLTAGE, FREQUENCY, THD, or TRANSIENT] |
+| deviation_from_nominal | Float | Absolute value of measurement deviation from nominal |
+| measurements | [Measurement] | Copied from event |
+| gridfs_filename | String | Filename of trimmed waveform copied from event |
+| classifications | [Classification] | List of classifications that can be applied to incident |
+| ieee_duration | String | A string indicating one of the standard IEEE durations associated with this incident. (see below) |
+| annotations | [Annotation] | List of annotations associated with this incident |
+| metadata | Object | Key-Value pairs providing meta-data for this incident | 
+
+
+Various organization such as IEEE, ITIC, CBEMA, and SEMI have proposed standardized terminology for classifying power quality deviations. The following two tables cover the classifications based on these standards. Note that the standards overlap, so an incident could have multiple, simultaneous classifications (such as ITIC_PROHIBITED and VOLTAGE_SWELL).  For clarity, we indicate the type of incident and the duration of the incident separately, except in the case of SEMI_F47_VIOLATION, where the durations do not conform to the IEEE categories and so are included in the classication.
+
+| Classification  | Description  |
+|--------|--------------|
+| EXCESSIVE_THD | Exceeds IEEE 1159 recommendations for THD (5% over 200 ms windows). |
+| ITIC_PROHIBITED | Voltage observed in the ITIC prohibited region. |
+| ITIC_NO_DAMAGE | Voltage observed in the ITIC no damage region. |
+| VOLTAGE_SAG | Short-term RMS phenomena with observed voltage between 0.1 - 0.9 pu |
+| VOLTAGE_SWELL | Short-term RMS phenomena with observed voltage between 1.1 - 1.8 pu |
+| VOLTAGE_INTERRUPTION | Short-term RMS phenomena with observed voltage less than 0.1 pu |
+| FREQUENCY_SAG | Frequency observed at < 0.1Hz nominal |
+| FREQUENCY_SWELL | Frequency observed at > 0.1Hz nominal |  
+| FREQUENCY_INTERRUPTION | Frequency observed at < 0.01Hz nominal |  
+| SEMI_F47_VIOLATION | Voltage observed at 0.5 pu for more than 200ms, 0.7 pu for more than 0.5 seconds, or 0.8 pu for more than 1 second. |  
+
+*Note: pu stands for "per unit" and in the U.S. 1pu = 120V.*
+
+The following table classifies the duration according to standard IEEE terminology for durations.   Note that the precise duration of the incident can be determined by subtracting start_timestamp_ms from end_timestamp_ms.
+
+| IEEE Duration  | Description  |
+|--------|--------------|
+| INSTANTANEOUS | A duration between 0.5 and 30 cycles |
+| MOMENTARY | A duration between 30 cycles and 3 seconds |
+| TEMPORARY | A duration between 3 seconds and 1 minute |
+| SUSTAINED | A duration greater than 1 minute |
+
+
+
 
 ## Locations 
 
@@ -207,61 +257,6 @@ The **trends** collection provides OPQBox measurements of voltage, frequency, an
 | thd | Object  | An object with fields min, max, and average. Each are floats, representing the THD values calculated for the minute preceding this timestamp.   |
 
 
-## Incidents
-
-**This data model entity is under construction and not yet available.**
-
-The incidents collection contains documents that classify one or more events. An incident represents a deviation from nominal values for either frequency, voltage, or THD that has been classified. An incident may also contain another incidents which allow us to create aggregations of incidents.
-
-| Field  | Type  | Description  |
-|--------|-------|--------------|
-| box_id | str   | Box id       |
-| start_timestamp_ms | int | Start of the incident (ms since epoch) |
-| end_timestamp_ms | int | End of the incident (ms since epoch) |
-| location | str | Location slug |
-| measurement_type | str | One of [VOLTAGE, FREQUENCY, THD, or TRANSIENT] |
-| deviation_from_nominal | float | Absolute value of measurement deviation from nominal |
-| measurements | [Measurement] | Copied from event |
-| gridfs_filename | str | Filename of trimmed waveform copied from event |
-| classifications | [Classification] | List of calssifications that can be applied to incident |
-| annotations | [Annotation] | List of annotations associated with this incident |
-| metadata | obj | Object that consists of key-pair values representing various meta-data for incidents | 
-
-
-Here are some proposed classifications:
-
-| Field  | Description  |
-|--------|--------------|
-| THD | Exceeds IEEE 1159 recommendations for THD (5% over 200 ms windows). |
-| ITIC_PROHIBITED | Voltage observed in the ITIC prohibited region. |
-| ITIC_NO_DAMAGE | Voltage observed in the ITIC no damage region. |
-| VOLTAGE_SAG | Short-term RMS phenomena with observed voltage between 0.1 - 0.9 pu |
-| VOLTAGE_SWELL | Short-term RMS phenomena with observed voltage between 1.1 - 1.8 pu |
-| VOLTAGE_INTERRUPTION | Short-term RMS phenomena with observed voltage less than 0.1 pu |
-| SUSTAINED_VOLTAGE_INTERRUPTION | Long-term RMS phenomena with observed voltage at 0.0 pu with a duration > 1 minute |
-| UNDERVOLTAGE | Long-term RMS phenomena with observed voltage between 0.8 and 0.9 pu with a duration > 1 minute |
-| OVERVOLTAGE | Long-term RMS phenomena with observed voltage between 1.1 and 1.2 pu with a duration > 1 minute |
-| FREQUENCY_SAG | Frequency observed at < 0.1Hz nominal |
-| FREQUENCY_SWELL | Frequency observed at > 0.1Hz nominal |  
-| SEMA_120 | |
-
-*Note: pu stands for "per unit" and in the U.S. 1pu = 120V.*
-
-Further, we can break down short-term RMS phenomena by time range which should also be included in the classifications.
-
-| Field  | Description  |
-|--------|--------------|
-| INSTANTANEOUS | Short-term RMS phenomena with a duration between 0.5 and 30 cycles |
-| MOMENTARY | Short-term RMS phenomena with a duration between 30 cycles and 3 seconds* |
-| TEMPORARY | Short-term RMS phenomena with a duration between 3 seconds and 1 minute |
-
-
-* *Note: A MOMENTARY VOLTAGE_INTERRUPTION can last from 0.5 cycles to 3 seconds* 
-
-## Clusters
-
-A cluster is a representation of aggregate incidents that that provide context from similar annotations, locality, 
-periodicity, and similarity. The actual details are still being implemented and the data model still needs to be filled in. 
 
 ## Users
 
