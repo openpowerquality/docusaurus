@@ -121,6 +121,59 @@
 <tr><td>info</td><td>String</td><td>Info is an optional field that can be used by OPQHealth to provide additional information about an entry.</td></tr>
 </tbody>
 </table>
+<h2><a class="anchor" aria-hidden="true" id="incidents"></a><a href="#incidents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Incidents</h2>
+<p><strong>The Incident entity is under construction and not yet available.</strong></p>
+<p>The incidents collection contains documents that classify one or more events. An incident represents a deviation from nominal values for either frequency, voltage, or THD that has been classified.</p>
+<table>
+<thead>
+<tr><th>Field</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>box_id</td><td>String</td><td>Box id</td></tr>
+<tr><td>start_timestamp_ms</td><td>Integer</td><td>Start of the incident (ms since epoch)</td></tr>
+<tr><td>end_timestamp_ms</td><td>Integer</td><td>End of the incident (ms since epoch)</td></tr>
+<tr><td>location</td><td>String</td><td>Location slug</td></tr>
+<tr><td>measurement_type</td><td>String</td><td>One of [VOLTAGE, FREQUENCY, THD, or TRANSIENT]</td></tr>
+<tr><td>deviation_from_nominal</td><td>Float</td><td>Absolute value of measurement deviation from nominal</td></tr>
+<tr><td>measurements</td><td>[Measurement]</td><td>Copied from event</td></tr>
+<tr><td>gridfs_filename</td><td>String</td><td>Filename of trimmed waveform copied from event</td></tr>
+<tr><td>classifications</td><td>[Classification]</td><td>List of classifications that can be applied to incident</td></tr>
+<tr><td>ieee_duration</td><td>String</td><td>A string indicating one of the standard IEEE durations associated with this incident. (see below)</td></tr>
+<tr><td>annotations</td><td>[Annotation]</td><td>List of annotations associated with this incident</td></tr>
+<tr><td>metadata</td><td>Object</td><td>Key-Value pairs providing meta-data for this incident</td></tr>
+</tbody>
+</table>
+<p>Various organization such as IEEE, ITIC, CBEMA, and SEMI have proposed standardized terminology for classifying power quality deviations. The following two tables cover the classifications based on these standards. Note that the standards overlap, so an incident could have multiple, simultaneous classifications (such as ITIC_PROHIBITED and VOLTAGE_SWELL).  For clarity, we indicate the type of incident and the duration of the incident separately, except in the case of SEMI_F47_VIOLATION, where the durations do not conform to the IEEE categories and so are included in the classication.</p>
+<table>
+<thead>
+<tr><th>Classification</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>EXCESSIVE_THD</td><td>Exceeds IEEE 1159 recommendations for THD (5% over 200 ms windows).</td></tr>
+<tr><td>ITIC_PROHIBITED</td><td>Voltage observed in the ITIC prohibited region.</td></tr>
+<tr><td>ITIC_NO_DAMAGE</td><td>Voltage observed in the ITIC no damage region.</td></tr>
+<tr><td>VOLTAGE_SAG</td><td>Short-term RMS phenomena with observed voltage between 0.1 - 0.9 pu</td></tr>
+<tr><td>VOLTAGE_SWELL</td><td>Short-term RMS phenomena with observed voltage between 1.1 - 1.8 pu</td></tr>
+<tr><td>VOLTAGE_INTERRUPTION</td><td>Short-term RMS phenomena with observed voltage less than 0.1 pu</td></tr>
+<tr><td>FREQUENCY_SAG</td><td>Frequency observed at &lt; 0.1Hz nominal</td></tr>
+<tr><td>FREQUENCY_SWELL</td><td>Frequency observed at &gt; 0.1Hz nominal</td></tr>
+<tr><td>FREQUENCY_INTERRUPTION</td><td>Frequency observed at &lt; 0.01Hz nominal</td></tr>
+<tr><td>SEMI_F47_VIOLATION</td><td>Voltage observed at 0.5 pu for more than 200ms, 0.7 pu for more than 0.5 seconds, or 0.8 pu for more than 1 second.</td></tr>
+</tbody>
+</table>
+<p><em>Note: pu stands for &quot;per unit&quot; and in the U.S. 1pu = 120V.</em></p>
+<p>The following table classifies the duration according to standard IEEE terminology for durations.   Note that the precise duration of the incident can be determined by subtracting start_timestamp_ms from end_timestamp_ms.</p>
+<table>
+<thead>
+<tr><th>IEEE Duration</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>INSTANTANEOUS</td><td>A duration between 0.5 and 30 cycles</td></tr>
+<tr><td>MOMENTARY</td><td>A duration between 30 cycles and 3 seconds</td></tr>
+<tr><td>TEMPORARY</td><td>A duration between 3 seconds and 1 minute</td></tr>
+<tr><td>SUSTAINED</td><td>A duration greater than 1 minute</td></tr>
+</tbody>
+</table>
 <h2><a class="anchor" aria-hidden="true" id="locations"></a><a href="#locations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locations</h2>
 <p>The locations collection provides entities that define locations that can be associated with OPQ Boxes, Trends, Events, and other entities in the system.</p>
 <table>
@@ -217,65 +270,6 @@
 <tr><td>thd</td><td>Object</td><td>An object with fields min, max, and average. Each are floats, representing the THD values calculated for the minute preceding this timestamp.</td></tr>
 </tbody>
 </table>
-<h2><a class="anchor" aria-hidden="true" id="incidents"></a><a href="#incidents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Incidents</h2>
-<p><strong>This data model entity is under construction and not yet available.</strong></p>
-<p>The incidents collection contains documents that classify one or more events. An incident represents a deviation from nominal values for either frequency, voltage, or THD that has been classified. An incident may also contain another incidents which allow us to create aggregations of incidents.</p>
-<table>
-<thead>
-<tr><th>Field</th><th>Type</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td>box_id</td><td>str</td><td>Box id</td></tr>
-<tr><td>start_timestamp_ms</td><td>int</td><td>Start of the incident (ms since epoch)</td></tr>
-<tr><td>end_timestamp_ms</td><td>int</td><td>End of the incident (ms since epoch)</td></tr>
-<tr><td>location</td><td>str</td><td>Location slug</td></tr>
-<tr><td>measurement_type</td><td>str</td><td>One of [VOLTAGE, FREQUENCY, THD, or TRANSIENT]</td></tr>
-<tr><td>deviation_from_nominal</td><td>float</td><td>Absolute value of measurement deviation from nominal</td></tr>
-<tr><td>measurements</td><td>[Measurement]</td><td>Copied from event</td></tr>
-<tr><td>gridfs_filename</td><td>str</td><td>Filename of trimmed waveform copied from event</td></tr>
-<tr><td>classifications</td><td>[Classification]</td><td>List of calssifications that can be applied to incident</td></tr>
-<tr><td>annotations</td><td>[Annotation]</td><td>List of annotations associated with this incident</td></tr>
-<tr><td>metadata</td><td>obj</td><td>Object that consists of key-pair values representing various meta-data for incidents</td></tr>
-</tbody>
-</table>
-<p>Here are some proposed classifications:</p>
-<table>
-<thead>
-<tr><th>Field</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td>THD</td><td>Exceeds IEEE 1159 recommendations for THD (5% over 200 ms windows).</td></tr>
-<tr><td>ITIC_PROHIBITED</td><td>Voltage observed in the ITIC prohibited region.</td></tr>
-<tr><td>ITIC_NO_DAMAGE</td><td>Voltage observed in the ITIC no damage region.</td></tr>
-<tr><td>VOLTAGE_SAG</td><td>Short-term RMS phenomena with observed voltage between 0.1 - 0.9 pu</td></tr>
-<tr><td>VOLTAGE_SWELL</td><td>Short-term RMS phenomena with observed voltage between 1.1 - 1.8 pu</td></tr>
-<tr><td>VOLTAGE_INTERRUPTION</td><td>Short-term RMS phenomena with observed voltage less than 0.1 pu</td></tr>
-<tr><td>SUSTAINED_VOLTAGE_INTERRUPTION</td><td>Long-term RMS phenomena with observed voltage at 0.0 pu with a duration &gt; 1 minute</td></tr>
-<tr><td>UNDERVOLTAGE</td><td>Long-term RMS phenomena with observed voltage between 0.8 and 0.9 pu with a duration &gt; 1 minute</td></tr>
-<tr><td>OVERVOLTAGE</td><td>Long-term RMS phenomena with observed voltage between 1.1 and 1.2 pu with a duration &gt; 1 minute</td></tr>
-<tr><td>FREQUENCY_SAG</td><td>Frequency observed at &lt; 0.1Hz nominal</td></tr>
-<tr><td>FREQUENCY_SWELL</td><td>Frequency observed at &gt; 0.1Hz nominal</td></tr>
-<tr><td>SEMA_120</td><td></td></tr>
-</tbody>
-</table>
-<p><em>Note: pu stands for &quot;per unit&quot; and in the U.S. 1pu = 120V.</em></p>
-<p>Further, we can break down short-term RMS phenomena by time range which should also be included in the classifications.</p>
-<table>
-<thead>
-<tr><th>Field</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td>INSTANTANEOUS</td><td>Short-term RMS phenomena with a duration between 0.5 and 30 cycles</td></tr>
-<tr><td>MOMENTARY</td><td>Short-term RMS phenomena with a duration between 30 cycles and 3 seconds*</td></tr>
-<tr><td>TEMPORARY</td><td>Short-term RMS phenomena with a duration between 3 seconds and 1 minute</td></tr>
-</tbody>
-</table>
-<ul>
-<li><em>Note: A MOMENTARY VOLTAGE_INTERRUPTION can last from 0.5 cycles to 3 seconds</em></li>
-</ul>
-<h2><a class="anchor" aria-hidden="true" id="clusters"></a><a href="#clusters" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Clusters</h2>
-<p>A cluster is a representation of aggregate incidents that that provide context from similar annotations, locality,
-periodicity, and similarity. The actual details are still being implemented and the data model still needs to be filled in.</p>
 <h2><a class="anchor" aria-hidden="true" id="users"></a><a href="#users" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Users</h2>
 <p>Users are represented in OPQ by three collections: the Users collection (maintained by Meteor, which provides password and basic account information, which is not shown below), UserProfiles (additional profile information, shown below), and BoxOwners (which provides a two-way mapping between OPQ Boxes and their owner(s), discussed elsewhere on this page).</p>
 <p>Here's the UserProfile collection structure:</p>
@@ -291,7 +285,7 @@ periodicity, and similarity. The actual details are still being implemented and 
 </tbody>
 </table>
 <p>In OPQ View, only admins are able to define entities such as users, locations, regions, and OPQ Boxes. Users basically have only &quot;read access&quot; to the data in the system. (This will change in future when we provide the ability for users to annotate events and incidents.)</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="cloud-overview.html">← OPQ Box Overview</a><a class="docs-next button" href="cloud-view.html">OPQ View →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#naming-conventions">Naming Conventions</a></li><li><a href="#box-events">Box Events</a></li><li><a href="#box-owners">Box Owners</a></li><li><a href="#events">Events</a></li><li><a href="#fsfiles-fschunks">fs.files, fs.chunks</a></li><li><a href="#health">Health</a></li><li><a href="#locations">Locations</a></li><li><a href="#measurements">Measurements</a></li><li><a href="#opq-boxes">OPQ Boxes</a></li><li><a href="#regions">Regions</a></li><li><a href="#system-stats">System Stats</a></li><li><a href="#trends">Trends</a></li><li><a href="#incidents">Incidents</a></li><li><a href="#clusters">Clusters</a></li><li><a href="#users">Users</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects/1">Project Board</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="cloud-overview.html">← OPQ Box Overview</a><a class="docs-next button" href="cloud-view.html">OPQ View →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#naming-conventions">Naming Conventions</a></li><li><a href="#box-events">Box Events</a></li><li><a href="#box-owners">Box Owners</a></li><li><a href="#events">Events</a></li><li><a href="#fsfiles-fschunks">fs.files, fs.chunks</a></li><li><a href="#health">Health</a></li><li><a href="#incidents">Incidents</a></li><li><a href="#locations">Locations</a></li><li><a href="#measurements">Measurements</a></li><li><a href="#opq-boxes">OPQ Boxes</a></li><li><a href="#regions">Regions</a></li><li><a href="#system-stats">System Stats</a></li><li><a href="#trends">Trends</a></li><li><a href="#users">Users</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects/1">Project Board</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
               var search = docsearch({
                 
                 apiKey: '9bf16cc78135dbeeb3826894ebbbb2ee',
