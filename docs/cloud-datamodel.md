@@ -129,8 +129,8 @@ The incidents collection contains documents that classify one or more events. An
 | deviation_from_nominal | Float | Absolute value of measurement deviation from nominal |
 | measurements | [Measurement] | Copied from event |
 | gridfs_filename | String | Filename of trimmed waveform copied from event |
-| classifications | [Classification] | List of classifications that can be applied to incident |
-| ieee_duration | String | A string indicating one of the standard IEEE durations associated with this incident. (see below) |
+| classifications | [Classification] | List of classifications that can be applied to incident (see table below)|
+| ieee_duration | String | A string indicating one of the standard IEEE durations associated with this incident (see table below) |
 | annotations | [Annotation] | List of annotations associated with this incident |
 | metadata | Object | Key-Value pairs providing meta-data for this incident | 
 
@@ -142,12 +142,12 @@ Various organization such as IEEE, ITIC, CBEMA, and SEMI have proposed standardi
 | EXCESSIVE_THD | Exceeds IEEE 1159 recommendations for THD (5% over 200 ms windows). |
 | ITIC_PROHIBITED | Voltage observed in the ITIC prohibited region. |
 | ITIC_NO_DAMAGE | Voltage observed in the ITIC no damage region. |
-| VOLTAGE_SAG | Short-term RMS phenomena with observed voltage between 0.1 - 0.9 pu |
-| VOLTAGE_SWELL | Short-term RMS phenomena with observed voltage between 1.1 - 1.8 pu |
-| VOLTAGE_INTERRUPTION | Short-term RMS phenomena with observed voltage less than 0.1 pu |
-| FREQUENCY_SAG | Frequency observed at < 0.1Hz nominal |
-| FREQUENCY_SWELL | Frequency observed at > 0.1Hz nominal |  
-| FREQUENCY_INTERRUPTION | Frequency observed at < 0.01Hz nominal |  
+| VOLTAGE_SWELL | Voltage greater than 1.1 pu |
+| VOLTAGE_SAG | Voltage between 0.1 - 0.9 pu |
+| VOLTAGE_INTERRUPTION | Voltage less than 0.1 pu |
+| FREQUENCY_SWELL | Frequency greater than 62 Hz |  
+| FREQUENCY_SAG | Frequency between 58 Hz and 59.5 Hz |
+| FREQUENCY_INTERRUPTION | Frequency less than 58 Hz  |  
 | SEMI_F47_VIOLATION | Voltage observed at 0.5 pu for more than 200ms, 0.7 pu for more than 0.5 seconds, or 0.8 pu for more than 1 second. |  
 
 *Note: pu stands for "per unit" and in the U.S. 1pu = 120V.*
