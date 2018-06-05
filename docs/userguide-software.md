@@ -65,6 +65,17 @@ See the legend to determine the types of events noticed.
   
 This visualization supports panning and zooming.  Scroll the mouse up or down over the visualization to change the time interval. Click and drag right or left to change the window of time displayed.
 
+## Box Map Page
+
+<img width="600px" src="/docs/assets/view/components/box-map-page.png" >
+
+The Box Map page provides a location-oriented perspective on the OPQ Boxes associated with this OPQ Cloud instance. As the above screen shot shows, boxes are represented either by an OPQ icon and current power data (when there is no additional boxes nearby) or by a a "roll-up" consisting or a circle (when two or more boxes are present nearby with respect to that zoom level).  When boxes are represented by a circle, zooming in with eventually reveal their location. 
+
+Clicking on the icon associated with a box reveals additional details about its status, as shown next:
+
+<img width="400px" src="/docs/assets/view/components/box-map-status.png" >
+
+
 ## Live Data Page
 
 If you have login credentials for OPQ, you can login by clicking on the "Login" link in the upper right corner.  To obtain login credentials for an OPQ View system, you must request them from an administrator. After logging in, you can acess the Live Data page from the navbar. 
