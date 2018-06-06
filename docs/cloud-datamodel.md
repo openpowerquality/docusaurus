@@ -145,12 +145,12 @@ Various organization such as IEEE, ITIC, CBEMA, and SEMI have proposed standardi
 | VOLTAGE_SWELL | Voltage greater than 1.1 pu |
 | VOLTAGE_SAG | Voltage between 0.1 - 0.9 pu |
 | VOLTAGE_INTERRUPTION | Voltage less than 0.1 pu |
-| FREQUENCY_SWELL | Frequency greater than 62 Hz |  
-| FREQUENCY_SAG | Frequency between 58 Hz and 59.5 Hz |
+| FREQUENCY_SWELL | Frequency greater than 60.1 Hz |  
+| FREQUENCY_SAG | Frequency between 58 Hz and 59.9 Hz |
 | FREQUENCY_INTERRUPTION | Frequency less than 58 Hz  |  
 | SEMI_F47_VIOLATION | Voltage observed at 0.5 pu for more than 200ms, 0.7 pu for more than 0.5 seconds, or 0.8 pu for more than 1 second. |  
 
-*Note: pu stands for "per unit" and in the U.S. 1pu = 120V.*
+*Note: pu stands for "per unit" and 1pu = nominal. In the U.S. 1pu = 120V.*
 
 The following table classifies the duration according to standard IEEE terminology for durations.   Note that the precise duration of the incident can be determined by subtracting start_timestamp_ms from end_timestamp_ms.
 
