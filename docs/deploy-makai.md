@@ -25,4 +25,130 @@ As long as all the dependencies are satisfied, it is sufficient to run `build_an
 
 You can also build each component individually.  For details, consult [Triggering Broker installation](/docs/cloud-makai.html#installation), [Acquisition Broker installation](/docs/cloud-makai.html#installation-1), and [Triggering Service installation](/docs/cloud-makai.html#installation-2).
 
- 
+
+## Disabling the Makai service
+
+To disable the Makai service:
+
+Log into the server.
+
+Ensure the that the service in currently running. We can use `sudo service --status-all` to list all services and ensure that `makai_service` is currently running.
+
+```
+opquser@emilia:~$ sudo service --status-all
+[sudo] password for opquser:
+ [ + ]  acpid
+ [ + ]  acq_broker
+ [ + ]  apache2
+ [ - ]  bootlogs
+ [ - ]  bootmisc.sh
+ [ - ]  checkfs.sh
+ [ - ]  checkroot-bootclean.sh
+ [ - ]  checkroot.sh
+ [ + ]  console-setup
+ [ + ]  cron
+ [ + ]  dbus
+ [ + ]  exim4
+ [ - ]  hostname.sh
+ [ - ]  hwclock.sh
+ [ + ]  irqbalance
+ [ + ]  jenkins
+ [ + ]  kbd
+ [ + ]  keyboard-setup
+ [ - ]  killprocs
+ [ + ]  kmod
+ [ + ]  makai_service
+ [ + ]  mauka
+ [ + ]  mongod
+ [ - ]  mongodrs
+ [ - ]  motd
+ [ - ]  mountall-bootclean.sh
+ [ - ]  mountall.sh
+ [ - ]  mountdevsubfs.sh
+ [ - ]  mountkernfs.sh
+ [ - ]  mountnfs-bootclean.sh
+ [ - ]  mountnfs.sh
+ [ + ]  networking
+ [ + ]  ntp
+ [ + ]  procps
+ [ + ]  rc.local
+ [ - ]  redis-server
+ [ - ]  rmnologin
+ [ - ]  rsync
+ [ + ]  rsyslog
+ [ - ]  saned
+ [ - ]  sendsigs
+ [ + ]  ssh
+ [ - ]  sudo
+ [ + ]  trg_broker
+ [ + ]  udev
+ [ + ]  udev-finish
+ [ - ]  umountfs
+ [ - ]  umountnfs.sh
+ [ - ]  umountroot
+ [ + ]  urandom
+ [ - ]  x11-common
+```
+
+Stop the service with `sudo service makai_service stop`, `sudo service acq_broker stop`, and `sudo service trg_broker stop`, and then ensure the service is no longer running.
+
+```
+opquser@emilia:~$ sudo service makai_service stop
+opquser@emilia:~$ sudo service acq_broker stop
+opquser@emilia:~$ sudo service trg_broker stop
+opquser@emilia:~$ sudo service --status-all
+ [ + ]  acpid
+ [ - ]  acq_broker
+ [ + ]  apache2
+ [ - ]  bootlogs
+ [ - ]  bootmisc.sh
+ [ - ]  checkfs.sh
+ [ - ]  checkroot-bootclean.sh
+ [ - ]  checkroot.sh
+ [ + ]  console-setup
+ [ + ]  cron
+ [ + ]  dbus
+ [ + ]  exim4
+ [ - ]  hostname.sh
+ [ - ]  hwclock.sh
+ [ + ]  irqbalance
+ [ + ]  jenkins
+ [ + ]  kbd
+ [ + ]  keyboard-setup
+ [ - ]  killprocs
+ [ + ]  kmod
+ [ - ]  makai_service
+ [ - ]  mauka
+ [ + ]  mongod
+ [ - ]  mongodrs
+ [ - ]  motd
+ [ - ]  mountall-bootclean.sh
+ [ - ]  mountall.sh
+ [ - ]  mountdevsubfs.sh
+ [ - ]  mountkernfs.sh
+ [ - ]  mountnfs-bootclean.sh
+ [ - ]  mountnfs.sh
+ [ + ]  networking
+ [ + ]  ntp
+ [ + ]  procps
+ [ + ]  rc.local
+ [ - ]  redis-server
+ [ - ]  rmnologin
+ [ - ]  rsync
+ [ + ]  rsyslog
+ [ - ]  saned
+ [ - ]  sendsigs
+ [ + ]  ssh
+ [ - ]  sudo
+ [ - ]  trg_broker
+ [ + ]  udev
+ [ + ]  udev-finish
+ [ - ]  umountfs
+ [ - ]  umountnfs.sh
+ [ - ]  umountroot
+ [ + ]  urandom
+ [ - ]  x11-common
+```
+
+
+
