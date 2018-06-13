@@ -141,12 +141,6 @@
 <pre><code class="hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">MyFancyPlugin</span>(<span class="hljs-title">plugins</span>.<span class="hljs-title">base</span>.<span class="hljs-type">MaukaPlugin</span>):
       ...
 </span></code></pre>
-<ol start="4">
-<li>Create the following module level function</li>
-</ol>
-<pre><code class="hljs"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_plugin</span><span class="hljs-params">(config)</span></span>:
-      plugins.base.run_plugin(MyFancyPlugin, config)
-</code></pre>
 <ol start="5">
 <li>Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin. Finally, a multiprocess exit event object is passed to the base class with allows the plugin manager to safely terminate plugins.</li>
 </ol>
