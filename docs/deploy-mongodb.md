@@ -212,7 +212,7 @@ Don't fret, it's possible to restore the database using the most recent backup.
 
 The steps needed to restore a working copy of the DB are as follows:
 
-##### Transfer your backup to the target server and extract it.
+### Transfer your backup to the target server and extract it.
 
 Ensure that the tar.gz file is on the server that you intend to backup. For the purpose of this document, we will show the backup example in `/home/opquser/backups/`.
 
@@ -264,7 +264,7 @@ opq/fs.chunks.bson.gz
 opq/measurements.metadata.json.gz
 ```
 
-##### Disable OPQ Services that touch the DB.
+### Disable OPQ Services that touch the DB.
 
 Visit and perform the linked instructions for disabling OPQ services.
 
@@ -273,7 +273,7 @@ Visit and perform the linked instructions for disabling OPQ services.
 3. Disable Health by following the instructions under `Kill the current OPQ Health process` in the [Health Deployment Guide](deploy-health.md).
 4. Disable View by following the instructions under `Kill the current OPQView processes` in the [View Deployment Guide](deploy-view.md).
 
-##### Drop the old or damaged database (assuming it still exists!)
+### Drop the old or damaged database (assuming it still exists!)
 
 Log into the mongodb console and switch to the active opq database. Then run the `db.dropDatabase()` command. Please be careful, this will drop all of your data.
 
@@ -293,7 +293,7 @@ switched to db opq
 { "dropped" : "opq", "ok" : 1 }
 ```
 
-##### Restore the backup
+### Restore the backup
 
 Change into the backups directory where the latest backup was extracted earlier.
 
@@ -506,7 +506,7 @@ opquser@emilia:~/backups$ mongorestore --db opq --gzip opq
 2018-06-12T13:23:47.327-1000	done
 ```
 
-##### Bring up OPQ services
+### Bring up OPQ services
 
 Visit and perform the linked instructions for re-enable OPQ services.
 
