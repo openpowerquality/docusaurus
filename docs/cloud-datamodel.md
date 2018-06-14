@@ -133,6 +133,7 @@ The incidents collection contains documents that classify one or more events. An
 
 | Field  | Type  | Description  |
 |--------|-------|--------------|
+| incident_id | Integer | A unique integer representing the incident |
 | box_id | String   | Box id       |
 | start_timestamp_ms | Integer | Start of the incident (ms since epoch) |
 | end_timestamp_ms | Integer | End of the incident (ms since epoch) |
