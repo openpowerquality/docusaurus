@@ -148,7 +148,7 @@ The incidents collection contains documents that classify one or more events. An
 | annotations | [Annotation] | List of annotations associated with this incident |
 | metadata | Object | Key-Value pairs providing meta-data for this incident | 
 
-Supplemental indexing: box_id, start_timestamp_ms, measurement_type, classifications, ieee_duration, annotations
+Supplemental indexing: box_id, location, start_timestamp_ms, measurement_type, classifications
 
 
 Various organization such as IEEE, ITIC, CBEMA, and SEMI have proposed standardized terminology for classifying power quality deviations. The following two tables cover the classifications based on these standards. Note that the standards overlap, so an incident could have multiple, simultaneous classifications (such as both ITIC_PROHIBITED and VOLTAGE_SWELL, or both SEMI_F47_VIOLATION and VOLTAGE_SAG).  For clarity, we indicate the type of incident and the duration of the incident separately, except in the case of SEMI_F47_VIOLATION, where the durations do not conform to the IEEE categories and so are included in the classication.
