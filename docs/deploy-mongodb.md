@@ -201,6 +201,11 @@ Next, we will initiate the replica set with the config that we just created usin
 
 At this point, you should be ready to go. See the official mongodb documentation if you wish to setup further access rights such as users or permissions.
 
+## Setting up Indexes
+
+The indexes defined in our [data model](cloud-datamodel.md) can be automatically setup by running the script `opq/util/mongod/ensure_indexes.sh` on the server that you've installed MongoDB on.
+
+In the case that you are trying to create a unique index over a collection that had duplicated, you can modify `opq/util/mongo/remove_dups.js` to remove documents in a collection with duplicate keys.
 
 ## Restoring MongoDB from a backup
 
