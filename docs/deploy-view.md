@@ -13,7 +13,7 @@ First, make sure you have [set up opquser ssh access](deploy-initial-configurati
 
 Second, invoke `meteor npm install` to verify that you have installed the latest versions of all libraries.
 
-Third, invoke `meteor npm run test` to verify that the test cases pass.
+Third, invoke `meteor npm run test-all` to verify that the test cases pass.
 
 Fourth, invoke `meteor npm run start` and then go to http://localhost:3000 to verify that the system runs without problems.
 
