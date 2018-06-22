@@ -69,19 +69,23 @@ Transients can be caused by loose connections, lightning strikes, strong winds c
 
 ## Industry standards
 
-Now we know that in traditional grids, substantial frequency deviation is not common, but voltage deviations are.  Because of this, industries that produce electronic components have developed standards for what kinds of voltage deviations their products should withstand. Let's look at two examples.
+Not surprisingly, various standards have been developed to characterize power quality.  Here are some of the most prominent.
 
-### ITIC Curve
+### IEEE 1159 
+
+[IEEE 1159: Recommended Practice for Monitoring Electric Power Quality](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=8293684) provides an overview of power quality monitoring, including descriptions of power quality phenomena, objectives for power quality monitoring, types of monitoring instruments, and various best practices for conducting power quality monitoring and interpreting the results.  
+
+### ITIC (and CBEMA) Curves
 
 The [Information Technology Industry Council](http://www.itic.org/) (ITIC) has created a standard (called the "ITIC Curve") that specifies what kinds of power quality problems should be tolerated by electronic devices.  The latest version of this standard was published in 1999, and it defines what kinds of voltage fluctuations should be tolerated by electronic devices.  Basically, for very short periods of time, very large deviations from normal voltage should be tolerated, but as the length of time of the deviation increases, the amount of deviation that should be tolerated decreases: 
 
 <img src="/docs/assets/intro/itic-curve.png" width="500px">
 
-Note that this standard is simply a recommendation, and there is no requirement that electronic devices actually observe this tolerance to voltage deviations. 
+Note that this standard is simply a recommendation, and there is no requirement that electronic devices actually observe this tolerance to voltage deviations. The ITIC Curve is a revision of the similar standard called the "CBEMA Curve" developed by the Computer Business Equipment Manufacturers Association in the 1970's.
 
 ### SEMI F47
 
-A similar standard is [SEMI F47-0706](http://dom.semi.org/web/wstandards.nsf/19A2E6E9C088D3958825733100743B15/$file/4OverviewofSEMIF47-0706.pdf), which  sets minimum voltage sag immunity requirements for equipment used in the semiconductor industry.
+SEMI, the industry association for the semiconductor industry, developed a standard with similar goals to the ITIC Curve called [SEMI F47-0706](http://dom.semi.org/web/wstandards.nsf/19A2E6E9C088D3958825733100743B15/$file/4OverviewofSEMIF47-0706.pdf). It sets minimum voltage sag immunity requirements.
 
 ## PQ and OPQ
 
