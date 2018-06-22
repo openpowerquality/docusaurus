@@ -34,6 +34,8 @@
     "Initial Configuration": "Initial Configuration",
     "deploy-makai": "Deployment: Makai",
     "deploy-mauka": "Deployment: Mauka",
+    "deploy-mongodb": "Deployment: MongoDB",
+    "MongoDB": "MongoDB",
     "deploy-view": "Deployment: View",
     "developerguide-bibliography": "Bibliography",
     "Bibliography": "Bibliography",

@@ -214,7 +214,7 @@ sudo apt-get install -y python3
 pip3 install -r mauka/requirements.txt
 ```
 
-### Kill the current OPQMauka process
+### Kill the current OPQMauka process 
 
 OPQMauka is installed as a system service which runs under the opq system user account. This is a special account that does not have a login shell which provides hardened security. The other advantage to running as a system service is that the service will automatically boot if the server restarts. Further, the service can be managed by the operating system's `service` command.
 

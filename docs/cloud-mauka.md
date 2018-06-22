@@ -188,12 +188,6 @@ class MyFancyPlugin(plugins.base.MaukaPlugin):
       ...
 ```
 
-4. Create the following module level function
-```
-def run_plugin(config):
-      plugins.base.run_plugin(MyFancyPlugin, config)
-```
-
 5. Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin. Finally, a multiprocess exit event object is passed to the base class with allows the plugin manager to safely terminate plugins.
 ```
 def __init__(self, config, exit_event):
