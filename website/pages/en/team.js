@@ -71,6 +71,12 @@ class Team extends React.Component {
         imageAlign: 'left'
       },
       {
+        title: 'Uzair Baig',
+        image: imgUrl('baig.png'),
+        content: 'Department of Electrical Engineering, University of Hawaii',
+        imageAlign: 'left'
+      },
+      {
         title: 'Anthony Christe',
         image: imgUrl('christe.jpg'),
         content: 'Graduate Student, Department of Information and Computer Sciences, University of Hawaii',
