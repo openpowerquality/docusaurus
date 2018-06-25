@@ -276,13 +276,13 @@ OK
 
 1. In general, do your best to follow the [pep 8](https://www.python.org/dev/peps/pep-0008/) Python coding convention (see also http://pep8.org/#introduction). If any of the other following guidelines contradict the pep 8 standard, use the following instead of the standard.
 2. Try to keep lines < 120 characters 
-2. Variables, functions, and methods should be [snake case](https://en.wikipedia.org/wiki/Snake_case)
-3. Classes should use [camel case](https://en.wikipedia.org/wiki/Camel_case)
+2. Variables, functions, and methods should be [snake_case](https://en.wikipedia.org/wiki/Snake_case)
+3. Classes should use [CapitalCamelCase](https://en.wikipedia.org/wiki/Camel_case)
 4. Constants and enumeration values should be SNAKE_CASE_ALL_CAPS
 5. Modules should provide module level documentation at the top of every .py file that briefly describes the purpose and contents of the module
 6. Functions and methods should document their purpose, input, and output as Python [docstrings](http://docs.python-guide.org/en/latest/writing/documentation/).
 7. Do not add type information to documentation, instead provide type information using Python's built-in [type hints](https://docs.python.org/3/library/typing.html) (see also https://www.python.org/dev/peps/pep-0484/)
-8. Whenever practical and when types are known, provide type hints for class variables, instance variables, function inputs and return types, method inputs and return types. The type hints are not enforced at runtime, but merely provide compile time hints. These are most useful in conjunction with an IDE so that your editor can highlight when input or return types do not match what is provided in the code.
+8. Whenever practical and when types are known, provide type hints for class variables, instance variables, and function/method inputs and return types. The type hints are not enforced at runtime, but merely provide compile time hints. These are most useful in conjunction with an IDE so that your editor can highlight when input or return types do not match what is expected.
 9. Whenever a new plugin is developed, update OPQ's docusaurus to provide a high-level and technical documentation on the plugin. Mauka Diagrams may also need to be updated.  
 10. Static analysis [fill me in]
 
