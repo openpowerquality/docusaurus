@@ -239,5 +239,35 @@ This is useful for testing, but also useful for times when we want to run a plug
 
 This functionality is currently contained in [plugins/mock.py](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/mock.py).
 
-The script can either be used as part of an API or as a standalone script. As long as the URL of Mauka's broker is known, we can use this inject messages into the system. This provides control over the topic, message contents, and the type of the contents (string or bytes). 
+The script can either be used as part of an API or as a standalone script. As long as the URL of Mauka's broker is known, we can use this inject messages into the system. This provides control over the topic, message contents, and the type of the contents (string or bytes).
 
+### Testing
+
+Mauka utilizes Python's built-in support for [unit testing](https://docs.python.org/3/library/unittest.html). 
+
+Unit tests should be used to test the analysis functionality of every Mauka plugin. Tests are currently laid out in the following manner.
+
+```
+opq/mauka/tests
+  + /services
+  + /plugins 
+``` 
+
+Unit tests that tests Mauka services (such as the brokers or plugin manager) should reside in `tests/services`. Unit tests for plugins should reside in `tests/plugins`. Every testing sub-directory must include a `__init__.py` file.
+
+Every plugin should have a module in the `tests/plugins` directory that directly tests a Mauka plugin. Every plugin module should be named test_<i>PluginName</i>.py
+
+Each test plugin module must contain a class (which is the same name as the module) that then extends `unittest.TestCase`.
+
+An example of this layout can be seen at `mauka/tests/plugins/test_IticPlugin.py`.
+
+To run all unit tests, run `python -m unittest discover` from the `opq/mauka` directory. This command will recursively discover all unittests in the tests directory and run them.
+
+```
+(venv-opq) [anthony@localhost mauka]$ python3 -m unittest discover
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.003s
+
+OK
+```
