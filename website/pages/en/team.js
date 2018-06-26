@@ -107,6 +107,12 @@ class Team extends React.Component {
         imageAlign: 'left'
       },
       {
+        title: 'Camelia Lai',
+        image: imgUrl('lai.png'),
+        content: 'Student, Department of Information and Computer Sciences',
+        imageAlign: 'left'
+      },
+      {
         title: 'Sergey Negrashov',
         image: imgUrl('negrashov.jpg'),
         content: 'Graduate Student, Department of Information and Computer Sciences, University of Hawaii',
