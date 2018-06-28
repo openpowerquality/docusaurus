@@ -226,6 +226,7 @@ The opq_boxes collection provides information about each individual OPQBox in th
 | location |  String |  A location slug that identifies the current location of this box. |
 | location_start_time_ms | Integer  | A UTC millisecond time stamp indicating the time that data from the current location began being transmitted.  |
 | location_archive | Array  | Contains objects with fields location and location_start_time_ms. This provides a historical record of the locations associated with this box.  |
+| public_key | String  | A 32 byte key used for CurveZMQ authentication. |
 
 Supplemental indexing: box_id is a unique index, name is a unique index.
 
