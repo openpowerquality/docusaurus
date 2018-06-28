@@ -2,12 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://openpowerquality.org/blog</id>
     <title>Open Power Quality Blog</title>
-    <updated>2018-04-12T06:00:00Z</updated>
+    <updated>2018-06-20T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://openpowerquality.org/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Open Power Quality news and events.</subtitle>
     <logo>https://openpowerquality.org/img/opqlogo_white.png</logo>
     <rights>Copyright © 2018Open Power Quality</rights>
+    <entry>
+        <title type="html"><![CDATA[OPQ wins runner up prize in Electromaker Connectivity Contest]]></title>
+        <id>https://openpowerquality.org/blog/2018/06/20/electromaker-connectivity-contest.html</id>
+        <link href="https://openpowerquality.org/blog/2018/06/20/electromaker-connectivity-contest.html">
+        </link>
+        <updated>2018-06-20T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<div style="padding-bottom: 50px">
+We are delighted to announce that the Open Power Quality project was selected as a "runner up" in the <a href="https://www.electromaker.io/contest/connectivity">Electromaker Connectivity Contest</a>. We will be rece]]></summary>
+        <author>
+            <name>Serge Negrashov</name>
+            <uri>https://sergey-negrashov.github.io/</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Negrashov wins ARCS Fellowship]]></title>
         <id>https://openpowerquality.org/blog/2018/04/12/negrashov-arcs-award.html</id>

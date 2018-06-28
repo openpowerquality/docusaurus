@@ -4,7 +4,7 @@
         <title>Open Power Quality Blog</title>
         <link>https://openpowerquality.org/blog</link>
         <description>The best place to stay up-to-date with the latest Open Power Quality news and events.</description>
-        <lastBuildDate>Thu, 12 Apr 2018 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 20 Jun 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
@@ -13,6 +13,14 @@
             <link>https://openpowerquality.org/blog</link>
         </image>
         <copyright>Copyright © 2018Open Power Quality</copyright>
+        <item>
+            <title><![CDATA[OPQ wins runner up prize in Electromaker Connectivity Contest]]></title>
+            <link>https://openpowerquality.org/blog/2018/06/20/electromaker-connectivity-contest.html</link>
+            <guid>https://openpowerquality.org/blog/2018/06/20/electromaker-connectivity-contest.html</guid>
+            <pubDate>Wed, 20 Jun 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<div style="padding-bottom: 50px">
+We are delighted to announce that the Open Power Quality project was selected as a "runner up" in the <a href="https://www.electromaker.io/contest/connectivity">Electromaker Connectivity Contest</a>. We will be rece]]></description>
+        </item>
         <item>
             <title><![CDATA[Negrashov wins ARCS Fellowship]]></title>
             <link>https://openpowerquality.org/blog/2018/04/12/negrashov-arcs-award.html</link>
