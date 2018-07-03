@@ -259,7 +259,7 @@ Every plugin should have a module in the `tests/plugins` directory that directly
 
 Each test plugin module must contain a class (which is the same name as the module) that then extends `unittest.TestCase`.
 
-An example of this layout can be seen at `mauka/tests/plugins/test_IticPlugin.py`.
+An example of this layout can be seen at `mauka/tests/plugins/test_itic_plugin.py`.
 
 To run all unit tests, run `python -m unittest discover` from the `opq/mauka` directory. This command will recursively discover all unittests in the tests directory and run them.
 
@@ -274,9 +274,9 @@ OK
 
 ### Development Guidelines
 
-1. In general, do your best to follow the [pep 8](https://www.python.org/dev/peps/pep-0008/) Python coding convention (see also http://pep8.org/#introduction). If any of the other following guidelines contradict the pep 8 standard, use the following instead of the standard.
-2. Try to keep lines < 120 characters 
-2. Variables, functions, and methods should be [snake_case](https://en.wikipedia.org/wiki/Snake_case)
+1. Follow the [pep 8](https://www.python.org/dev/peps/pep-0008/) Python coding convention (see also http://pep8.org/#introduction). If any of the other following guidelines contradict the pep 8 standard, use the following instead of the standard.
+2. Lines must be < 120 characters 
+2. Variables, functions, methods, and modules should be [snake_case](https://en.wikipedia.org/wiki/Snake_case)
 3. Classes should use [CapitalCamelCase](https://en.wikipedia.org/wiki/Camel_case)
 4. Constants and enumeration values should be SNAKE_CASE_ALL_CAPS
 5. Modules should provide module level documentation at the top of every .py file that briefly describes the purpose and contents of the module
@@ -284,7 +284,7 @@ OK
 7. Do not add type information to documentation, instead provide type information using Python's built-in [type hints](https://docs.python.org/3/library/typing.html) (see also https://www.python.org/dev/peps/pep-0484/)
 8. Whenever practical and when types are known, provide type hints for class variables, instance variables, and function/method inputs and return types. The type hints are not enforced at runtime, but merely provide compile time hints. These are most useful in conjunction with an IDE so that your editor can highlight when input or return types do not match what is expected.
 9. Whenever a new plugin is developed, update OPQ's docusaurus to provide a high-level and technical documentation on the plugin. Mauka Diagrams may also need to be updated.  
-10. Static analysis [fill me in]
+10. Whenever you commit or merge to master, ensure the Mauka code base passes all static analysis checks and all unit tests pass.
 
 [The Zen of Python (pep 20)](https://www.python.org/dev/peps/pep-0020/)
 ```
@@ -310,3 +310,63 @@ Namespaces are one honking great idea -- let's do more of those!
 ```
 
 When in doubt, ask.
+
+### Static Analysis
+
+[Coala](https://coala.io/#/home) is used to perform static analysis of the Mauka code base. Coala utilizes a plugin architecture to wrap several linters for Python (and other) code bases.
+
+See https://github.com/coala/bear-docs/blob/master/README.rst#python to find information about linters that are supported for Python.
+
+Static code analysis in Mauka is controlled by the .coafile at [opq/mauka/.coafile](https://github.com/openpowerquality/opq/blob/master/mauka/.coafile) 
+
+To perform static code analysis ensure that coala is installed. Change to the `mauka` directory and invoke `coala --ci`. This will load the .coafile settings, run the linters, and display any errors tha the linters find. The following is an example of such a run.
+
+```
+anthony:~/Development/opq/mauka [12:28:11 Tue Jul 03]
+> coala --ci
+Executing section mauka...
+Executing section mauka.spacing...
+Executing section mauka.pep8...
+Executing section mauka.pylint...
+Executing section mauka.pyflakes...
+Executing section mauka.bandit...
+Executing section cli...
+```
+
+Here, we can see the different sections and linters running over the Mauka code base. Let's discuss each of the sections in detail.
+
+#### Static Analysis Configuration
+
+Configuration for Mauka's static analysis is performed in the [opq/mauka/.coafile](https://github.com/openpowerquality/opq/blob/master/mauka/.coafile) file.
+
+The `mauka` section sets up ignored files and files that need to be linted. In our case, we want to ignore the auto-generated protobuf files and the tests directory. We want to lint all other files under mauka/ that end with the `.py` extension.
+
+`mauka.spacing` ensures that all whitespace consists of space characters and not tabs.
+
+`mauka.pep8` ensures that the code base conforms to Python pep8 standard. We make one change which is to set max line length to 120 characters.
+
+`mauka.pylint` runs [pylint](https://www.pylint.org/) over the Mauka code base which catches a wide range common style and bug prone code. We disable [C0301](http://pylint-messages.wikidot.com/messages:c0301) since this already checked and configured in the mauka.pep8 linter. We also disable C1801 which disallows the following:
+
+```python
+if len(some_collection) == 0:
+    # do something
+else:
+    # do something else    
+```
+
+in favor of the more Pythonic
+
+```python
+if some_collection:
+    # do something
+else:
+    # do something else
+```
+
+which tests if the collection is empty directly using the if statement. This issue with this approach is that this idiom does not work for numpy arrays. These are so prevailent in our code that we decided to use the len(collection) idiom to test for all empty collections since this approach does work with numpy.
+
+
+`mauka.pyflakes` (https://github.com/PyCQA/pyflakes) performs similar linting to pylint.
+
+`mauka.bandit` performs security checks over the code base. B322 is disabled since it only applies to Python 2 code bases.
+
