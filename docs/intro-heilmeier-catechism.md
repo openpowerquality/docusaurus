@@ -9,9 +9,9 @@ This section summarizes the OPQ Project in terms of the [Heilmeier Catechism](ht
 
 **What are we trying to do?**
 
-The objective of the OPQ Project is to design and implement novel, low-cost hardware and software to improve the ability of organizations to independently monitor, visualize, and analyze their power quality. 
+The objective of the OPQ Project is to develop a low-cost, extensible, high quality distributed sensor network technology that enables organizations to more quickly and successfully create next generation electrical grids (such as those that incorporate significant amounts of distributed intermittent energy generation using wind and solar).
 
-By "power quality", we mean data about frequency, voltage, and transients occurring at the point of measurement. OPQ does not measure current nor the total amount of power consumed over a period of time at a location. 
+The OPQ sensor network will provide organizations with new ways to monitor, visualize, and diagnose the quality and stability of their electrical grid, facilitating revolutionary improvements to electrical grids of all sizes.
 
 ## Current practice
 
@@ -23,7 +23,9 @@ Power quality data collected by utilities tends to be proprietary information.  
 
 In-house monitoring involves installation of monitors into electrical mains. Individual monitors are architecturally independent of each other. Monitors cost from $700 - $1200 each and are permanently installed. 
 
-Current power quality hardware and software is fixed and very difficult to tailor and enhance for new purposes.
+Whether done by utilities or in-house, current power quality hardware and software is fixed, difficult to tailor, and difficult or impossible to enhance for new purposes.
+
+Current practice suffers from the following paradox: incorporation of distributed, intermittent renewables makes it more difficult to maintain power quality, while modern electronics are more sensitive to power quality problems than appliances in the past. Thus, grids are becoming less reliable at the same time that reliability requirements are increasing.  
 
 ## Advantages of OPQ
 
