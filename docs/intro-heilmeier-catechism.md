@@ -9,11 +9,11 @@ This section summarizes the OPQ Project in terms of the [Heilmeier Catechism](ht
 
 **What are we trying to do?**
 
-The objective of the OPQ Project is to develop a low-cost, extensible, high quality distributed sensor network technology that will enable breakthroughs in electrical grid design and application. These breakthroughs include:
+The objective of the OPQ Project is to develop a low-cost, extensible, high quality distributed sensor network technology that will enable breakthroughs based on power quality data collection and analysis. These breakthroughs include:
 
-  * Monitoring and analysis that can enable radical increases in the use of distributed, renewable energy sources.
-  * A software architecture facilitating integration of machine learning and other analytic techniques to significantly improve grid design and problem diagnosis.
-  * Integration endpoints for environmental and other data sources to enable new predictive capabilities regarding grid health.
+  * Significant increases in the use of distributed, renewable energy sources while maintaining high power quality.
+  * Application of machine learning and other analytic techniques to significantly improve grid design and problem diagnosis.
+  * Integration endpoints for environmental and other data sources that enable new predictive capabilities.
   * Acquisition of electrical data useful for research on side channel attacks such as simple or differential power analysis.
 
 ## Current practice
