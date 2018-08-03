@@ -97,6 +97,10 @@ In the case of OPQ, we are gathering power quality data to support goals such as
 
 *(2) Impact on policies regarding distributed renewable energy.* As noted above, incorporation of large amounts of distributed renewable energy can have adverse effects on both frequency and voltage.  OPQ provides a novel, easy to deploy mechanism for gathering data about the quality of power, which can be used in conjunction with other data sources (network topology, solar insolation, wind speeds, other environmental factors) to improve modeling and thus ensure that renewable energy sources are being used as much as possible. 
 
+## More about electricity monitoring
+
+The folks over at [Open Energy Monitor]() have produced an excellent [tutorial on AC Power](https://learn.openenergymonitor.org/electricity-monitoring/ac-power-theory/introduction) which goes into resistive vs reactive loads and real vs. reactive vs. apparent power.   
+
 
 
 
