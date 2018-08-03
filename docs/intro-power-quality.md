@@ -99,7 +99,7 @@ In the case of OPQ, we are gathering power quality data to support goals such as
 
 ## More about electricity monitoring
 
-The folks over at [Open Energy Monitor]() have produced an excellent [tutorial on AC Power](https://learn.openenergymonitor.org/electricity-monitoring/ac-power-theory/introduction) which goes into resistive vs reactive loads and real vs. reactive vs. apparent power.   
+The folks over at [Open Energy Monitor](https://openenergymonitor.org/) have produced an excellent [tutorial on AC Power](https://learn.openenergymonitor.org/electricity-monitoring/ac-power-theory/introduction) which goes into resistive vs reactive loads and real vs. reactive vs. apparent power.   
 
 
 
