@@ -298,7 +298,7 @@ Here's the UserProfile collection structure:
 | role | String | Currently, the defined roles are "user" and "admin". |
 | phone | String | Their phone number + provider |
 | unseen_notifications | Bool | Turns true when user has new notifications they haven't seen yet. |
-| notification_preferences | Object | Fields: <br/> - text and email are booleans and represents how user wants to receive notifications. <br/>- max_per_day is a string and represents how often user wants to be sent notifications can either be 'once a day', 'once an hour', or 'never'.  <br/>- notification_types is an array of the notifications user wants to receive. All notification types are stored in an array in the Notification collection as notificationTypes.|
+| notification_preferences | Object | Fields: <br/> - text and email are booleans and represents how user wants to receive notifications. <br/>- max_per_day is a string and represents how often user wants to be sent notifications. It can be set to 'once a day', 'once an hour', or 'never'.  <br/>- notification_types is an array of notification types the user wants to receive. All notification types users can subscribe to are stored in an array in the Notification collection as notificationTypes.|
 
 Supplemental indexing: username is a unique index.
 
@@ -310,11 +310,11 @@ Here's the UserProfile collection structure:
 
 | Field | Type | Description |
 |-------|------| ------------|
-| username | String |The username of a user who is subscribed to the notification type. |
-| type | String | The type of notification. i.e. 'system service down'. UserProfiles collection stores the types of notifications they are subscribed to in an array |
-| timestamp | Date | Time when this notification doc was created  |
-| data | Object | Fields: <br/>- summary is a string that provides additional info about the event that triggered it<br/><br/> More fields to be added as more notification types are added|
-| delivered | Boolean | Turns true once the notification is sent to the user interested |
+| username | String |The username of the user that is associated with this notification doc |
+| type | String | The type of notification. i.e. 'system service down'. UserProfiles collection stores all the notification types a user is subscribed to in an array of strings. |
+| timestamp | Date | Time when the notification doc was created.  |
+| data | Object | Fields: <br/>- summary is a string that provides additional info about the event that triggered it<br/> More fields to be added as more notification types are added.|
+| delivered | Boolean | Turns true once the notification is sent to the user it is associated with. |
 
 In OPQ View, only admins are able to define entities such as users, locations, regions, and OPQ Boxes. Users basically have only "read access" to the data in the system. (This will change in future when we provide the ability for users to annotate events and incidents.)
 
