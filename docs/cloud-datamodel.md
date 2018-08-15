@@ -7,7 +7,7 @@ At the core of the OPQ system lies a centralized MongoDB database. The majority 
 
 The set of MongoDB collections and their relationships constitutes the OPQ Data Model. Here's an overview of the collections:
 
-| Collection | Description | 
+| Collection | Description |
 |------------|-------------|
 | box_events | High-fidelity data associated with a single box. |
 | BoxOwners | A bi-directional mapping from OPQ Boxes to the Users that have an "ownership" role on them. |
@@ -79,11 +79,11 @@ The events collection provides access to high fidelity waveform data that was re
 
 Supplemental indexing: event_id is a unique index, target_event_start_time_ms is an index.
 
-## fs.files, fs.chunks 
+## fs.files, fs.chunks
 
 [GridFS](https://docs.mongodb.com/manual/core/gridfs/) is a MongoDB specification for storing large documents. As an OPQBox can collect a very large amount of data for each given event (often exceeding the 16 MB MongoDB document size limit), we've opted to utilize GridFS to store our high-fidelity data.
 
-At its core, GridFS is a very simple system consisting of two collections, fs.files and fs.chunks. 
+At its core, GridFS is a very simple system consisting of two collections, fs.files and fs.chunks.
 
 The fs.files collection stores file metadata:
 
@@ -130,7 +130,7 @@ Supplemental indexing: timestamp.
 
 **The Incident entity is under construction and not yet available.**
 
-The incidents collection contains documents that classify one or more events. An incident represents a deviation from nominal values for either frequency, voltage, or THD that has been classified. 
+The incidents collection contains documents that classify one or more events. An incident represents a deviation from nominal values for either frequency, voltage, or THD that has been classified.
 
 | Field  | Type  | Description  |
 |--------|-------|--------------|
@@ -146,7 +146,7 @@ The incidents collection contains documents that classify one or more events. An
 | classifications | [Classification] | List of classifications that can be applied to incident (see table below)|
 | ieee_duration | String | A string indicating one of the standard IEEE durations associated with this incident (see table below) |
 | annotations | [Annotation] | List of annotations associated with this incident |
-| metadata | Object | Key-Value pairs providing meta-data for this incident | 
+| metadata | Object | Key-Value pairs providing meta-data for this incident |
 
 Supplemental indexing: box_id, location, start_timestamp_ms, measurement_type, classifications
 
@@ -161,10 +161,10 @@ Various organization such as IEEE, ITIC, CBEMA, and SEMI have proposed standardi
 | VOLTAGE_SWELL | Voltage greater than 1.1 pu |
 | VOLTAGE_SAG | Voltage between 0.1 - 0.9 pu |
 | VOLTAGE_INTERRUPTION | Voltage less than 0.1 pu |
-| FREQUENCY_SWELL | Frequency greater than 60.1 Hz |  
+| FREQUENCY_SWELL | Frequency greater than 60.1 Hz |
 | FREQUENCY_SAG | Frequency between 58 Hz and 59.9 Hz |
-| FREQUENCY_INTERRUPTION | Frequency less than 58 Hz  |  
-| SEMI_F47_VIOLATION | Voltage observed at 0.5 pu for more than 200ms, 0.7 pu for more than 0.5 seconds, or 0.8 pu for more than 1 second. |  
+| FREQUENCY_INTERRUPTION | Frequency less than 58 Hz  |
+| SEMI_F47_VIOLATION | Voltage observed at 0.5 pu for more than 200ms, 0.7 pu for more than 0.5 seconds, or 0.8 pu for more than 1 second. |
 
 *Note: pu stands for "per unit" and 1pu = nominal. In the U.S. 1pu = 120V.*
 
@@ -180,7 +180,7 @@ The following table classifies the duration according to standard IEEE terminolo
 
 
 
-## Locations 
+## Locations
 
 The locations collection provides entities that define locations that can be associated with OPQ Boxes, Trends, Events, and other entities in the system.
 
@@ -198,7 +198,7 @@ Location slugs should be considered *permanent* once defined.  Since these slugs
 
 Likewise, you should not change the coordinate values willy-nilly.  Only change them if they incorrectly specify the intended location.
 
-## Measurements 
+## Measurements
 
 The measurements collection provides low-fidelity OPQBox snapshot data for a specific moment in time. Documents in this collection are produced at a very rapid rate; OPQ Makai requests data from each OPQ Box at a rate of six times per second. As such, each measurement document can essentially be thought of as an OPQBox "heartbeat", providing a timestamp and some additional low-fidelity data. Documents are persisted in the collection for a period of 24 hours before expiring.
 
@@ -213,7 +213,7 @@ The measurements collection provides low-fidelity OPQBox snapshot data for a spe
 
 Supplemental indexing: box_id and timestamp_ms are a unique composite index.
 
-## OPQ Boxes 
+## OPQ Boxes
 
 The opq_boxes collection provides information about each individual OPQBox in the system.
 
@@ -230,7 +230,7 @@ The opq_boxes collection provides information about each individual OPQBox in th
 
 Supplemental indexing: box_id is a unique index, name is a unique index.
 
-## Regions 
+## Regions
 
 “Regions” represent aggregations of Locations. Conceptually, a region consists of a region name along with a list of locations that are included in that region.  This is implemented via a bi-directional table called "regions":
 
@@ -241,15 +241,15 @@ Supplemental indexing: box_id is a unique index, name is a unique index.
 
 Supplemental indexing: none.
 
-Note that regions do not have a "description". Their slug should be self-descriptive, such as a city name (i.e. "Kailua, HI") or zip code (i.e. "96734"). Note that the relationship is many-to-many: a region can be associated with multiple locations, and a location can be associated with multiple regions. 
+Note that regions do not have a "description". Their slug should be self-descriptive, such as a city name (i.e. "Kailua, HI") or zip code (i.e. "96734"). Note that the relationship is many-to-many: a region can be associated with multiple locations, and a location can be associated with multiple regions.
 
 You can create a hierarchy of regions. For example, you can specify 5 locations as being in "96734", and those same 5 locations (as well as many others) can be included in the region named "Hawaii".
 
 Region and location slugs together constitute a single namespace (i.e. you can’t have two locations or two regions both called “96734”, nor can you have a location called “96734" and a region also called “96734”).
 
-## System Stats 
+## System Stats
 
-The SystemStats collection consists of a single timestamped document which provides "near-real time" information about the state of the system. The goal of the SystemStats collection is to facilitate system scalability: a server-side cron job can update the SystemStats document once every 10 seconds, and then all connected clients will be updated with the revised document that summarizes the most recent state of the system. This is preferable to clients retrieving individual Measurements documents, for example.  
+The SystemStats collection consists of a single timestamped document which provides "near-real time" information about the state of the system. The goal of the SystemStats collection is to facilitate system scalability: a server-side cron job can update the SystemStats document once every 10 seconds, and then all connected clients will be updated with the revised document that summarizes the most recent state of the system. This is preferable to clients retrieving individual Measurements documents, for example.
 
 | Field | Type | Description |
 |-------|------| ------------|
@@ -269,7 +269,7 @@ The SystemStats collection consists of a single timestamped document which provi
 Supplemental indexing: none.
 
 
-## Trends 
+## Trends
 
 The **trends** collection provides OPQBox measurements of voltage, frequency, and THD that are persisted indefinitely. Each trend document represents data aggregated over a one minute data collection window for an individual OPQBox.  Trend data is essentially a "roll-up" of the measurement data associated with a box.
 
@@ -286,18 +286,35 @@ Supplemental indexing: box_id and timestamp_ms are a composite index.
 
 ## Users
 
-Users are represented in OPQ by three collections: the Users collection (maintained by Meteor, which provides password and basic account information, which is not shown below), UserProfiles (additional profile information, shown below), and BoxOwners (which provides a two-way mapping between OPQ Boxes and their owner(s), discussed elsewhere on this page). 
+Users are represented in OPQ by three collections: the Users collection (maintained by Meteor, which provides password and basic account information, which is not shown below), UserProfiles (additional profile information, shown below), and BoxOwners (which provides a two-way mapping between OPQ Boxes and their owner(s), discussed elsewhere on this page).
 
 Here's the UserProfile collection structure:
 
-| Field  | Description  |
-|--------|--------------|
-| username |  The user's username, which is their email address. |
-| firstName | Their first name. |
-| lastName | The user's last name.  |
-| role | Currently, the defined roles are "user" and "admin". |
+| Field | Type | Description |
+|-------|------| ------------|
+| username | String |  The user's username, which is their email address. |
+| firstName | String | Their first name. |
+| lastName | String | The user's last name.  |
+| role | String | Currently, the defined roles are "user" and "admin". |
+| phone | String | Their phone number + provider |
+| unseen_notifications | Bool | Turns true when user has new notifications they haven't seen yet. |
+| notification_preferences | Object | Fields: <br/> - text and email are booleans and represents how user wants to receive notifications. <br/>- max_per_day is a string and represents how often user wants to be sent notifications can either be 'once a day', 'once an hour', or 'never'.  <br/>- notification_types is an array of the notifications user wants to receive. All notification types are stored in an array in the Notification collection as notificationTypes.|
 
 Supplemental indexing: username is a unique index.
+
+## Notifications
+
+A notification document is created whenever something of interest happens and maps to users that are interested in that particular notification type. Notification documents are removed from db after a week.
+
+Here's the UserProfile collection structure:
+
+| Field | Type | Description |
+|-------|------| ------------|
+| username | String |The username of a user who is subscribed to the notification type. |
+| type | String | The type of notification. i.e. 'system service down'. UserProfiles collection stores the types of notifications they are subscribed to in an array |
+| timestamp | Date | Time when this notification doc was created  |
+| data | Object | Fields: <br/>- summary is a string that provides additional info about the event that triggered it<br/><br/> More fields to be added as more notification types are added|
+| delivered | Boolean | Turns true once the notification is sent to the user interested |
 
 In OPQ View, only admins are able to define entities such as users, locations, regions, and OPQ Boxes. Users basically have only "read access" to the data in the system. (This will change in future when we provide the ability for users to annotate events and incidents.)
 
