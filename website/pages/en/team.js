@@ -65,18 +65,6 @@ class Team extends React.Component {
         imageAlign: 'left'
       },
       {
-        title: 'David Badke',
-        image: imgUrl('badke.jpg'),
-        content: 'Department of Information and Computer Sciences, University of Hawaii',
-        imageAlign: 'left'
-      },
-      {
-        title: 'Uzair Baig',
-        image: imgUrl('baig.png'),
-        content: 'Department of Electrical Engineering, University of Hawaii',
-        imageAlign: 'left'
-      },
-      {
         title: 'Anthony Christe',
         image: imgUrl('christe.jpg'),
         content: 'Graduate Student, Department of Information and Computer Sciences, University of Hawaii',
@@ -118,14 +106,15 @@ class Team extends React.Component {
         content: 'Graduate Student, Department of Information and Computer Sciences, University of Hawaii',
         imageAlign: 'left'
       },
-      {
-        title: 'Gabriel Vega',
-        image: imgUrl('vega.png'),
-        content: 'Graduate Student, Department of Electrical Engineering, Stanford University',
-        imageAlign: 'left'
-      },
+
     ];
     const alumni = [
+      {
+        title: 'David Badke',
+        image: imgUrl('badke.jpg'),
+        content: 'Department of Information and Computer Sciences, University of Hawaii',
+        imageAlign: 'left'
+      },
       {
         title: 'Evan Hataishi',
         image: imgUrl('hataishi.jpg'),
@@ -136,6 +125,12 @@ class Team extends React.Component {
         title: 'Kea Uehara',
         image: imgUrl('uehara.jpg'),
         content: 'Department of Information and Computer Sciences, University of Hawaii',
+        imageAlign: 'left'
+      },
+      {
+        title: 'Gabriel Vega',
+        image: imgUrl('vega.png'),
+        content: 'Graduate Student, Department of Electrical Engineering, Stanford University',
         imageAlign: 'left'
       },
     ];
