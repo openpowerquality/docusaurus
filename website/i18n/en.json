@@ -29,6 +29,8 @@
     "Protocol": "Protocol",
     "cloud-view": "OPQ View",
     "View": "View",
+    "deploy-docker": "Deployment: Docker",
+    "Docker": "Docker",
     "deploy-health": "Deployment: Health",
     "deploy-initial-configuration": "Deployment: Initial Configuration",
     "Initial Configuration": "Initial Configuration",
