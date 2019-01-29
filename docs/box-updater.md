@@ -3,20 +3,16 @@ title: OPQ Box Updater
 sidebar_label: Updater
 ---
 
-Code for the box updater can be found in [opq/box/Software/Updater](https://github.com/openpowerquality/opq/tree/master/box/Software/Updater).
-
 ## Summary
 
-The OPQBox updater provides a way to securely and remotely update any OPQBox. The updater is installed on every box upon setup. Along with the updater installation, a cronjob is setup to run the updater once a day to check for a new update package from emilia.
+The OPQBox updater provides a way to update any OPQBox to the latest OPQBox software. Due to the fact that the update process is expensive, it is only ran when directed by a user for each OPQBox.
 
 ## How to perform an update
 
-1. Download the version.json file containing the latest update package info from an OPQ server
-2. Compare the downloaded version file to the box's local version file.
-3. Download the public key, update package, and signature from the OPQ server.
-4. Verify the update package against the public key and signature.
-5. Unzip the update package.
-6. Run the updater script file.
+1. Ensure that your OPQBox is connected to the internet and streaming data (see: [OPQ Box User Guide](userguide-hardware.md)) 
+2. Determine the local IP address of your OPQBox
+3. Connect to the OPQ Box Configuration Daemon by going to: http://[local_ip_address_of_OPQ_box]:8888
+4. 
 
 ## Installation
 

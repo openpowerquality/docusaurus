@@ -100,6 +100,26 @@ In this example, we remove the closing quote " from the plugin, making the JSON 
 
 <img src="/docs/assets/box/opqbox_config_3.png" width="100%">
 
+## Updating the Box
 
+The OPQBox updater provides a convenient way to update any OPQBox to the latest OPQBox software. Due to the fact that the update process is expensive, it is only ran when directed by an OPQBox owner.
 
+### How to perform an update
 
+1. Ensure that your OPQBox is connected to the internet and streaming data (see above) 
+2. Determine the local IP address of your OPQBox
+3. Connect to the OPQ Box Configuration Daemon by going to: http://[local_ip_address_of_OPQ_box]:8888
+4. Scroll to the bottom of the OPQ Box Configuration Daemon until you see the `OPQ Box Updates` box (screenshot below)
+5. Compare the current version number (displayed as {version: ####}) to the latest version in your configured updates endpoint (e.g. if the updates endpoint is http://emilia.ics.hawaii.edu:8151, then http://emilia.ics.hawaii.edu:8151/version will display the most recent version available at that endpoint. If the number at the endpoint is larger than the current version, continue to step 6)
+6. Under the section `OPQ Box Updates` click the button `Update Box`
+
+This will pull the latest box update from the server configured by the `updates_ep` field. The following services will be stopped, replaced:
+
+* The OPQ Box Configuration Daemon
+* Triggering
+* Kernel drivers
+* Firmware
+
+Finally, the OPQBox will reboot. This process can take several minutes to finish. After 5 minutes, navigate back to the OPQ Box Configuration Daemon and verify that the update took place by making sure the version number now matches the endpoint's version number.
+
+<img src="/docs/assets/box/updates.png" width="100%">
