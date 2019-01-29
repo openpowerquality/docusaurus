@@ -123,3 +123,5 @@ This will pull the latest box update from the server configured by the `updates_
 Finally, the OPQBox will reboot. This process can take several minutes to finish. After 5 minutes, navigate back to the OPQ Box Configuration Daemon and verify that the update took place by making sure the version number now matches the endpoint's version number.
 
 <img src="/docs/assets/box/updates.png" width="100%">
+
+For technical documentation, see [Box Updater](box-updater.md).
