@@ -19,6 +19,12 @@ To illustrate the simplicity of deploying an official OPQ release with Docker, w
 
 Then, we will discuss how to build your own Docker images, as well as how to push them to DockerHub.
 
+Note: We are still in the process of Dockerizing our OPQ services. The following lists the Dockerized services and the location of their Docker-related files:
+  * View: `opq/view/docker`
+  * Mauka: `opq/mauka/docker`
+  * Health: `opq/health/docker`
+  * Box Updater: `opq/util/box-update-server/docker`
+
 ### Pre-requisites
 
 Make sure you have Docker and Docker-Compose installed on your development and production systems.
