@@ -7,7 +7,9 @@ sidebar_label: OPQ Box
 
 ### Obtain an OPQ Box
 
-First, obtain an OPQ Box. Currently, your options for obtaining an OPQ Box are to contact the Open Power Quality research via Professor Philip Johnson (johnson@hawaii.edu). We are working on manufacturing options.
+First, obtain an OPQ Box. Currently, your primary option for obtaining an OPQ Box is to contact the Open Power Quality project via Professor Philip Johnson (johnson@hawaii.edu). We cannot produce OPQ Boxes at scale at this time. 
+
+If you have hardware expertise, another option is to build an OPQ Box yourself from our schematics.  If you are interested in going this route, please contact us with any questions you have and we will do our best to help you.
 
 ### Obtain an OPQ Cloud account
 
