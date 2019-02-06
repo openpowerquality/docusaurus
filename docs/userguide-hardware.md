@@ -72,31 +72,31 @@ Once connected, scroll to the bottom of the page and you should see a section ti
 
 The configuration is provided in the form of a JSON file. Only valid JSON will be posted back to the box. The configuration is provided as sets of key-pair values. The current list of configuration keys are described in the following table.
 
-| Configuration Key | Type | Description |
-|-------------------|------|-------------|
-| cmd_sub_ep | String | Subscription endpoint for acquisition (tcp://ip:port) |
-| cmd_push_ep | String | Push endpoint for acquisition (tcp://ip:port) |
-| trg_push_ep | String | Push endpoint for triggering (tcp://ip:port) |
-| updates_ep | String | Endpoint to check and pull OPQ Box updates (http[s]://url:port/path) |
-| server_public_key | String | The public key of the acquisition server for data encryption |
-| box_id | Integer | The id of the box. Must be positive and unique. |
-| device_path | String | Unknown |
-| calibration | Float | The calibration constant for this box |
-| windows_per_measurement | Integer | Number of window rolled into a single measurement |
-| windows_in_storage_buffer | Integer | Number of windows to buffer on the OPQ Box |
-| plugins | List[String] | List of plugins to load on OPQ Box |
+| Configuration Key | Type | Description | Default |
+|-------------------|------|-------------|---------|
+| cmd_sub_ep | String | Subscription endpoint for acquisition (tcp://ip:port) | tcp://10.0.1.8:9000 |
+| cmd_push_ep | String | Push endpoint for acquisition (tcp://ip:port) | tcp://10.0.1.8:9001 |
+| trg_push_ep | String | Push endpoint for triggering (tcp://ip:port) | tcp://10.0.1.8:9880 |
+| updates_ep | String | Endpoint to check and pull OPQ Box updates (http[s]://url:port/path) | http://emilia.ics.hawaii.edu:8151 |
+| server_public_key | String | The public key of the acquisition server for data encryption | |
+| box_id | Integer | The id of the box. Must be positive and unique. | |
+| device_path | String | Unknown | /dev/opq0 |
+| calibration | Float | The calibration constant for this box | |
+| windows_per_measurement | Integer | Number of window rolled into a single measurement | 60 |
+| windows_in_storage_buffer | Integer | Number of windows to buffer on the OPQ Box | 3000 |
+| plugins | List[String] | List of plugins to load on OPQ Box | |
  
 
 When you are done editing the OPQ Box configuration, click the "Update" button. A green status message indicates success and a red status message indicates an error and provides an error message.
 
 ### Example Box configuration success 
-In this example, we update the box_id from 0 to 10 and then click Update.
+In this example, we update the windows_per_measurement from 60 to 10 and then click Update.
 
 
 <img src="/docs/assets/box/opqbox_config_2.png" width="100%">
 
 ### Example Box configuration error
-In this example, we remove the closing quote " from the plugin, making the JSON invalid. Notice how the error message displays the location of the error.
+In this example, we remove the closing quote " from server_public_key value, making the JSON invalid. Notice how the error message displays the location of the error.
 
 <img src="/docs/assets/box/opqbox_config_3.png" width="100%">
 
