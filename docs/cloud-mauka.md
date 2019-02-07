@@ -119,13 +119,11 @@ The [makai event plugin](https://github.com/openpowerquality/opq/blob/master/mau
 The Makai Event plugin provides the following configuration options and default values:
 
 ```json
-{
-    "plugins.MakaiEventPlugin.getDataAfterS": 10.0,
-    "plugins.MakaiEventPlugin.filterOrder":4,
-    "plugins.MakaiEventPlugin.cutoffFrequency": 500.0,
-    "plugins.MakaiEventPlugin.frequencyWindowCycles": 1,
-    "plugins.MakaiEventPlugin.frequencyDownSampleRate": 2
-}
+"plugins.MakaiEventPlugin.getDataAfterS": 10.0,
+"plugins.MakaiEventPlugin.filterOrder":4,
+"plugins.MakaiEventPlugin.cutoffFrequency": 500.0,
+"plugins.MakaiEventPlugin.frequencyWindowCycles": 1,
+"plugins.MakaiEventPlugin.frequencyDownSampleRate": 2
 ```
 
 ### Outage Plugin
@@ -192,17 +190,15 @@ The [transient plugin] is capable of discriminating between several different tr
 The following configuration options are used for the transient plugin which shows the options and the default values:
 
 ```json
-{
-    "plugins.TransientPlugin.noise.floor" : 6.0,
-    "plugins.TransientPlugin.oscillatory.min.cycles" : 3,
-    "plugins.TransientPlugin.oscillatory.low.freq.max.hz" : 5000.0,
-    "plugins.TransientPlugin.oscillatory.med.freq.max.hz" : 500000.0,
-    "plugins.TransientPlugin.oscillatory.high.freq.max.hz" : 5000000.0,
-    "plugins.TransientPlugin.arcing.zero.crossing.threshold" : 10,
-    "plugins.TransientPlugin.max.lull.ms" : 4.0,
-    "plugins.TransientPlugin.max.periodic.notching.std.dev" : 2.0,
-    "plugins.TransientPlugin.auto.corr.thresh.periodicity" : 0.4
-}
+"plugins.TransientPlugin.noise.floor" : 6.0,
+"plugins.TransientPlugin.oscillatory.min.cycles" : 3,
+"plugins.TransientPlugin.oscillatory.low.freq.max.hz" : 5000.0,
+"plugins.TransientPlugin.oscillatory.med.freq.max.hz" : 500000.0,
+"plugins.TransientPlugin.oscillatory.high.freq.max.hz" : 5000000.0,
+"plugins.TransientPlugin.arcing.zero.crossing.threshold" : 10,
+"plugins.TransientPlugin.max.lull.ms" : 4.0,
+"plugins.TransientPlugin.max.periodic.notching.std.dev" : 2.0,
+"plugins.TransientPlugin.auto.corr.thresh.periodicity" : 0.4
 ```
 
 ### Voltage Threshold Plugin
@@ -230,18 +226,28 @@ The top level of the `opq/mauka` directory contains the following files:
 
 | Files | Description |
 |-------|-------------|
-| OpqMauka.py | Entry point into OPQ Mauka. Provides high level management of plugins. Starts and manages Mauka services. |
+| analysis.py | High level helper functions for time conversions and signal segmentation |
 | config.json | Default key-value based configuration values for Mauka |
-| requirements.txt | List of Python dependencies required by Mauka. |
-| mongo.py | Python module providing high level access to the OPQ Mongo database. |
+| config.py | Provides functions for loading configurations and providing default values |
 | constants.py | Python module providing constant values. |
+| incident_viewer.py | Script for displaying Mauka classified incidents. |
+| log.py | Contains a top level mauka level logging interface. |
+| mongo.py | Python module providing high level access to the OPQ Mongo database. |
+| opq_mauka.py | Entry point into OPQ Mauka. Provides high level management of plugins. Starts and manages Mauka services. |
+| requirements.txt | List of Python dependencies required by Mauka. |
+| rerun_incidents.py | This script provides functionality for rerunning all past incidents through new or updated analysis plugins. |
+| .coafile | Contains rules for Mauka style checking |
 
 The top level of the `opq/mauka` directory contains the following directories:
 
 | Directory | Description |
 |-------|-------------|
-| deploy | Contains scripts for building and deploying Mauka to emilia or OPQ Sim. |
+| api_docs | Contains tool generated API documentation. |
+| deploy | Contains scripts for building and deploying Mauka to emilia or OPQ Sim. (deprecated, use docker deploy)|
+| diagrams | Contains mauka system diagrams generated using the graph description language and graphviz |
+| docker | Contains scripts for building, publishing, and running docker images for Mauka. |
 | plugins | Contains all Mauka plugin modules |
+| profilers | Contains profilers designed to profile mauka plugins. |
 | protobuf | Contains the Python protobuf wrapper for OPQ as well as some utilities. This is mainly needed for working with Makai. |
 | services | Contains modules that build the Mauka services layer. |
 | tests | Mauka tests directory. |
@@ -260,61 +266,79 @@ To test OPQ Mauka in a development environment, you can use OPQ Sim.
 
 The following steps are required to create a new OPQMauka plugin:
 
-1. Create a new Python module for the plugin in the plugins package (i.e. MyFancyPlugin.py).
+1. Create a new Python module for the plugin in the plugins package (i.e. my_fancy_plugin.py). Ensure that the plugin module name follows PEP 8 conventions.
 
-2. import the plugin base
-```
-import plugins.base
+2. import the plugin base modules
+```python
+import plugins.base_plugin
+import protobuf.mauka_pb2
+import protobuf.util
 ```
 
 3. Create a class that extends the base plugin.
-```
-class MyFancyPlugin(plugins.base.MaukaPlugin):
+```python
+class MyFancyPlugin(plugins.base_plugin.MaukaPlugin):
       ...
 ```
 
 5. Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin. Finally, a multiprocess exit event object is passed to the base class with allows the plugin manager to safely terminate plugins.
-```
+```python
 def __init__(self, config, exit_event):
       NAME = "MyFancyPlugin"
-      super().__init__(config, ["foo", "bar"], NAME, exit_event)
+      def __init__(self, config: typing.Dict, exit_event: multiprocessing.Event):
+              """
+              Initializes this plugin
+              :param config: Mauka configuration
+              :param exit_event: Exit event that can disable this plugin from parent process
+              """
+              super().__init__(config, ["SubscribeTopicA", "SubscribeTopicB"], MyFancyPlugin.NAME, exit_event)
 ```
 
-6. Overload the ```on_message``` from the base class. This is how you will receive all the messages from topics you subscribe to.
-```
-def on_message(self, topic, message):
-      ...
+6. Overload the ```on_message``` from the base class and use the protobuf utils to check to ensure your receiving a message of a type that the plugin expects.
+```python
+def on_message(self, topic, mauka_message):
+    """
+    Fired when this plugin receives a message. 
+    :param topic: Topic of the message.
+    :param mauka_message: Contents of the message.
+    """
+    if protobuf.util.is_payload(mauka_message, protobuf.mauka_pb2.MESSAGE_TYPE): # Replace MESSAGE_TYPE with proper type
+        self.debug("on_message {}:{} len:{}".format(mauka_message.payload.event_id,
+                                                    mauka_message.payload.box_id,
+                                                    len(mauka_message.payload.data)))
+        # Call the function that handles the recvieved message. Something like below...
+        handle_message(arg0, arg1, ..., argN)
+    else:
+        self.logger.error("Received incorrect mauka message [%s] at ThdPlugin",
+                          protobuf.util.which_message_oneof(mauka_message))
 ```
 
-7. Produce messages by invoking the superclasses produce method.
-```
-self.produce("topic", "message")
-```
-
-8. Import and add your plugin in plugins/```__init__.py```.
-```
-from plugins import MyFancyPlugin
+7. Produce messages by invoking the superclasses produce method where message is an instance of a mauka protobuf message.
+```python
+self.produce(topic: str, message)
 ```
 
-9. Add your plugin to the plugin list in ```OpqMauka.py```.
-
-An example plugin template might look something like:
-
+8. Import  your plugin in ```mauka/opq_mauka.py```.
+```python
+import plugins.my_fancy_plugin
 ```
-# plugins/MyFancyPlugin.py
-import plugins.base
 
-def run_plugin(config):
-    plugins.base.run_plugin(MyFancyPlugin, config)
-
-def MyFancyPlugin(plugins.base.MaukaPlugin):
-    def __init__(self, config, exit_event):
-         NAME = "MyFancyPlugin"
-         super().__init__(config, ["foo", "bar"], NAME, exit_event)
-
-    def on_message(self, topic, message):
-          print(topic, message)
+9. Register your plugin in ```mauka/opq_mauka.py```.
+```python
+plugin_manager.register_plugin(plugins.my_fancy_plugin.MyFancyPlugin)
 ```
+
+### Suggested Subscriptions
+
+When developing a new Mauka plugin, it's likely there there is already a data source that you can subscribe to. The MakaiEventPlugin publishes both high and low fidelity data streams when events are triggered by OPQMakai. These data streams can be subscribed to by other Mauka plugins. These message types include:
+
+```AdcSamples``` which provide raw ADC samples sampled by the OPQBox.
+
+```RawVoltage``` which converts the ADC samples in raw voltage samples.
+
+```RmsWindowedVoltage``` provides Vrms features from a voltage waveform where Vrms is calculated by cycle.
+
+```WindowedFrequency``` provides frequency features calculated at the cycle level from the original power waveform.
 
 ### Message Injection
 
@@ -368,7 +392,7 @@ OK
 6. Functions and methods should document their purpose, input, and output as Python [docstrings](http://docs.python-guide.org/en/latest/writing/documentation/).
 7. Do not add type information to documentation, instead provide type information using Python's built-in [type hints](https://docs.python.org/3/library/typing.html) (see also https://www.python.org/dev/peps/pep-0484/)
 8. Whenever practical and when types are known, provide type hints for class variables, instance variables, and function/method inputs and return types. The type hints are not enforced at runtime, but merely provide compile time hints. These are most useful in conjunction with an IDE so that your editor can highlight when input or return types do not match what is expected.
-9. Whenever a new plugin is developed, update OPQ's docusaurus to provide a high-level and technical documentation on the plugin. Mauka Diagrams may also need to be updated.  
+9. Whenever a new plugin is developed, update OPQ's [docusaurus](https://github.com/openpowerquality/docusaurus) to provide a high-level and technical documentation on the plugin. Mauka Diagrams may also need to be updated.  
 10. Whenever you commit or merge to master, ensure the Mauka code base passes all static analysis checks and all unit tests pass.
 
 [The Zen of Python (pep 20)](https://www.python.org/dev/peps/pep-0020/)
@@ -448,7 +472,7 @@ else:
     # do something else
 ```
 
-which tests if the collection is empty directly using the if statement. This issue with this approach is that this idiom does not work for numpy arrays. These are so prevailent in our code that we decided to use the len(collection) idiom to test for all empty collections since this approach does work with numpy.
+which tests if the collection is empty directly using the if statement. This issue with this approach is that this idiom does not work for numpy arrays. These are so prevalent in our code that we decided to use the len(collection) idiom to test for all empty collections since this approach does work with numpy.
 
 
 `mauka.pyflakes` (https://github.com/PyCQA/pyflakes) performs similar linting to pylint.
