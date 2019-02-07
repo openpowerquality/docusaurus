@@ -18,20 +18,25 @@ OPQ Mauka is a distributed plugin-based middleware for OPQ that provides higher 
 
 ### Overview
 
-OPQMauka is written in Python 3 and depends on 2 ZMQ brokers as well as a Mongo database. The architecture of OPQMauka is designed in such a way that all analytics are provided by plugins that communicate using publish/subscribe semantics using ZMQ. This allows for a distributed architecture and horizontal scalability. 
+OPQMauka is written in Python 3.7 and depends on 2 ZMQ brokers as well as a Mongo database. The architecture of OPQMauka is designed in such a way that all analytics are provided by plugins that communicate using publish/subscribe semantics using ZMQ. This allows for a distributed architecture and horizontal scalability. 
 
 ### Mauka Services
 
-Mauka utilizes several services that are started as separate processes in order to function. A diagram of these services and utilized ports is provided below. Followed by their descriptions.
+Mauka utilizes several services that are started as separate processes in order to function. Diagram of these services and utilized ports are provided below. Followed by their descriptions.
 
-<img src="/docs/assets/mauka/mauka-services.png">
+All items within the blue box are components that together make up OPQMauka. This first diagram shows how Mauka interacts with other parts of OPQ.
+<img src="/docs/assets/mauka/mauka_integration_diagram.png">
+
+This second diagram displays the port mappings between Mauka components and other OPQ services.
+<img src="/docs/assets/mauka/mauka_port_diagram.png">
 
 | Service | Description |
 |---------|-------------|
 | Makai Measurement Bridge | Provides low fidelity measurements to the `Measurement` topic. Data is bridged over a ZMQ proxy. |
-| Makai Event Bridge | Provides event id numbers to the `RequestDataEvent` topic. Data is bridged over a ZMQ proxy.  |
-| Mauka Pub/Sub Broker | Provides a Publish/Subscribe ZMQ broker to all Mauka plugins. This is how plugins within Mauka communicate. |
-| Mauka Plugin Manager | This is a process that manages plugin processes. It also allows developers to interact with plugins at runtime. Plugins can be hot loaded at run time as well. |
+| Makai Event Bridge | Provides event id numbers to the `MakaiEvent` topic. Data is bridged over a ZMQ proxy.  |
+| Mauka Pub/Sub Broker | Provides a Publish/Subscribe ZMQ broker to all Mauka plugins. This is how plugins within Mauka communicate with each other. |
+| Mauka Plugin Manager | This is a process that manages plugin processes. It also allows developers to interact with plugins at runtime through the Mauka CLI. |
+| Mauka CLI | This provides a networked command line interface for interfacing with the Mauka Plugin Manager to manage plugins at runtime. |
 
 ### Mauka Plugins
 
@@ -41,12 +46,16 @@ Each OPQMauka Plugin provides a set of topics that it subscribes to and a set of
 
 Below is a figure of the current plugin architecture.
 
-<img src="/docs/assets/mauka/mauka-plugins.png">
+<img src="/docs/assets/mauka/mauka_functional_diagram.png">
+
+This figure shows Mauka's  class inheritance structure.
+
+<img src="/docs/assets/mauka/mauka_class_inheritance_diagram.png">
 
 
 ### Base Plugin (MaukaPlugin)
 
-The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/base.py) is a base class which implements common functionally across all plugins. This plugin in subclassed by all other OPQMauka plugins. The functionality this plugin provides includes:
+The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/base_plugin.py) is a base class which implements common functionally across all plugins. This plugin in subclassed by all other OPQMauka plugins. The functionality this plugin provides includes:
 
 * Access to the underlying Mongo database
 * Automatic publish subscribe semantics with ```on_message``` and ```publish``` APIs (via ZMQ)
@@ -54,13 +63,68 @@ The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plug
 * Python multiprocessing primitives 
 * Status/heartbeat notifications
 
+### Acquisition Trigger Plugin
+
+The [acquistion trigger plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/acquisition_trigger_plugin.py) subscribes to all events and forms event request messages to send to OPQMakai to enable the retrieval of raw power data for higher level analytics.
+
+This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested.
+
+### Frequency Threshold Plugin
+
+The [frequency threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) subclasses the threshold plugin and classifies frequency dips and swells.
+
+By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The thresholds can be configured by setting the keys ```plugins.ThresholdPlugin.frequency.ref```, ```plugins.ThresholdPlugin.frequency.threshold.percent.low```, and ```plugins.ThresholdPlugin.frequency.threshold.percent.high``` in the configuration file.
+
+### Frequency Variation Plugin
+
+The [frequency variation plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_variation_plugin.py) subscribes to WindowedFrequency messages and classifies frequency incidents as frequency swells, frequency interruptions, and frequency sags. These classifications can be parameterized by tuning the threshold and duration values that these incidents are fired on.
+
+When thresholds are tripped, frequency events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
+
+### IEEE 1159 Voltage Plugin
+The [IEEE1159 voltage event plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ieee1159_voltage_plugin.py) subscribes to all events that request data, analyzes the waveforms, and stores classified incidents back in the database. A received waveform is analyzed for continuous segments with non-nominal amplitudes. There are two important features of these segments that are considered for classification: duration and relative amplitude. The duration is the length of the segment in periods and/or seconds. The relative amplitude, which is defined per window (e.g period) of a waveform, is given as the actual divided by the nominal amplitude (where nominal is as specified by country/region).
+
+The IEE1159 documentation specifies incidents by ranges of values for duration and relative amplitudes of a segment. The categories include undervoltage, overvoltage, and interruption (describing events lasting longer than a minute) and instantaneous, momentary, and temporary dips and swells (for shorter timescales). For example, a stretch with relative amplitudes between 0.1 and 0.9 that lasts 0.5 to 30 periods is classified as an instantaneous dip.
+
+### ITIC Plugin 
+
+The [ITIC plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/itic_plugin.py) subscribes to all events that request data, waits until the data is realized, performs ITIC calculations over the data, and then stores the results back to the database.
+
+This plugin subscribes to events that request data and also ITIC specific messages so that this plugin can be triggered to run over historic data as well. The amount of time from when this plugin receives a message until it assumes the data is in the database can be configured in the configuration file. 
+
+The ITIC calculations are computed in a separate thread and the results are stored back to the database. 
+
+ITIC regions are determined by plotting the curve and performing a point in polygon algorithm to determine which curve the point falls within.
+
+### Makai Event Plugin
+
+The [makai event plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/makai_event_plugin.py) subscribes to MakaiEvent messages which contains an integer representing the id of an event that Makai generated and stored to the database. This plugin receives event notifications from Makai asynchronously. When an event notification is received, this plugin goes to the database, reads the raw waveform, and then publishes the raw waveform, calibrated waveform, windowed Vrms, and windowed frequency to any plugins that performs analysis on those data types.
+
+### Outage Plugin
+
+The [outage plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/outage_plugin.py) subscribes to heatbeats and on each heartbeat checks queries the health collection of the database to determine if a box has been down for a specified period of time.
+
+If a box appears as down and is not marked as unplugged, then this plugin produces and outage incident which is stored to the database.
+
+### Print Plugin
+
+The [print plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/print_plugin.py) subscribes to all topics and prints every message. This plugin is generally disabled and mainly only useful for debugging purposes.
+
+### Semi F47 Plugin
+
+The [semi f47 plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/semi_f47_plugin.py) classifies voltage incidents according to the Semi F47 standard. This standard was designed to model how voltage dips can cause damage to semiconductor equipment.
+
+### Status Plugin
+
+The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/status_plugin.py) subscribes to heatbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status of Mauka, Mauka services, and Mauka plugins can be ascertained by other services.
+
 ### Threshold Plugin
 
-The [threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ThresholdPlugin.py) is a base plugin that implements functionality for determining preset threshold crossings over time. That is, this plugin, given a steady state, will detect deviations from the steady using percent deviation from the steady state as a discriminating factor. 
+The [threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/threshold_plugin.py) is a base plugin that implements functionality for determining preset threshold crossings over time. That is, this plugin, given a steady state, will detect deviations from the steady using percent deviation from the steady state as a discriminating factor. 
 
 When subclassing this plugin, other plugins will define the steady state value, the low threshold value, the high threshold value, and the duration threshold value.
 
-This plugin is subclassed by the voltage and frequency threshold plugins.
+This plugin is subclassed by the [voltage](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) and [frequency](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) threshold plugins.
 
 Internally, the threshold plugin looks at individual measurements and determines if the value is low, stable, or high (as defined by the subclass). A finite state machine is used to switch between the following states and define events.
 
@@ -84,58 +148,24 @@ Internally, the threshold plugin looks at individual measurements and determines
 
 Event messages are produced by passing the contents of a recorded event to the ```on_event``` method call. This method call needs to be implemented in all subclassing plugins in order to deal with the recorded event.
 
-### Frequency Threshold Plugin
-
-The [frequency threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/FrequencyThresholdPlugin.py) subclasses the threshold plugin and classifies frequency dips and swells.
-
-By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The thresholds can be configured by setting the keys ```plugins.ThresholdPlugin.frequency.ref```, ```plugins.ThresholdPlugin.frequency.threshold.percent.low```, and ```plugins.ThresholdPlugin.frequency.threshold.percent.high``` in the configuration file.
-
-When thresholds are tripped, frequency events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
-
-### Voltage Threshold Plugin
-
-The [voltage threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/VoltageThresholdPlugin.py) subclasses the threshold plugin and classifies voltage dips and swells.
-
-By default, this plugin assumes a steady state of 120hz and will detect dips and swells over 5% in either direction. The thresholds can be configured by setting the keys plugins.ThresholdPlugin.voltage.ref, plugins.ThresholdPlugin.voltage.threshold.percent.low, and plugins.ThresholdPlugin.voltage.threshold.percent.high in the configuration file.
-
-When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
-
 ### Total Harmonic Distortion Plugin
-The [total harmonic distortion (THD) plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ThdPlugin.py) subscribes to all events that request data, waits until the data is realized, performs THD calculations over the data, and then stores the results back to the database.
+The [total harmonic distortion (THD) plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/thd_plugin.py) subscribes to all events that request data, waits until the data is realized, performs THD calculations over the data, and then stores the results back to the database.
 
 This plugin subscribes to events that request data and also THD specific messages so that this plugin can be triggered to run over historic data as well. The amount of time from when this plugin receives a message until it assumes the data is in the database can be configured in the configuration file. 
 
 The THD calculations are computed in a separate thread and the results are stored back to the database. 
 
-### ITIC Plugin 
+### Transient Plugin
 
-The [ITIC plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/IticPlugin.py) subscribes to all events that request data, waits until the data is realized, performs ITIC calculations over the data, and then stores the results back to the database.
+The [transient plugin] is capable of discriminating between several different transient types. A decision tree is used to prune possibilities by extracting features from the PQ data. The transient classes this plugin is able to classify include impulsive, arcing, oscillatory, and periodic notching. 
 
-This plugin subscribes to events that request data and also ITIC specific messages so that this plugin can be triggered to run over historic data as well. The amount of time from when this plugin receives a message until it assumes the data is in the database can be configured in the configuration file. 
+### Voltage Threshold Plugin
 
-The ITIC calculations are computed in a separate thread and the results are stored back to the database. 
+The [voltage threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) subclasses the threshold plugin and classifies voltage dips and swells.
 
-ITIC regions are determined by plotting the curve and performing a point in polygon algorithm to determine which curve the point falls within.
+By default, this plugin assumes a steady state of 120hz and will detect dips and swells over 5% in either direction. The thresholds can be configured by setting the keys plugins.ThresholdPlugin.voltage.ref, plugins.ThresholdPlugin.voltage.threshold.percent.low, and plugins.ThresholdPlugin.voltage.threshold.percent.high in the configuration file.
 
-
-### Acquisition Trigger Plugin
-
-The [acquistion trigger plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/AcquisitionTriggerPlugin.py) subscribes to all events and forms event request messages to send to OPQMakai to enable the retrieval of raw power data for higher level analytics.
-
-This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested.
-
-### IEEE 1159 Voltage Plugin
-The IEEE1159 voltage event plugin subscribes to all events that request data, analyzes the waveforms, and stores classified incidents back in the database. A received waveform is analyzed for continuous segments with non-nominal amplitudes. There are two important features of these segments that are considered for classification: duration and relative amplitude. The duration is the length of the segment in periods and/or seconds. The relative amplitude, which is defined per window (e.g period) of a waveform, is given as the actual divided by the nominal amplitude (where nominal is as specified by country/region).
-
-The IEE1159 documentation specifies incidents by ranges of values for duration and relative amplitudes of a segment. The categories include undervoltage, overvoltage, and interruption (describing events lasting longer than a minute) and instantaneous, momentary, and temporary dips and swells (for shorter timescales). For example, a stretch with relative amplitudes between 0.1 and 0.9 that lasts 0.5 to 30 periods is classified as an instantaneous dip.
-
-### Status Plugin
-
-The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/StatusPlugin.py) subscribes to heatbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status can be ascertained by other services.
-
-### Print Plugin
-
-The [print plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/PrintPlugin.py) subscribes to all topics and prints every message. This plugin is generally disabled and mainly only useful for debugging purposes.
+When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices. 
 
 ## Development
 
