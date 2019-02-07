@@ -63,23 +63,37 @@ The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plug
 * Python multiprocessing primitives 
 * Status/heartbeat notifications
 
+The base plugin produces heartbeats at a configurable amount of time which can be modified using the ```plugins.base.heartbeatIntervalS``` configuration option.
+
 ### Acquisition Trigger Plugin
 
 The [acquistion trigger plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/acquisition_trigger_plugin.py) subscribes to all events and forms event request messages to send to OPQMakai to enable the retrieval of raw power data for higher level analytics.
 
-This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested.
+This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested. 
+
+The amount of data requested from Makai is padded on either end with a configurable amount of padding time tunable by the ```plugins.AcquisitionTriggerPlugin.msBefore``` and ```plugins.AcquisitionTriggerPlugin.msAfter``` configuration options.
 
 ### Frequency Threshold Plugin
 
 The [frequency threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) subclasses the threshold plugin and classifies frequency dips and swells.
 
-By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The thresholds can be configured by setting the keys ```plugins.ThresholdPlugin.frequency.ref```, ```plugins.ThresholdPlugin.frequency.threshold.percent.low```, and ```plugins.ThresholdPlugin.frequency.threshold.percent.high``` in the configuration file.
+By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The frequency reference can be configured by setting the key ```plugins.ThresholdPlugin.frequency.ref```.
+ 
+Thresholds can be configured using the following configuration options ```plugins.ThresholdPlugin.frequency.threshold.percent.low``` and ```plugins.ThresholdPlugin.frequency.threshold.percent.high```.
 
 ### Frequency Variation Plugin
 
 The [frequency variation plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_variation_plugin.py) subscribes to WindowedFrequency messages and classifies frequency incidents as frequency swells, frequency interruptions, and frequency sags. These classifications can be parameterized by tuning the threshold and duration values that these incidents are fired on.
 
 When thresholds are tripped, frequency events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
+
+The frequency reference is defined by the ```plugins.FrequencyVariationPlugin.frequency.ref``` config key. 
+
+Frequency thresholds are defined by the ```plugins.FrequencyVariationPlugin.frequency.variation.threshold.low``` and ```plugins.FrequencyVariationPlugin.frequency.variation.threshold.high``` keys.
+
+Frequency interruptions are defined using the ```plugins.FrequencyVariationPlugin.frequency.interruption``` config key.
+
+The number of lull windows can be set with ```plugins.FrequencyVariationPlugin.max.lull.windows```.
 
 ### IEEE 1159 Voltage Plugin
 The [IEEE1159 voltage event plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ieee1159_voltage_plugin.py) subscribes to all events that request data, analyzes the waveforms, and stores classified incidents back in the database. A received waveform is analyzed for continuous segments with non-nominal amplitudes. There are two important features of these segments that are considered for classification: duration and relative amplitude. The duration is the length of the segment in periods and/or seconds. The relative amplitude, which is defined per window (e.g period) of a waveform, is given as the actual divided by the nominal amplitude (where nominal is as specified by country/region).
@@ -96,9 +110,23 @@ The ITIC calculations are computed in a separate thread and the results are stor
 
 ITIC regions are determined by plotting the curve and performing a point in polygon algorithm to determine which curve the point falls within.
 
+The ITIC plugin uses segmentation to determine segments of stable Vrms values. The Vrms threshold for segmentation is configurable by setting the ```plugins.IticPlugin.segment.threshold.rms``` config option.
+
 ### Makai Event Plugin
 
 The [makai event plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/makai_event_plugin.py) subscribes to MakaiEvent messages which contains an integer representing the id of an event that Makai generated and stored to the database. This plugin receives event notifications from Makai asynchronously. When an event notification is received, this plugin goes to the database, reads the raw waveform, and then publishes the raw waveform, calibrated waveform, windowed Vrms, and windowed frequency to any plugins that performs analysis on those data types.
+
+The Makai Event plugin provides the following configuration options and default values:
+
+```json
+{
+    "plugins.MakaiEventPlugin.getDataAfterS": 10.0,
+    "plugins.MakaiEventPlugin.filterOrder":4,
+    "plugins.MakaiEventPlugin.cutoffFrequency": 500.0,
+    "plugins.MakaiEventPlugin.frequencyWindowCycles": 1,
+    "plugins.MakaiEventPlugin.frequencyDownSampleRate": 2
+}
+```
 
 ### Outage Plugin
 
@@ -116,7 +144,9 @@ The [semi f47 plugin](https://github.com/openpowerquality/opq/blob/master/mauka/
 
 ### Status Plugin
 
-The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/status_plugin.py) subscribes to heatbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status of Mauka, Mauka services, and Mauka plugins can be ascertained by other services.
+The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/status_plugin.py) subscribes to heartbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status of Mauka, Mauka services, and Mauka plugins can be ascertained by other services.
+
+The ```plugins.StatusPlugin.port``` config option can be changed to specify the port that the status plugin should run on.
 
 ### Threshold Plugin
 
@@ -159,13 +189,33 @@ The THD calculations are computed in a separate thread and the results are store
 
 The [transient plugin] is capable of discriminating between several different transient types. A decision tree is used to prune possibilities by extracting features from the PQ data. The transient classes this plugin is able to classify include impulsive, arcing, oscillatory, and periodic notching. 
 
+The following configuration options are used for the transient plugin which shows the options and the default values:
+
+```json
+{
+    "plugins.TransientPlugin.noise.floor" : 6.0,
+    "plugins.TransientPlugin.oscillatory.min.cycles" : 3,
+    "plugins.TransientPlugin.oscillatory.low.freq.max.hz" : 5000.0,
+    "plugins.TransientPlugin.oscillatory.med.freq.max.hz" : 500000.0,
+    "plugins.TransientPlugin.oscillatory.high.freq.max.hz" : 5000000.0,
+    "plugins.TransientPlugin.arcing.zero.crossing.threshold" : 10,
+    "plugins.TransientPlugin.max.lull.ms" : 4.0,
+    "plugins.TransientPlugin.max.periodic.notching.std.dev" : 2.0,
+    "plugins.TransientPlugin.auto.corr.thresh.periodicity" : 0.4
+}
+```
+
 ### Voltage Threshold Plugin
 
 The [voltage threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) subclasses the threshold plugin and classifies voltage dips and swells.
 
 By default, this plugin assumes a steady state of 120hz and will detect dips and swells over 5% in either direction. The thresholds can be configured by setting the keys plugins.ThresholdPlugin.voltage.ref, plugins.ThresholdPlugin.voltage.threshold.percent.low, and plugins.ThresholdPlugin.voltage.threshold.percent.high in the configuration file.
 
-When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices. 
+When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
+
+By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The frequency reference can be configured by setting the key ```plugins.ThresholdPlugin.voltage.ref```.
+ 
+Thresholds can be configured using the following configuration options ```plugins.ThresholdPlugin.voltage.threshold.percent.low``` and ```plugins.ThresholdPlugin.voltage.threshold.percent.high```. 
 
 ## Development
 
