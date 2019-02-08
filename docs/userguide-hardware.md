@@ -99,7 +99,7 @@ The configuration is provided in the form of a JSON file. Only valid JSON will b
 | cmd_sub_ep | String | Subscription endpoint for acquisition (tcp://url_or_ip:port) | tcp://emilia.ics.hawaii.edu:9000 |
 | cmd_push_ep | String | Push endpoint for acquisition (tcp://url_or_ip:port) | tcp://emilia.ics.hawaii.edu:9001 |
 | trg_push_ep | String | Push endpoint for triggering (tcp://url_or_ip:port) | tcp://emilia.ics.hawaii.edu:9880 |
-| updates_ep | String | Endpoint to check and pull OPQ Box updates (http[s]://url_or_ip:port/path) | http://emilia.ics.hawaii.edu:8151 |
+| updates_ep | String | Endpoint to check and pull OPQ Box updates (http[s]://url_or_ipcd :port/path) | http://emilia.ics.hawaii.edu:8151 |
 | server_public_key | String | The public key of the acquisition server for data encryption | |
 | box_id | Integer | The id of the box. Must be positive and unique. | |
 | device_path | String | Unknown | /dev/opq0 |
@@ -111,9 +111,11 @@ The configuration is provided in the form of a JSON file. Only valid JSON will b
 
 When you are done editing your OPQ Box configuration, click the "Update" button. A green status message indicates success and a red status message indicates an error and provides an error message.
 
+Your box will need to be restarted for changes to take effect.
+
 #### Example Box configuration success
 
-In this example, we update the box_id from 0 to 10 and then click Update. Note: only OPQ Cloud administrators should edit Box IDs.  If you specify the same ID as an already existing OPQ Box, then that data will be combined and you will not be able to distinguish the data from the two boxes.
+In this example, we update the box_id from 1001 to 1010 and then click Update. Note: only OPQ Cloud administrators should edit Box IDs.  If you specify the same ID as an already existing OPQ Box, then that data will be combined and you will not be able to distinguish the data from the two boxes.
 
 <img src="/docs/assets/box/opqbox_config_2.png" width="100%">
 
