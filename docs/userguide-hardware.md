@@ -96,10 +96,10 @@ The configuration is provided in the form of a JSON file. Only valid JSON will b
 
 | Configuration Key | Type | Description | Default |
 |-------------------|------|-------------|---------|
-| cmd_sub_ep | String | Subscription endpoint for acquisition (tcp://ip:port) | tcp://10.0.1.8:9000 |
-| cmd_push_ep | String | Push endpoint for acquisition (tcp://ip:port) | tcp://10.0.1.8:9001 |
-| trg_push_ep | String | Push endpoint for triggering (tcp://ip:port) | tcp://10.0.1.8:9880 |
-| updates_ep | String | Endpoint to check and pull OPQ Box updates (http[s]://url:port/path) | http://emilia.ics.hawaii.edu:8151 |
+| cmd_sub_ep | String | Subscription endpoint for acquisition (tcp://url_or_ip:port) | tcp://emilia.ics.hawaii.edu:9000 |
+| cmd_push_ep | String | Push endpoint for acquisition (tcp://url_or_ip:port) | tcp://emilia.ics.hawaii.edu:9001 |
+| trg_push_ep | String | Push endpoint for triggering (tcp://url_or_ip:port) | tcp://emilia.ics.hawaii.edu:9880 |
+| updates_ep | String | Endpoint to check and pull OPQ Box updates (http[s]://url_or_ip:port/path) | http://emilia.ics.hawaii.edu:8151 |
 | server_public_key | String | The public key of the acquisition server for data encryption | |
 | box_id | Integer | The id of the box. Must be positive and unique. | |
 | device_path | String | Unknown | /dev/opq0 |
