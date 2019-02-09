@@ -7,13 +7,18 @@ sidebar_label: OPQ Box
 
 ### Obtain an OPQ Box
 
-First, obtain an OPQ Box. Currently, your primary option for obtaining an OPQ Box is to contact the Open Power Quality project via Professor Philip Johnson (johnson@hawaii.edu). We cannot produce OPQ Boxes at scale at this time. 
+First, obtain an OPQ Box. Currently, your primary option for obtaining an OPQ Box is to contact the Open Power Quality project via Professor Philip Johnson (johnson@hawaii.edu). We cannot produce OPQ Boxes at scale at this time.
 
 If you have hardware expertise, another option is to build an OPQ Box yourself from our schematics.  If you are interested in going this route, please contact us with any questions you have and we will do our best to help you.
 
+Currently, an OPQ Box device is about 4 inches wide and three inches tall, and looks like this when its cover is removed:
+
+<img src="/docs/assets/box/opqbox-feb-2019-wide.jpg">
+
+
 ### Obtain an OPQ Cloud account
 
-You will also need an account on an OPQ Cloud system.  If you plan to store your data in the University of Hawaii OPQ Cloud system, then please contact Professor Philip Johnson to create an account for you. Otherwise, contact the adminstrator of your local OPQ Cloud instance to request an account. When setting up the OPQ Cloud account, the administrator will want to know the following:
+To access the data collected by your OPQ Box, you will need an account on an OPQ Cloud system.  If you plan to store your data in the University of Hawaii OPQ Cloud system, then please contact Professor Philip Johnson to create an account for you. Otherwise, contact the adminstrator of your local OPQ Cloud instance to request an account. When setting up the OPQ Cloud account, the administrator will want to know the following:
 
   * Your email address (to be used as your username)
   * The Box ID of your OPQ Box (if the admin doesn't already know it)

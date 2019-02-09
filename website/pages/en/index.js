@@ -107,7 +107,7 @@ const Features = props => (
       {[
         {
           content: 'Our custom hardware, OPQ Box, samples the power quality waveform over 12,000 times a second, computing frequency, voltage, and total harmonic distortion. Once a second, OPQ Box uploads low fidelity summaries of this data to OPQ Cloud, our cloud-based software system.',
-          image: imgUrl('opqbox_photo.jpg'),
+          image: imgUrl('opqbox-feb-2019-square-closed.jpg'),
           imageAlign: 'top',
           title: 'OPQ Box: Power Quality Monitoring',
         },
