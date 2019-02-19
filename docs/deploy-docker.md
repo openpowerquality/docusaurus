@@ -13,7 +13,7 @@ This guide will be covering three separate concerns:
   2. Creating new OPQ docker images
   3. Publishing new OPQ docker images
 
-Since we provide our own [official OPQ releases](https://cloud.docker.com/u/openpowerquality) on DockerHub, you are free to skip the image building and publishing process entirely if you are only interested in deploying an official OPQ release.
+Since we provide our own [official OPQ releases](https://hub.docker.com/u/openpowerquality) on DockerHub, you are free to skip the image building and publishing process entirely if you are only interested in deploying an official OPQ release.
 
 To illustrate the simplicity of deploying an official OPQ release with Docker, we will discuss that process first.
 
@@ -314,7 +314,7 @@ b28ef0b6fef8: Layer already exists
 Note: The `Layer already exists` messages are normal and should be expected. Docker images are built on layers, and knows how to effectively reuse layers from pre-existing images.
 
 The image is now published! 
-You can visit the [official OPQ DockerHub](https://cloud.docker.com/u/openpowerquality) page to double check that your new image has been successfully published.
+You can visit the [official OPQ DockerHub](https://hub.docker.com/u/openpowerquality) page to double check that your new image has been successfully published.
 
 #### Commit and push the updated `.env` file to GitHub
 
