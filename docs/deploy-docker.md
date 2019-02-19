@@ -70,15 +70,17 @@ The `opq/util/docker-deployment` directory contains all the files required for d
 
 Deployment is a very straight-forward process:
   1. Transfer the latest contents of the `opq/util/docker-deployment` directory into a dedicated deployment directory of your choice on your production server, overwriting all older deployment files as necessary.
-  2. Invoke the `docker-compose-run.sh` script to (re)deploy the OPQ Cloud instance.
+  2. Invoke the `docker-compose-run.sh` script to re-deploy the OPQ Cloud instance.
 
-OPQ developers deploying on the Emilia server can use the `deploy-transfer.sh` helper script found in 
-the `opq/util/docker-utils` directory to transfer deployment files to Emilia.
+This is essentially all that is required to deploy your own OPQ Cloud instance.
 
-The example below is specific for OPQ developers deploying on the Emilia server. However, aside from method of server 
-file transfer, the deployment process is virtually identical for any system.
+However, OPQ developers deploying on the Emilia server can (and should) use the helper scripts we provide to streamline
+this entire process. The deployment walk-through below details this further.
+
 
 ### Deployment Walk-through
+
+Note: This deployment walk-through is specific for OPQ developers deploying on the Emilia server.
 
 #### Transfer deployment files to production server
 
