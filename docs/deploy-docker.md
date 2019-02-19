@@ -6,10 +6,10 @@ sidebar_label: Docker
 
 ## Overview
 
-We utilize [Docker](https://www.docker.com/) to containerize each of our services into easy-to-deploy bundles. In combination with [Docker Compose](https://docs.docker.com/compose/), the task of deploying and running a new OPQ instance has become a greatly simplified process.
+We utilize [Docker](https://www.docker.com/) to containerize each of our services into easy-to-deploy bundles. In combination with [Docker Compose](https://docs.docker.com/compose/), the task of deploying and running a new OPQ Cloud instance has become a greatly simplified process.
 
 This guide will be covering three separate concerns:
-  1. Deploying a new OPQ instance on production
+  1. Deploying a new OPQ Cloud instance on production
   2. Creating new OPQ docker images
   3. Publishing new OPQ docker images
 
@@ -24,6 +24,7 @@ Note: We are still in the process of Dockerizing our OPQ services. The following
   * Mauka: `opq/mauka/docker`
   * Health: `opq/health/docker`
   * Box Updater: `opq/util/box-update-server/docker`
+  * Mongo: No files necessary; we use the official Mongo image without modification.
 
 ### Pre-requisites
 
@@ -37,11 +38,12 @@ Also see the official [Docker-Compose documentation](https://docs.docker.com/com
 
 There are two sets of Docker-related files to be aware of:
   1. Individual OPQ service Docker files, found in each service's respective `/docker` subdirectory (e.g. `opq/view/docker`).
-  2. Docker-Compose files, found in the `opq/util/docker` directory.
+  2. Docker-Compose files, found in the `opq/util/docker-deployment` directory.
+  3. Docker deployment utility files, found in the `opq/util/docker-utils` directory.
 
 #### Dockerized OPQ service files
 Each Dockerized OPQ service has a `/docker` subdirectory with a common set of files:
-  *  `Dockerfile`: Contains the configuration for building the Docker image.
+  *  `Dockerfile`: Contains the configuration for building the Docker image. Used by the `docker-build.sh` script.
   * `docker-build.sh`: A script for building a new Docker image.
   * `docker-publish.sh`: A script for publishing a new image to DockerHub.
   * `docker-run.sh`: A script for running the docker image as a standalone instance. Note that we actually use Docker-Compose to handle the task of running all OPQ images together, so this file is generally only used for debugging purposes.
@@ -49,60 +51,62 @@ Each Dockerized OPQ service has a `/docker` subdirectory with a common set of fi
 #### Docker-Compose files
 Docker-Compose is responsible for orchestrating how each of our OPQ services work together.
 
-These files can be found in the `opq/util/docker` directory:
+These files can be found in the `opq/util/docker-deployment` directory:
   * `docker-compose.yml`: The configuration file for Docker-Compose.
   * `.env`: Contains environment variables that are substituted into the docker-compose.yml file.
   * `docker-compose-run.sh`: A script for launching Docker-Compose. Also defines additional environment variables.
 
 #### Utility files
-The `deploy-transfer.sh` file found in the `opq/util/docker-transfer` directory is a helper script that transfers all deployment
-related files to the Emilia server.
-
+The files found in the `opq/util/docker-utils` directory are helper scripts meant to aid with the deployment of OPQ on the Emilia server:
+  * `deploy-transfer.sh`: Transfers latest deployment related files to the Emilia server.
+  * `docker-prepare-and-run.sh`: Helper script that copies (and overwrites existing) deployment files into the dedicated deployment directory on Emilia, before invoking the `docker-compose-run.sh` script to initiate (re)deployment.
 
 
 ## Deployment
 
 Before we begin, make sure you have Docker and Docker-Compose installed on your production system.
 
-The `opq/util/docker` directory contains all the files required for deployment.
+The `opq/util/docker-deployment` directory contains all the files required for deployment.
 
-Deployment is an extremely straight-forward process:
-  1. Transfer the contents of the `opq/util/docker` directory into a directory of your choice on your production server.
-  2. Shutdown the previous OPQ process.
-  3. Invoke the `docker-compose-run.sh` script to run the new OPQ instance.
+Deployment is a very straight-forward process:
+  1. Transfer the latest contents of the `opq/util/docker-deployment` directory into a dedicated deployment directory of your choice on your production server, overwriting all older deployment files as necessary.
+  2. Invoke the `docker-compose-run.sh` script to (re)deploy the OPQ Cloud instance.
 
 OPQ developers deploying on the Emilia server can use the `deploy-transfer.sh` helper script found in 
-the `opq/util/docker-transfer` directory to transfer deployment files to Emilia.
+the `opq/util/docker-utils` directory to transfer deployment files to Emilia.
 
 The example below is specific for OPQ developers deploying on the Emilia server. However, aside from method of server 
 file transfer, the deployment process is virtually identical for any system.
 
 ### Deployment Walk-through
 
-#### Transfer deployment files
+#### Transfer deployment files to production server
 
-Invoke the `deploy-transfer.sh` script found in the `opq/util/docker-transfer` directory.
+Invoke the `deploy-transfer.sh` script found in the `opq/util/docker-utils` directory.
 
-This script creates a timestamp-named directory, copies the contents of the `opq/util/docker` directory into it,
-gzips the new directory, and then secure copies it to the Emilia server.
+This script creates a timestamp-named directory, copies the contents of the `opq/util/docker-deployment` directory into it (as well as the `docker-prepare-and-run.sh` helper script),
+gzips the new directory, and then secure copies it to the Emilia server under the `/home/opquser/docker/transfers` directory.
 
 ```
 $ ./deploy-transfer.sh
 ++ date +%Y%m%d_%H%M%S
-+ timestamp=20190130_204555
-+ mkdir 20190130_204555
-+ cp ../docker/docker-compose.yml 20190130_204555
-+ cp ../docker/docker-compose-run.sh 20190130_204555
-+ cp ../docker/.env 20190130_204555
-+ tar czf 20190130_204555.tar.gz 20190130_204555
-+ rm -rf 20190130_204555
-+ scp -P 29862 20190130_204555.tar.gz opquser@emilia.ics.hawaii.edu:docker
++ timestamp=20190219_123528
++ mkdir 20190219_123528
++ cp ../docker-deployment/docker-compose.yml 20190219_123528
++ cp ../docker-deployment/docker-compose-run.sh 20190219_123528
++ cp ../docker-deployment/.env 20190219_123528
++ cp docker-prepare-and-run.sh 20190219_123528
++ tar czf 20190219_123528.tar.gz 20190219_123528
++ rm -rf 20190219_123528
++ EMILIA_DOCKER_TRANSFER_DIR=/home/opquser/docker/transfers
++ scp -P 29862 20190219_123528.tar.gz opquser@emilia.ics.hawaii.edu:/home/opquser/docker/transfers
 opquser@emilia.ics.hawaii.edu's password:
-20190130_204555.tar.gz                                                                                                                                                                                      100% 1133     9.2KB/s   00:00
+20190219_123528.tar.gz                                                                                                                                                                                      100% 2169     2.1KB/s   00:01
 + set +x
 ```
 
-#### Unpack deployment files
+
+#### Extract deployment files on production server
 
 Now we need to unpack the deployment files that we had just transferred.
 
@@ -112,107 +116,65 @@ First, ssh to the server with the proper credentials:
 ssh -p 29862 opquser@emilia.ics.hawaii.edu
 ```
 
-Change into the `docker/` subdirectory, and list the files:
+Change into the `docker/transfers` subdirectory, and list the files:
 
 ```
-opquser@emilia:~$ cd docker
-opquser@emilia:~/docker$ ls -al
-total 24
-drwxr-xr-x  3 opquser opquser 4096 Jan 30 15:46 .
-drwxr-xr-x 28 opquser opquser 4096 Jan 30 15:43 ..
-drwxr-xr-x  2 opquser opquser 4096 Jan 30 14:16 20190130_191639
--rw-r--r--  1 opquser opquser 1130 Jan 30 14:16 20190130_191639.tar.gz
--rw-r--r--  1 opquser opquser 1133 Jan 30 15:46 20190130_204555.tar.gz
--rw-r--r--  1 opquser opquser  519 Jan 17 07:28 settings.production.json
+opquser@emilia:~$ cd docker/transfers
+opquser@emilia:~/docker/transfers$ ls -al
+total 20
+drwxr-xr-x 3 opquser opquser 4096 Feb 19 07:38 .
+drwxr-xr-x 4 opquser opquser 4096 Feb 18 17:40 ..
+drwxr-xr-x 2 opquser opquser 4096 Feb 18 17:00 20190206_144024
+-rw-r--r-- 1 opquser opquser 1201 Feb 18 15:25 20190206_144024.tar.gz
+-rw-r--r-- 1 opquser opquser 2169 Feb 19 07:35 20190219_123528.tar.gz
 ```
 
 You may see one or more timestamped tar.gz files and directories. Each of these correspond to a previous deployment transfer.
+While it's generally a good idea to keep this directory clean, it can be useful to keep at least one previous deployment in this directory to fall back on, just in case a problem is encountered with the latest deployment.
+
 The most recently timestamped tar.gz file will be the one that you had just transferred over.
-
-Unpack it, but do **not** yet `cd` into it:
-
-```
-$ tar xf 20190130_204555.tar.gz
-```
-
-#### Shutdown currently running OPQ deployment
-
-Make sure to kill the currently running OPQ deployment prior to running the new instance.
-
-Invoke the `docker ps` command to check for any running containers.
+Extract it:
 
 ```
-opquser@emilia:~/docker$ docker ps
-CONTAINER ID        IMAGE                              COMMAND                  CREATED             STATUS              PORTS               NAMES
-ef60dbd053c9        openpowerquality/opqhealth:0.1.0   "python3 -u health.py"   16 minutes ago      Up 16 minutes                           20190130_191639_health_1
-b888fbd3a864        openpowerquality/opqmauka:0.1.0    "python3 mauka/opq_m…"   16 minutes ago      Up 16 minutes                           20190130_191639_mauka_1
-dbc5876efd25        openpowerquality/opqview:0.1.0     "node main.js"           16 minutes ago      Up 16 minutes                           20190130_191639_view_1
+opquser@emilia:~/docker/transfers$ tar xf 20190219_123528.tar.gz
 ```
 
-Take note of the `NAMES` column, which conveniently prepends the directory name from which that container was deployed.
-
-The directory name should look familiar; it corresponds to a previous deployment directory listed in the `~/docker` directory.
-
-Change into that directory, and invoke `docker-compose down` to shutdown the currently running OPQ containers:
+Change into the extracted directory and list all files:
 
 ```
-$ cd 20190130_191639
-$ docker-compose down
-Stopping 20190130_191639_health_1 ... done
-Stopping 20190130_191639_mauka_1  ... done
-Stopping 20190130_191639_view_1   ... done
-Removing 20190130_191639_health_1 ... done
-Removing 20190130_191639_mauka_1  ... done
-Removing 20190130_191639_view_1   ... done
-
-```
-
-#### Run the new OPQ instance
-
-Now that we've properly shutdown the previous OPQ deployment, we can go ahead and run the new deployment that we had
-just recently transferred and unpacked.
-
-Change back into the `docker` directory:
-
-```
-$ cd ..
-$ ls -al
-total 28
-drwxr-xr-x  4 opquser opquser 4096 Jan 30 16:28 .
-drwxr-xr-x 28 opquser opquser 4096 Jan 30 15:43 ..
-drwxr-xr-x  2 opquser opquser 4096 Jan 30 14:16 20190130_191639
--rw-r--r--  1 opquser opquser 1130 Jan 30 14:16 20190130_191639.tar.gz
-drwxr-xr-x  2 opquser opquser 4096 Jan 30 15:45 20190130_204555
--rw-r--r--  1 opquser opquser 1133 Jan 30 15:46 20190130_204555.tar.gz
--rw-r--r--  1 opquser opquser  519 Jan 17 07:28 settings.production.json
-```
-
-Change into the new deployment directory that we recently unpacked, and list the files:
-
-```
-$ cd 20190130_204555
-$ ls -al
-total 20
-drwxr-xr-x 2 opquser opquser 4096 Jan 30 15:45 .
-drwxr-xr-x 4 opquser opquser 4096 Jan 30 16:28 ..
--rwxr-xr-x 1 opquser opquser  623 Jan 30 15:45 docker-compose-run.sh
--rw-r--r-- 1 opquser opquser  406 Jan 30 15:45 docker-compose.yml
--rw-r--r-- 1 opquser opquser  938 Jan 30 15:45 .env
+opquser@emilia:~/docker/transfers$ cd 20190219_123528
+opquser@emilia:~/docker/transfers/20190219_123528$ ls -al
+total 24
+drwxr-xr-x 2 opquser opquser 4096 Feb 19 07:35 .
+drwxr-xr-x 4 opquser opquser 4096 Feb 19 07:40 ..
+-rwxr-xr-x 1 opquser opquser  571 Feb 19 07:35 docker-compose-run.sh
+-rw-r--r-- 1 opquser opquser 2463 Feb 19 07:35 docker-compose.yml
+-rwxr-xr-x 1 opquser opquser  591 Feb 19 07:35 docker-prepare-and-run.sh
+-rw-r--r-- 1 opquser opquser 2258 Feb 19 07:35 .env
 ```
 
 You might be surprised how few files we have here, but that is the beauty of Docker and Docker-Compose.
 Since the OPQ images are hosted on DockerHub, Docker will simply pull them from the cloud if they have not been downloaded yet on the host system.
 
-We can now launch the new OPQ instance by invoking the `docker-compose-run.sh` script:
+
+#### Run the new OPQ Cloud instance
+
+Finally, invoke the `docker-prepare-and-run.sh` script to deploy the latest OPQ Cloud instance:
 
 ```
-$ ./docker-compose-run.sh
-Creating 20190130_204555_view_1   ... done
-Creating 20190130_204555_mauka_1  ... done
-Creating 20190130_204555_health_1 ... done
+opquser@emilia:~/docker/transfers/20190219_123528$ ./docker-prepare-and-run.sh
+Creating deployment_boxupdateserver_1 ... done
+Creating deployment_mongo_1           ... done
+Creating deployment_view_1            ... done
+Creating deployment_mauka_1           ... done
+Creating deployment_health_1          ... done
 ```
 
-We're deployed! You may verify that the Docker containers are up and running with the `docker ps` command.
+We're deployed! The `docker-prepare-and-run.sh` file is a simple helper script that does two things for us:
+  1. Copies the extracted deployment files to our dedicated deployment directory at `/home/opquser/docker/deployment`, overwriting previous deployment files as necessary.
+  2. Invokes the Docker-Compose run script `docker-compose-run.sh` to (re)deploy the OPQ Cloud instance. Docker-Compose is intelligent enough to detect the difference of deployment files and will only re-deploy the necessary services for us.
+
+You may verify that the Docker containers are up and running with the `docker ps` command.
 
 
 ## Developer Tasks
@@ -228,7 +190,7 @@ Each dockerized OPQ service has its own `/docker` subdirectory containing script
 When creating and publishing a new image for an OPQ service, there are three files that you need to be concerned about:
   1. The `docker-build.sh` script, found in the `opq/<service-name>/docker` directory.
   2. The `docker-publish.sh` script, also found in the `opq/<service-name>/docker` directory.
-  3. The `.env` file, found in the `opq/util/docker` directory.
+  3. The `.env` file, found in the `opq/util/docker-deployment` directory.
 
 The `.env` file is a special Docker-Compose file that we also utilize when publishing new images. This is explained in further detail below.
 
@@ -255,7 +217,7 @@ This is important to note, because as we will explain below, each OPQ service's 
 Note: Before continuing, make sure you have obtained the credentials for the official OPQ DockerHub account.
 
 Publishing a new Docker image for a given OPQ service a straight-forward process:
-  1. If publishing a **new** version of an image, modify the appropriate variable in the `opq/util/docker/.env` file with the new image version tag.
+  1. If publishing a **new** version of an image, modify the appropriate variable in the `opq/util/docker-deployment/.env` file with the new image version tag.
   2. Login to the official OPQ DockerHub account by invoking `docker login` and enter your credentials. If you are already logged-in but unsure which account you are on, you may invoke `docker logout` first.
   3. `cd` into the service's `/docker` subdirectory (e.g. `opq/mauka/docker`) and invoke the `docker-publish.sh` script.
   4. If you modified the `.env` file, commit and push it to GitHub with a useful message (e.g. `Publish Mauka 0.1.1`).
@@ -275,7 +237,7 @@ The newly created image is automatically named `opqmauka:latest`, which you can 
 
 Our goal is to publish this new image to DockerHub, also giving it a new version `0.1.1` (previously `0.1.0`)
 
-**Prior** to publishing the new Mauka image, the `.env` file (found in `opq/util/docker`) might look like the following:
+**Prior** to publishing the new Mauka image, the `.env` file (found in `opq/util/docker-deployment`) might look like the following:
 
 ```
 MAUKA_IMAGE=openpowerquality/opqmauka:0.1.0
@@ -321,7 +283,7 @@ $ cd opq/mauka/docker
 $ ./docker-publish.sh
 => This will tag the 'opqmauka:latest' image as 'openpowerquality/opqmauka:0.1.1' and push to your Docker registry.
 => If you need to change the destination image tag (openpowerquality/opqmauka:0.1.1), you can abort this script
-and modify the 'MAUKA_IMAGE' variable found in the 'opq/util/docker/.env' file.
+and modify the 'MAUKA_IMAGE' variable found in the 'opq/util/docker-deployment/.env' file.
 => In addition, please ensure that you are logged into the correct Docker registry account before continuing.
 => Continue? (y/n): y
 ```
@@ -364,7 +326,7 @@ By doing so, we accomplish two useful things:
 
 ### Understanding Docker-Compose and the .env file
 
-The `opq/util/docker` directory contains all of the Docker-Compose related files, the most important of which is the `docker-compose.yml` file.
+The `opq/util/docker-deployment` directory contains all of the Docker-Compose related files, the most important of which is the `docker-compose.yml` file.
 
 The `docker-compose.yml` file is the configuration file for Docker-Compose, which is responsible for orchestrating how each of our OPQ services work together.
 Among other things, this is where we define the Docker image to use for each service.
