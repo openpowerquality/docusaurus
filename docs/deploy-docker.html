@@ -12,7 +12,7 @@
 <li>Creating new OPQ docker images</li>
 <li>Publishing new OPQ docker images</li>
 </ol>
-<p>Since we provide our own <a href="https://cloud.docker.com/u/openpowerquality">official OPQ releases</a> on DockerHub, you are free to skip the image building and publishing process entirely if you are only interested in deploying an official OPQ release.</p>
+<p>Since we provide our own <a href="https://hub.docker.com/u/openpowerquality">official OPQ releases</a> on DockerHub, you are free to skip the image building and publishing process entirely if you are only interested in deploying an official OPQ release.</p>
 <p>To illustrate the simplicity of deploying an official OPQ release with Docker, we will discuss that process first.</p>
 <p>Then, we will discuss how to build your own Docker images, as well as how to push them to DockerHub.</p>
 <p>Note: We are still in the process of Dockerizing our OPQ services. The following lists the Dockerized services and the location of their Docker-related files:</p>
@@ -237,7 +237,7 @@ b28ef0b6fef8: Layer already <span class="hljs-built_in">exists</span>
 </code></pre>
 <p>Note: The <code>Layer already exists</code> messages are normal and should be expected. Docker images are built on layers, and knows how to effectively reuse layers from pre-existing images.</p>
 <p>The image is now published!
-You can visit the <a href="https://cloud.docker.com/u/openpowerquality">official OPQ DockerHub</a> page to double check that your new image has been successfully published.</p>
+You can visit the <a href="https://hub.docker.com/u/openpowerquality">official OPQ DockerHub</a> page to double check that your new image has been successfully published.</p>
 <h4><a class="anchor" aria-hidden="true" id="commit-and-push-the-updated-env-file-to-github"></a><a href="#commit-and-push-the-updated-env-file-to-github" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Commit and push the updated <code>.env</code> file to GitHub</h4>
 <p>As a final step, if you have modified the <code>.env</code> file in order to publish a new version (as we did in the Mauka example),
 be sure to commit and push the file to GitHub with a useful commit message (e.g. <code>Publish Mauka 0.1.1</code>).</p>
