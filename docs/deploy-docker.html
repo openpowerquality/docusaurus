@@ -62,13 +62,13 @@
 <p>Deployment is a very straight-forward process:</p>
 <ol>
 <li>Transfer the latest contents of the <code>opq/util/docker-deployment</code> directory into a dedicated deployment directory of your choice on your production server, overwriting all older deployment files as necessary.</li>
-<li>Invoke the <code>docker-compose-run.sh</code> script to (re)deploy the OPQ Cloud instance.</li>
+<li>Invoke the <code>docker-compose-run.sh</code> script to re-deploy the OPQ Cloud instance.</li>
 </ol>
-<p>OPQ developers deploying on the Emilia server can use the <code>deploy-transfer.sh</code> helper script found in
-the <code>opq/util/docker-utils</code> directory to transfer deployment files to Emilia.</p>
-<p>The example below is specific for OPQ developers deploying on the Emilia server. However, aside from method of server
-file transfer, the deployment process is virtually identical for any system.</p>
+<p>This is essentially all that is required to deploy your own OPQ Cloud instance.</p>
+<p>However, OPQ developers deploying on the Emilia server can (and should) use the helper scripts we provide to streamline
+this entire process. The deployment walk-through below details this further.</p>
 <h3><a class="anchor" aria-hidden="true" id="deployment-walk-through"></a><a href="#deployment-walk-through" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deployment Walk-through</h3>
+<p>Note: This deployment walk-through is specific for OPQ developers deploying on the Emilia server.</p>
 <h4><a class="anchor" aria-hidden="true" id="transfer-deployment-files-to-production-server"></a><a href="#transfer-deployment-files-to-production-server" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Transfer deployment files to production server</h4>
 <p>Invoke the <code>deploy-transfer.sh</code> script found in the <code>opq/util/docker-utils</code> directory.</p>
 <p>This script creates a timestamp-named directory, copies the contents of the <code>opq/util/docker-deployment</code> directory into it (as well as the <code>docker-prepare-and-run.sh</code> helper script),
