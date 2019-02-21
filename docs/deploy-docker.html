@@ -5,16 +5,17 @@
             nav.classList.toggle('docsSliderActive');
           };
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Deployment: Docker</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="overview"></a><a href="#overview" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p>We utilize <a href="https://www.docker.com/">Docker</a> to containerize each of our services into easy-to-deploy bundles. In combination with <a href="https://docs.docker.com/compose/">Docker Compose</a>, the task of deploying and running a new OPQ Cloud instance has become a greatly simplified process.</p>
+<p>We utilize <a href="https://www.docker.com/">Docker</a> to containerize each of our services into easy-to-deploy bundles. In combination with <a href="https://docs.docker.com/compose/">Docker Compose</a>, the task of deploying and running a new OPQ Cloud instance is a very simple and straight-forward process.</p>
 <p>This guide will be covering three separate concerns:</p>
 <ol>
 <li>Deploying a new OPQ Cloud instance on production</li>
 <li>Creating new OPQ docker images</li>
 <li>Publishing new OPQ docker images</li>
 </ol>
-<p>Since we provide our own <a href="https://hub.docker.com/u/openpowerquality">official OPQ releases</a> on DockerHub, you are free to skip the image building and publishing process entirely if you are only interested in deploying an official OPQ release.</p>
+<p>Since we provide our own <a href="https://hub.docker.com/u/openpowerquality">official OPQ releases</a> on DockerHub, you are free to ignore the image building and publishing process entirely if you are only interested in deploying an official OPQ release.</p>
 <p>To illustrate the simplicity of deploying an official OPQ release with Docker, we will discuss that process first.</p>
 <p>Then, we will discuss how to build your own Docker images, as well as how to push them to DockerHub.</p>
+<p>Please refer to the 'Overview of Docker-related files' section near the bottom of the page if you’d like to learn more about all of the Docker-related files that we discuss throughout the documentation.</p>
 <p>Note: We are still in the process of Dockerizing our OPQ services. The following lists the Dockerized services and the location of their Docker-related files:</p>
 <ul>
 <li>View: <code>opq/view/docker</code></li>
@@ -23,45 +24,19 @@
 <li>Box Updater: <code>opq/util/box-update-server/docker</code></li>
 <li>Mongo: No files necessary; we use the official Mongo image without modification.</li>
 </ul>
-<h3><a class="anchor" aria-hidden="true" id="pre-requisites"></a><a href="#pre-requisites" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pre-requisites</h3>
+<h3><a class="anchor" aria-hidden="true" id="pre-requisites-docker-and-docker-compose-installation"></a><a href="#pre-requisites-docker-and-docker-compose-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pre-requisites: Docker and Docker Compose Installation</h3>
 <p>Make sure you have Docker and Docker-Compose installed on your development and production systems.</p>
 <p>Please refer to the official <a href="https://docs.docker.com/install/">Docker documentation</a> for installation instructions.</p>
 <p>Also see the official <a href="https://docs.docker.com/compose/install/">Docker-Compose documentation</a>.</p>
-<h3><a class="anchor" aria-hidden="true" id="overview-of-docker-related-files"></a><a href="#overview-of-docker-related-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview of Docker-related files</h3>
-<p>There are two sets of Docker-related files to be aware of:</p>
-<ol>
-<li>Individual OPQ service Docker files, found in each service's respective <code>/docker</code> subdirectory (e.g. <code>opq/view/docker</code>).</li>
-<li>Docker-Compose files, found in the <code>opq/util/docker-deployment</code> directory.</li>
-<li>Docker deployment utility files, found in the <code>opq/util/docker-utils</code> directory.</li>
-</ol>
-<h4><a class="anchor" aria-hidden="true" id="dockerized-opq-service-files"></a><a href="#dockerized-opq-service-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dockerized OPQ service files</h4>
-<p>Each Dockerized OPQ service has a <code>/docker</code> subdirectory with a common set of files:</p>
-<ul>
-<li><code>Dockerfile</code>: Contains the configuration for building the Docker image. Used by the <code>docker-build.sh</code> script.</li>
-<li><code>docker-build.sh</code>: A script for building a new Docker image.</li>
-<li><code>docker-publish.sh</code>: A script for publishing a new image to DockerHub.</li>
-<li><code>docker-run.sh</code>: A script for running the docker image as a standalone instance. Note that we actually use Docker-Compose to handle the task of running all OPQ images together, so this file is generally only used for debugging purposes.</li>
-</ul>
-<h4><a class="anchor" aria-hidden="true" id="docker-compose-files"></a><a href="#docker-compose-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docker-Compose files</h4>
-<p>Docker-Compose is responsible for orchestrating how each of our OPQ services work together.</p>
-<p>These files can be found in the <code>opq/util/docker-deployment</code> directory:</p>
-<ul>
-<li><code>docker-compose.yml</code>: The configuration file for Docker-Compose.</li>
-<li><code>.env</code>: Contains environment variables that are substituted into the docker-compose.yml file.</li>
-<li><code>docker-compose-run.sh</code>: A script for launching Docker-Compose. Also defines additional environment variables.</li>
-</ul>
-<h4><a class="anchor" aria-hidden="true" id="utility-files"></a><a href="#utility-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility files</h4>
-<p>The files found in the <code>opq/util/docker-utils</code> directory are helper scripts meant to aid with the deployment of OPQ on the Emilia server:</p>
-<ul>
-<li><code>deploy-transfer.sh</code>: Transfers latest deployment related files to the Emilia server.</li>
-<li><code>docker-prepare-and-run.sh</code>: Helper script that copies (and overwrites existing) deployment files into the dedicated deployment directory on Emilia, before invoking the <code>docker-compose-run.sh</code> script to initiate (re)deployment.</li>
-</ul>
 <h2><a class="anchor" aria-hidden="true" id="deployment"></a><a href="#deployment" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deployment</h2>
 <p>Before we begin, make sure you have Docker and Docker-Compose installed on your production system.</p>
 <p>The <code>opq/util/docker-deployment</code> directory contains all the files required for deployment.</p>
+<p>Ensure that you have the latest versions of these files by pulling the latest changes on the master branch of the OPQ GitHub repository.
+By doing so, you also ensure that your deployment will be running on all the latest available OPQ docker images.</p>
 <p>Deployment is a very straight-forward process:</p>
 <ol>
-<li>Transfer the latest contents of the <code>opq/util/docker-deployment</code> directory into a dedicated deployment directory of your choice on your production server, overwriting all older deployment files as necessary.</li>
+<li>Transfer the latest contents of the <code>opq/util/docker-deployment</code> directory into a dedicated deployment directory of your choice on your production server, overwriting all previous deployment files.</li>
+<li>Ensure that the <code>settings.production.json</code> file is also placed in your dedicated deployment directory.</li>
 <li>Invoke the <code>docker-compose-run.sh</code> script to re-deploy the OPQ Cloud instance.</li>
 </ol>
 <p>This is essentially all that is required to deploy your own OPQ Cloud instance.</p>
@@ -152,7 +127,8 @@ Since the OPQ images are hosted on DockerHub, Docker will simply pull them from 
 <li>The <code>docker-publish.sh</code> script, also found in the <code>opq/&lt;service-name&gt;/docker</code> directory.</li>
 <li>The <code>.env</code> file, found in the <code>opq/util/docker-deployment</code> directory.</li>
 </ol>
-<p>The <code>.env</code> file is a special Docker-Compose file that we also utilize when publishing new images. This is explained in further detail below.</p>
+<p>The <code>.env</code> file is a special Docker-Compose file that we also utilize when publishing new images.
+See the 'Understanding Docker-Compose and the .env file' section further below if you wish to learn more about this important file.</p>
 <h3><a class="anchor" aria-hidden="true" id="creating-new-docker-images"></a><a href="#creating-new-docker-images" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating new Docker images</h3>
 <p>Creating a new Docker image for a given OPQ service is simply just a matter of invoking its <code>docker-build.sh</code> script.</p>
 <p>To build a new Docker image for a given OPQ service:</p>
@@ -164,9 +140,10 @@ Since the OPQ images are hosted on DockerHub, Docker will simply pull them from 
 but the end result will always be the same: a new Docker image named <code>&lt;opq-service-name&gt;:latest</code>.</p>
 <p>Once the script has finished running, you should confirm that the image has been successfully created by invoking the <code>docker image ls</code> command.</p>
 <p>Since our build scripts do not explicitly provide an image tag for the build process, the <code>latest</code> tag is automatically provided for us.
-This is important to note, because as we will explain below, each OPQ service's <code>docker-publish.sh</code> script will, by default, rename and push this <code>&lt;opq-service-name&gt;:latest</code> image to DockerHub.</p>
+You can also confirm this by invoking the <code>docker image ls</code> command.</p>
+<p>This is important to note, because each OPQ service's <code>docker-publish.sh</code> script will, by default, rename and push this <code>&lt;opq-service-name&gt;:latest</code> image to DockerHub.</p>
 <h3><a class="anchor" aria-hidden="true" id="publishing-images-to-dockerhub"></a><a href="#publishing-images-to-dockerhub" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Publishing images to DockerHub</h3>
-<p>Note: Before continuing, make sure you have obtained the credentials for the official OPQ DockerHub account.</p>
+<p>Note: Before continuing, make sure that your DockerHub account is a member of the official <code>openpowerquality</code> DockerHub organization.</p>
 <p>Publishing a new Docker image for a given OPQ service a straight-forward process:</p>
 <ol>
 <li>If publishing a <strong>new</strong> version of an image, modify the appropriate variable in the <code>opq/util/docker-deployment/.env</code> file with the new image version tag.</li>
@@ -174,31 +151,31 @@ This is important to note, because as we will explain below, each OPQ service's 
 <li><code>cd</code> into the service's <code>/docker</code> subdirectory (e.g. <code>opq/mauka/docker</code>) and invoke the <code>docker-publish.sh</code> script.</li>
 <li>If you modified the <code>.env</code> file, commit and push it to GitHub with a useful message (e.g. <code>Publish Mauka 0.1.1</code>).</li>
 </ol>
-<p>As we explain below, the <code>.env</code> file is actually a special Docker-Compose file.
+<p>As we explain in the 'Understanding Docker-Compose and the .env file' section further below, the <code>.env</code> file is actually a special Docker-Compose file.
 For now, you just need to understand that the <code>.env</code> file has an environment variable definition for each OPQ service's DockerHub repository image name.</p>
-<p>Each OPQ service's <code>docker-publish.sh</code> script parses the <code>.env</code> file for the appropriate variable so that it knows exactly how to tag and push the new image.
+<p>Each OPQ service's <code>docker-publish.sh</code> script parses the <code>.env</code> file for the appropriate image name variable so that it knows exactly how to tag and push the new image.
 If this sounds confusing, it's really not! Let's look at an example below:</p>
 <h4><a class="anchor" aria-hidden="true" id="publishing-walk-through"></a><a href="#publishing-walk-through" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Publishing Walk-through</h4>
 <p>Assume that we just created a new Mauka image by invoking its <code>docker-build.sh</code> script.
-The newly created image is automatically named <code>opqmauka:latest</code>, which you can confirm by invoking <code>docker image ls</code>.</p>
+The newly created image is automatically named <code>mauka:latest</code>, which you can confirm by invoking <code>docker image ls</code>.</p>
 <h4><a class="anchor" aria-hidden="true" id="update-the-env-file"></a><a href="#update-the-env-file" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update the <code>.env</code> file</h4>
 <p>Our goal is to publish this new image to DockerHub, also giving it a new version <code>0.1.1</code> (previously <code>0.1.0</code>)</p>
 <p><strong>Prior</strong> to publishing the new Mauka image, the <code>.env</code> file (found in <code>opq/util/docker-deployment</code>) might look like the following:</p>
-<pre><code class="hljs"><span class="hljs-attr">MAUKA_IMAGE</span>=openpowerquality/opqmauka:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
-<span class="hljs-attr">HEALTH_IMAGE</span>=openpowerquality/opqhealth:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
-<span class="hljs-attr">VIEW_IMAGE</span>=openpowerquality/opqview:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
+<pre><code class="hljs"><span class="hljs-attr">MAUKA_IMAGE</span>=openpowerquality/mauka:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
+<span class="hljs-attr">HEALTH_IMAGE</span>=openpowerquality/health:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
+<span class="hljs-attr">VIEW_IMAGE</span>=openpowerquality/view:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
 </code></pre>
 <p>With the goal of publishing a new Mauka image (version 0.1.1), simply modify the <code>MAUKA_IMAGE</code> variable in the <code>.env</code> file, like so:</p>
-<pre><code class="hljs"><span class="hljs-attr">MAUKA_IMAGE</span>=openpowerquality/opqmauka:<span class="hljs-number">0.1</span>.<span class="hljs-number">1</span>
-<span class="hljs-attr">HEALTH_IMAGE</span>=openpowerquality/opqhealth:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
-<span class="hljs-attr">VIEW_IMAGE</span>=openpowerquality/opqview:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
+<pre><code class="hljs"><span class="hljs-attr">MAUKA_IMAGE</span>=openpowerquality/mauka:<span class="hljs-number">0.1</span>.<span class="hljs-number">1</span>
+<span class="hljs-attr">HEALTH_IMAGE</span>=openpowerquality/health:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
+<span class="hljs-attr">VIEW_IMAGE</span>=openpowerquality/view:<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="login-to-dockerhub"></a><a href="#login-to-dockerhub" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Login to DockerHub</h4>
-<p>Obtain the official OPQ DockerHub account credentials, and then invoke <code>docker login</code>.</p>
+<p>Login to your DockerHub account by invoking the <code>docker login</code> command.</p>
 <p>If you are unsure which account you are currently logged into, you may invoke <code>docker logout</code> first.</p>
 <pre><code class="hljs">$ docker login
 Login <span class="hljs-keyword">with</span> your Docker ID <span class="hljs-keyword">to</span> push <span class="hljs-keyword">and</span> pull images <span class="hljs-keyword">from</span> Docker Hub. <span class="hljs-keyword">If</span> you don<span class="hljs-comment">'t have a Docker ID, head over to https://hub.docker.com to create one.</span>
-Username: openpowerquality
+Username: &lt;Your-Username&gt;
 Password:
 &lt;some lines removed&gt;
 
@@ -207,20 +184,20 @@ Login Succeeded
 <h4><a class="anchor" aria-hidden="true" id="invoke-the-publish-script"></a><a href="#invoke-the-publish-script" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Invoke the publish script</h4>
 <p>We're publishing a new Mauka image, so <code>cd</code> into <code>opq/mauka/docker</code> and invoke the <code>docker-publish.sh</code> script.</p>
 <p>When you invoke the <code>docker-publish.sh</code> script, it will provide information on how the image will be tagged, and give you an opportunity to abort the script should you need to make modifications.</p>
-<p>As you can see below, the <code>docker-publish.sh</code> script simply tags Mauka's newest image <code>opqmauka:latest</code> as <code>openpowerquality/opqmauka:0.1.1</code> (as defined in the <code>.env</code> file), and pushes it to DockerHub.</p>
+<p>As you can see below, the <code>docker-publish.sh</code> script simply tags the most recently created local Mauka image <code>mauka:latest</code> as <code>openpowerquality/mauka:0.1.1</code> (as defined in the <code>.env</code> file), and pushes it to DockerHub.</p>
 <p>Reminder: As we briefly explained in the 'Creating new Docker images' section, whenever you create a new image with the <code>docker-build.sh</code> script, Docker will automatically tag that new image with <code>latest</code>.</p>
 <pre><code class="hljs">$ cd opq/mauka/docker
 $ ./docker-publish.sh
-=&gt; This will tag the 'opqmau<span class="hljs-symbol">ka:la</span>test' image as 'openpowerquality/opqmau<span class="hljs-symbol">ka:0</span>.<span class="hljs-number">1.1</span>' <span class="hljs-built_in">and</span> push to your Docker registry.
-=&gt; <span class="hljs-built_in">If</span> you need to change the destination image tag (openpowerquality/opqmau<span class="hljs-symbol">ka:0</span>.<span class="hljs-number">1.1</span>), you can abort this script
+=&gt; This will tag the 'mau<span class="hljs-symbol">ka:la</span>test' image as 'openpowerquality/mau<span class="hljs-symbol">ka:0</span>.<span class="hljs-number">1.1</span>' <span class="hljs-built_in">and</span> push to your Docker registry.
+=&gt; <span class="hljs-built_in">If</span> you need to change the destination image tag (openpowerquality/mau<span class="hljs-symbol">ka:0</span>.<span class="hljs-number">1.1</span>), you can abort this script
 <span class="hljs-built_in">and</span> modify the 'MAUKA_IMAGE' variable found in the 'opq/util/docker-deployment/.env' file.
-=&gt; In addition, please ensure that you are logged into the correct Docker registry account before continuing.
+=&gt; In addition, please ensure that you are logged into your DockerHub account before continuing.
 =&gt; Continue? (y/<span class="hljs-built_in">n</span>)<span class="hljs-symbol">:</span> y
 </code></pre>
 <p>In our case, everything looks good, so we enter <code>y</code> to continue, and the image is then pushed to DockerHub!</p>
-<pre><code class="hljs">=&gt; Tagging <span class="hljs-string">'opqmauka:latest'</span> image <span class="hljs-keyword">as</span> <span class="hljs-string">'openpowerquality/opqmauka:0.1.1'</span>...
-=&gt; Pushing the <span class="hljs-string">'openpowerquality/opqmauka:0.1.1'</span> image <span class="hljs-keyword">to</span> registry...
-The push refers <span class="hljs-keyword">to</span> repository [docker.io/openpowerquality/opqmauka]
+<pre><code class="hljs">=&gt; Tagging <span class="hljs-string">'mauka:latest'</span> image <span class="hljs-keyword">as</span> <span class="hljs-string">'openpowerquality/mauka:0.1.1'</span>...
+=&gt; Pushing the <span class="hljs-string">'openpowerquality/mauka:0.1.1'</span> image <span class="hljs-keyword">to</span> registry...
+The push refers <span class="hljs-keyword">to</span> repository [docker.io/openpowerquality/mauka]
 <span class="hljs-number">3</span>c64a2f29066: Pushed
 c40f7a899b1c: Pushed
 <span class="hljs-number">16</span>cb62492495: Pushed
@@ -246,6 +223,35 @@ be sure to commit and push the file to GitHub with a useful commit message (e.g.
 <li>The world is aware of the latest available Docker image versions for each OPQ service.</li>
 <li>We can easily correlate OPQ releases with Git history.</li>
 </ol>
+<h2><a class="anchor" aria-hidden="true" id="overview-of-docker-related-files"></a><a href="#overview-of-docker-related-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview of Docker-related files</h2>
+<p>There are three general sets of Docker-related files to be aware of:</p>
+<ol>
+<li>Individual OPQ service Docker files, found in each service's respective <code>/docker</code> subdirectory (e.g. <code>opq/view/docker</code>).</li>
+<li>Docker-Compose files, found in the <code>opq/util/docker-deployment</code> directory.</li>
+<li>Docker deployment utility files, found in the <code>opq/util/docker-utils</code> directory.</li>
+</ol>
+<h3><a class="anchor" aria-hidden="true" id="dockerized-opq-service-files"></a><a href="#dockerized-opq-service-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dockerized OPQ service files</h3>
+<p>Each Dockerized OPQ service has a <code>/docker</code> subdirectory with a common set of files:</p>
+<ul>
+<li><code>Dockerfile</code>: Contains the configuration for building the Docker image. Used by the <code>docker-build.sh</code> script.</li>
+<li><code>docker-build.sh</code>: A script for building a new Docker image.</li>
+<li><code>docker-publish.sh</code>: A script for publishing a new image to DockerHub.</li>
+<li><code>docker-run.sh</code>: A script for running the docker image as a standalone instance. Note that we actually use Docker-Compose to handle the task of running all OPQ images together, so this file is generally only used for debugging purposes.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="docker-compose-files"></a><a href="#docker-compose-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docker-Compose files</h3>
+<p>Docker-Compose is responsible for orchestrating how each of our OPQ services work together.</p>
+<p>These files can be found in the <code>opq/util/docker-deployment</code> directory:</p>
+<ul>
+<li><code>docker-compose.yml</code>: The configuration file for Docker-Compose.</li>
+<li><code>.env</code>: Contains environment variables that are substituted into the docker-compose.yml file.</li>
+<li><code>docker-compose-run.sh</code>: A script for launching Docker-Compose. Also defines additional environment variables.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="utility-files"></a><a href="#utility-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility files</h3>
+<p>The files found in the <code>opq/util/docker-utils</code> directory are helper scripts meant to aid with the deployment of OPQ on the Emilia server:</p>
+<ul>
+<li><code>deploy-transfer.sh</code>: Transfers latest deployment related files to the Emilia server.</li>
+<li><code>docker-prepare-and-run.sh</code>: Helper script that copies (and overwrites existing) deployment files into the dedicated deployment directory on Emilia, before invoking the <code>docker-compose-run.sh</code> script to initiate (re)deployment.</li>
+</ul>
 <h3><a class="anchor" aria-hidden="true" id="understanding-docker-compose-and-the-env-file-"></a><a href="#understanding-docker-compose-and-the-env-file-" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Understanding Docker-Compose and the .env file</h3>
 <p>The <code>opq/util/docker-deployment</code> directory contains all of the Docker-Compose related files, the most important of which is the <code>docker-compose.yml</code> file.</p>
 <p>The <code>docker-compose.yml</code> file is the configuration file for Docker-Compose, which is responsible for orchestrating how each of our OPQ services work together.
@@ -254,8 +260,8 @@ Among other things, this is where we define the Docker image to use for each ser
 we instead opt to use the special <a href="https://docs.docker.com/compose/environment-variables/#the-env-file">Docker-Compose <code>.env</code> file</a> to hold environment variables for these values.
 Later, when Docker-Compose is launched, these variables are automatically substituted into the <code>docker-compose.yml</code> file.</p>
 <p>It’s important to understand that the image names used in our <code>.env</code> file are DockerHub-valid image names in the form of:</p>
-<p><code>&lt;dockerhub-username&gt;/&lt;repository-name&gt;:&lt;tag&gt;</code></p>
-<p>For example, <code>openpowerquality/opqview:1.2.8</code></p>
+<p><code>&lt;dockerhub-organization&gt;/&lt;repository-name&gt;:&lt;tag&gt;</code></p>
+<p>For example, <code>openpowerquality/view:1.2.8</code></p>
 <p>Why does this matter? Because when Docker-Compose launches on the host system (or in our case, when we invoke the <code>docker-compose.run.sh</code> script), it will automatically pull these images from DockerHub if they have not been previously downloaded.
 As you can imagine, this greatly simplifies the deployment process. Updating the system to run on the latest OPQ images is essentially just a matter of grabbing the latest <code>.env</code> file.</p>
 <p>Our approach to image publication takes advantage of this <code>.env</code> file:</p>
@@ -269,7 +275,7 @@ with the new desired version prior to running the <code>docker-publish.sh</code>
 <li>The world is aware of the latest available Docker image versions for each OPQ service.</li>
 <li>We can easily correlate OPQ releases with Git history</li>
 </ol>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="deploy-health.html">← Deployment: Health</a><a class="docs-next button" href="other-roadmap.html">Roadmap →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a><ul class="toc-headings"><li><a href="#pre-requisites">Pre-requisites</a></li><li><a href="#overview-of-docker-related-files">Overview of Docker-related files</a></li></ul></li><li><a href="#deployment">Deployment</a><ul class="toc-headings"><li><a href="#deployment-walk-through">Deployment Walk-through</a></li></ul></li><li><a href="#developer-tasks">Developer Tasks</a><ul class="toc-headings"><li><a href="#creating-new-docker-images">Creating new Docker images</a></li><li><a href="#publishing-images-to-dockerhub">Publishing images to DockerHub</a></li><li><a href="#understanding-docker-compose-and-the-env-file-">Understanding Docker-Compose and the .env file</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects">Project Boards</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="deploy-health.html">← Deployment: Health</a><a class="docs-next button" href="other-roadmap.html">Roadmap →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a><ul class="toc-headings"><li><a href="#pre-requisites-docker-and-docker-compose-installation">Pre-requisites: Docker and Docker Compose Installation</a></li></ul></li><li><a href="#deployment">Deployment</a><ul class="toc-headings"><li><a href="#deployment-walk-through">Deployment Walk-through</a></li></ul></li><li><a href="#developer-tasks">Developer Tasks</a><ul class="toc-headings"><li><a href="#creating-new-docker-images">Creating new Docker images</a></li><li><a href="#publishing-images-to-dockerhub">Publishing images to DockerHub</a></li></ul></li><li><a href="#overview-of-docker-related-files">Overview of Docker-related files</a><ul class="toc-headings"><li><a href="#dockerized-opq-service-files">Dockerized OPQ service files</a></li><li><a href="#docker-compose-files">Docker-Compose files</a></li><li><a href="#utility-files">Utility files</a></li><li><a href="#understanding-docker-compose-and-the-env-file-">Understanding Docker-Compose and the .env file</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects">Project Boards</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
               var search = docsearch({
                 
                 apiKey: '9bf16cc78135dbeeb3826894ebbbb2ee',
