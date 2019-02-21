@@ -6,18 +6,20 @@ sidebar_label: Docker
 
 ## Overview
 
-We utilize [Docker](https://www.docker.com/) to containerize each of our services into easy-to-deploy bundles. In combination with [Docker Compose](https://docs.docker.com/compose/), the task of deploying and running a new OPQ Cloud instance has become a greatly simplified process.
+We utilize [Docker](https://www.docker.com/) to containerize each of our services into easy-to-deploy bundles. In combination with [Docker Compose](https://docs.docker.com/compose/), the task of deploying and running a new OPQ Cloud instance is a very simple and straight-forward process.
 
 This guide will be covering three separate concerns:
   1. Deploying a new OPQ Cloud instance on production
   2. Creating new OPQ docker images
   3. Publishing new OPQ docker images
 
-Since we provide our own [official OPQ releases](https://hub.docker.com/u/openpowerquality) on DockerHub, you are free to skip the image building and publishing process entirely if you are only interested in deploying an official OPQ release.
+Since we provide our own [official OPQ releases](https://hub.docker.com/u/openpowerquality) on DockerHub, you are free to ignore the image building and publishing process entirely if you are only interested in deploying an official OPQ release.
 
 To illustrate the simplicity of deploying an official OPQ release with Docker, we will discuss that process first.
 
 Then, we will discuss how to build your own Docker images, as well as how to push them to DockerHub.
+
+Please refer to the 'Overview of Docker-related files' section near the bottom of the page if you’d like to learn more about all of the Docker-related files that we discuss throughout the documentation.
 
 Note: We are still in the process of Dockerizing our OPQ services. The following lists the Dockerized services and the location of their Docker-related files:
   * View: `opq/view/docker`
@@ -26,40 +28,13 @@ Note: We are still in the process of Dockerizing our OPQ services. The following
   * Box Updater: `opq/util/box-update-server/docker`
   * Mongo: No files necessary; we use the official Mongo image without modification.
 
-### Pre-requisites
+### Pre-requisites: Docker and Docker Compose Installation
 
 Make sure you have Docker and Docker-Compose installed on your development and production systems.
 
 Please refer to the official [Docker documentation](https://docs.docker.com/install/) for installation instructions.
 
 Also see the official [Docker-Compose documentation](https://docs.docker.com/compose/install/).
-
-### Overview of Docker-related files
-
-There are two sets of Docker-related files to be aware of:
-  1. Individual OPQ service Docker files, found in each service's respective `/docker` subdirectory (e.g. `opq/view/docker`).
-  2. Docker-Compose files, found in the `opq/util/docker-deployment` directory.
-  3. Docker deployment utility files, found in the `opq/util/docker-utils` directory.
-
-#### Dockerized OPQ service files
-Each Dockerized OPQ service has a `/docker` subdirectory with a common set of files:
-  *  `Dockerfile`: Contains the configuration for building the Docker image. Used by the `docker-build.sh` script.
-  * `docker-build.sh`: A script for building a new Docker image.
-  * `docker-publish.sh`: A script for publishing a new image to DockerHub.
-  * `docker-run.sh`: A script for running the docker image as a standalone instance. Note that we actually use Docker-Compose to handle the task of running all OPQ images together, so this file is generally only used for debugging purposes.
-  
-#### Docker-Compose files
-Docker-Compose is responsible for orchestrating how each of our OPQ services work together.
-
-These files can be found in the `opq/util/docker-deployment` directory:
-  * `docker-compose.yml`: The configuration file for Docker-Compose.
-  * `.env`: Contains environment variables that are substituted into the docker-compose.yml file.
-  * `docker-compose-run.sh`: A script for launching Docker-Compose. Also defines additional environment variables.
-
-#### Utility files
-The files found in the `opq/util/docker-utils` directory are helper scripts meant to aid with the deployment of OPQ on the Emilia server:
-  * `deploy-transfer.sh`: Transfers latest deployment related files to the Emilia server.
-  * `docker-prepare-and-run.sh`: Helper script that copies (and overwrites existing) deployment files into the dedicated deployment directory on Emilia, before invoking the `docker-compose-run.sh` script to initiate (re)deployment.
 
 
 ## Deployment
@@ -68,9 +43,13 @@ Before we begin, make sure you have Docker and Docker-Compose installed on your 
 
 The `opq/util/docker-deployment` directory contains all the files required for deployment.
 
+Ensure that you have the latest versions of these files by pulling the latest changes on the master branch of the OPQ GitHub repository.
+By doing so, you also ensure that your deployment will be running on all the latest available OPQ docker images.
+
 Deployment is a very straight-forward process:
-  1. Transfer the latest contents of the `opq/util/docker-deployment` directory into a dedicated deployment directory of your choice on your production server, overwriting all older deployment files as necessary.
-  2. Invoke the `docker-compose-run.sh` script to re-deploy the OPQ Cloud instance.
+  1. Transfer the latest contents of the `opq/util/docker-deployment` directory into a dedicated deployment directory of your choice on your production server, overwriting all previous deployment files.
+  2. Ensure that the `settings.production.json` file is also placed in your dedicated deployment directory.
+  3. Invoke the `docker-compose-run.sh` script to re-deploy the OPQ Cloud instance.
 
 This is essentially all that is required to deploy your own OPQ Cloud instance.
 
@@ -194,7 +173,8 @@ When creating and publishing a new image for an OPQ service, there are three fil
   2. The `docker-publish.sh` script, also found in the `opq/<service-name>/docker` directory.
   3. The `.env` file, found in the `opq/util/docker-deployment` directory.
 
-The `.env` file is a special Docker-Compose file that we also utilize when publishing new images. This is explained in further detail below.
+The `.env` file is a special Docker-Compose file that we also utilize when publishing new images.
+See the 'Understanding Docker-Compose and the .env file' section further below if you wish to learn more about this important file.
 
 
 ### Creating new Docker images
@@ -211,12 +191,14 @@ but the end result will always be the same: a new Docker image named `<opq-servi
 Once the script has finished running, you should confirm that the image has been successfully created by invoking the `docker image ls` command.
 
 Since our build scripts do not explicitly provide an image tag for the build process, the `latest` tag is automatically provided for us.
-This is important to note, because as we will explain below, each OPQ service's `docker-publish.sh` script will, by default, rename and push this `<opq-service-name>:latest` image to DockerHub.
+You can also confirm this by invoking the `docker image ls` command.
+
+This is important to note, because each OPQ service's `docker-publish.sh` script will, by default, rename and push this `<opq-service-name>:latest` image to DockerHub.
 
 
 ### Publishing images to DockerHub
 
-Note: Before continuing, make sure you have obtained the credentials for the official OPQ DockerHub account.
+Note: Before continuing, make sure that your DockerHub account is a member of the official `openpowerquality` DockerHub organization.
 
 Publishing a new Docker image for a given OPQ service a straight-forward process:
   1. If publishing a **new** version of an image, modify the appropriate variable in the `opq/util/docker-deployment/.env` file with the new image version tag.
@@ -224,16 +206,16 @@ Publishing a new Docker image for a given OPQ service a straight-forward process
   3. `cd` into the service's `/docker` subdirectory (e.g. `opq/mauka/docker`) and invoke the `docker-publish.sh` script.
   4. If you modified the `.env` file, commit and push it to GitHub with a useful message (e.g. `Publish Mauka 0.1.1`).
 
-As we explain below, the `.env` file is actually a special Docker-Compose file.
+As we explain in the 'Understanding Docker-Compose and the .env file' section further below, the `.env` file is actually a special Docker-Compose file.
 For now, you just need to understand that the `.env` file has an environment variable definition for each OPQ service's DockerHub repository image name.
 
-Each OPQ service's `docker-publish.sh` script parses the `.env` file for the appropriate variable so that it knows exactly how to tag and push the new image.
+Each OPQ service's `docker-publish.sh` script parses the `.env` file for the appropriate image name variable so that it knows exactly how to tag and push the new image.
 If this sounds confusing, it's really not! Let's look at an example below:
 
 #### Publishing Walk-through
 
 Assume that we just created a new Mauka image by invoking its `docker-build.sh` script.
-The newly created image is automatically named `opqmauka:latest`, which you can confirm by invoking `docker image ls`.
+The newly created image is automatically named `mauka:latest`, which you can confirm by invoking `docker image ls`.
 
 #### Update the `.env` file
 
@@ -242,28 +224,28 @@ Our goal is to publish this new image to DockerHub, also giving it a new version
 **Prior** to publishing the new Mauka image, the `.env` file (found in `opq/util/docker-deployment`) might look like the following:
 
 ```
-MAUKA_IMAGE=openpowerquality/opqmauka:0.1.0
-HEALTH_IMAGE=openpowerquality/opqhealth:0.1.0
-VIEW_IMAGE=openpowerquality/opqview:0.1.0
+MAUKA_IMAGE=openpowerquality/mauka:0.1.0
+HEALTH_IMAGE=openpowerquality/health:0.1.0
+VIEW_IMAGE=openpowerquality/view:0.1.0
 ```
 
 With the goal of publishing a new Mauka image (version 0.1.1), simply modify the `MAUKA_IMAGE` variable in the `.env` file, like so:
 ```
-MAUKA_IMAGE=openpowerquality/opqmauka:0.1.1
-HEALTH_IMAGE=openpowerquality/opqhealth:0.1.0
-VIEW_IMAGE=openpowerquality/opqview:0.1.0
+MAUKA_IMAGE=openpowerquality/mauka:0.1.1
+HEALTH_IMAGE=openpowerquality/health:0.1.0
+VIEW_IMAGE=openpowerquality/view:0.1.0
 ```
 
 #### Login to DockerHub
 
-Obtain the official OPQ DockerHub account credentials, and then invoke `docker login`.
+Login to your DockerHub account by invoking the `docker login` command.
 
 If you are unsure which account you are currently logged into, you may invoke `docker logout` first.
 
 ```
 $ docker login
 Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
-Username: openpowerquality
+Username: <Your-Username>
 Password:
 <some lines removed>
 
@@ -276,26 +258,26 @@ We're publishing a new Mauka image, so `cd` into `opq/mauka/docker` and invoke t
 
 When you invoke the `docker-publish.sh` script, it will provide information on how the image will be tagged, and give you an opportunity to abort the script should you need to make modifications.
 
-As you can see below, the `docker-publish.sh` script simply tags Mauka's newest image `opqmauka:latest` as `openpowerquality/opqmauka:0.1.1` (as defined in the `.env` file), and pushes it to DockerHub.
+As you can see below, the `docker-publish.sh` script simply tags the most recently created local Mauka image `mauka:latest` as `openpowerquality/mauka:0.1.1` (as defined in the `.env` file), and pushes it to DockerHub.
 
 Reminder: As we briefly explained in the 'Creating new Docker images' section, whenever you create a new image with the `docker-build.sh` script, Docker will automatically tag that new image with `latest`.
 
 ```
 $ cd opq/mauka/docker
 $ ./docker-publish.sh
-=> This will tag the 'opqmauka:latest' image as 'openpowerquality/opqmauka:0.1.1' and push to your Docker registry.
-=> If you need to change the destination image tag (openpowerquality/opqmauka:0.1.1), you can abort this script
+=> This will tag the 'mauka:latest' image as 'openpowerquality/mauka:0.1.1' and push to your Docker registry.
+=> If you need to change the destination image tag (openpowerquality/mauka:0.1.1), you can abort this script
 and modify the 'MAUKA_IMAGE' variable found in the 'opq/util/docker-deployment/.env' file.
-=> In addition, please ensure that you are logged into the correct Docker registry account before continuing.
+=> In addition, please ensure that you are logged into your DockerHub account before continuing.
 => Continue? (y/n): y
 ```
 
 In our case, everything looks good, so we enter `y` to continue, and the image is then pushed to DockerHub!
 
 ```
-=> Tagging 'opqmauka:latest' image as 'openpowerquality/opqmauka:0.1.1'...
-=> Pushing the 'openpowerquality/opqmauka:0.1.1' image to registry...
-The push refers to repository [docker.io/openpowerquality/opqmauka]
+=> Tagging 'mauka:latest' image as 'openpowerquality/mauka:0.1.1'...
+=> Pushing the 'openpowerquality/mauka:0.1.1' image to registry...
+The push refers to repository [docker.io/openpowerquality/mauka]
 3c64a2f29066: Pushed
 c40f7a899b1c: Pushed
 16cb62492495: Pushed
@@ -326,6 +308,34 @@ By doing so, we accomplish two useful things:
   2. We can easily correlate OPQ releases with Git history.
 
 
+
+## Overview of Docker-related files
+
+There are three general sets of Docker-related files to be aware of:
+  1. Individual OPQ service Docker files, found in each service's respective `/docker` subdirectory (e.g. `opq/view/docker`).
+  2. Docker-Compose files, found in the `opq/util/docker-deployment` directory.
+  3. Docker deployment utility files, found in the `opq/util/docker-utils` directory.
+
+### Dockerized OPQ service files
+Each Dockerized OPQ service has a `/docker` subdirectory with a common set of files:
+  *  `Dockerfile`: Contains the configuration for building the Docker image. Used by the `docker-build.sh` script.
+  * `docker-build.sh`: A script for building a new Docker image.
+  * `docker-publish.sh`: A script for publishing a new image to DockerHub.
+  * `docker-run.sh`: A script for running the docker image as a standalone instance. Note that we actually use Docker-Compose to handle the task of running all OPQ images together, so this file is generally only used for debugging purposes.
+  
+### Docker-Compose files
+Docker-Compose is responsible for orchestrating how each of our OPQ services work together.
+
+These files can be found in the `opq/util/docker-deployment` directory:
+  * `docker-compose.yml`: The configuration file for Docker-Compose.
+  * `.env`: Contains environment variables that are substituted into the docker-compose.yml file.
+  * `docker-compose-run.sh`: A script for launching Docker-Compose. Also defines additional environment variables.
+
+### Utility files
+The files found in the `opq/util/docker-utils` directory are helper scripts meant to aid with the deployment of OPQ on the Emilia server:
+  * `deploy-transfer.sh`: Transfers latest deployment related files to the Emilia server.
+  * `docker-prepare-and-run.sh`: Helper script that copies (and overwrites existing) deployment files into the dedicated deployment directory on Emilia, before invoking the `docker-compose-run.sh` script to initiate (re)deployment.
+
 ### Understanding Docker-Compose and the .env file
 
 The `opq/util/docker-deployment` directory contains all of the Docker-Compose related files, the most important of which is the `docker-compose.yml` file.
@@ -339,9 +349,9 @@ Later, when Docker-Compose is launched, these variables are automatically substi
 
 It’s important to understand that the image names used in our `.env` file are DockerHub-valid image names in the form of:
 
-`<dockerhub-username>/<repository-name>:<tag>`
+`<dockerhub-organization>/<repository-name>:<tag>`
 
-For example, `openpowerquality/opqview:1.2.8`
+For example, `openpowerquality/view:1.2.8`
 
 Why does this matter? Because when Docker-Compose launches on the host system (or in our case, when we invoke the `docker-compose.run.sh` script), it will automatically pull these images from DockerHub if they have not been previously downloaded.
 As you can imagine, this greatly simplifies the deployment process. Updating the system to run on the latest OPQ images is essentially just a matter of grabbing the latest `.env` file.
