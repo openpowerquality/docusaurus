@@ -3,6 +3,9 @@ title: Deployment: MongoDB
 sidebar_label: MongoDB
 ---
 
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+
+
 ## Install MongoDB
 
 Copy the `install-mongod.sh` script found in the `opq/util/mongod/install` directory to the server you wish to install it on.
@@ -10,10 +13,10 @@ Copy the `install-mongod.sh` script found in the `opq/util/mongod/install` direc
 As root, run the install script.
 
 ```
-$ sudo ./install-mongodb.sh 
+$ sudo ./install-mongodb.sh
 + apt-get install -y curl
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 curl is already the newest version (7.52.1-5+deb9u5).
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
@@ -83,7 +86,7 @@ First, copy all three scripts to the server that you wish to setup the mongod se
 As root, run install-service.sh
 
 ```
-$ sudo ./install-service.sh 
+$ sudo ./install-service.sh
 + cp start-mongod.sh /usr/local/bin/mongodb/.
 + chown opq:opq /usr/local/bin/mongodb/start-mongod.sh
 + chmod +x /usr/local/bin/mongodb/start-mongod.sh
@@ -130,21 +133,21 @@ For more comprehensive documentation, see
 	http://docs.mongodb.org/
 Questions? Try the support group
 	http://groups.google.com/group/mongodb-user
-Server has startup warnings: 
-2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten] 
+Server has startup warnings:
+2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten]
 2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
 2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten]
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten]
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server. 
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server.
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten]
 ```
 
 You may see some warnings that we can ignore for the time being, but you can also verify that you can connect to the running mongod instance using this approach.
@@ -158,22 +161,22 @@ $ mongo --port 27018
 MongoDB shell version v3.6.3
 connecting to: mongodb://127.0.0.1:27018/
 MongoDB server version: 3.6.3
-Server has startup warnings: 
-2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten] 
+Server has startup warnings:
+2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten]
 2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
 2018-04-11T08:18:04.158-1000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten]
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten]
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server. 
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server.
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
 2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
-2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten] 
-> 
+2018-04-11T08:18:05.062-1000 I CONTROL  [initandlisten]
+>
 ```
 
 Once connected, we can now configure the replica sets. We will first create a config variable:
@@ -210,9 +213,9 @@ In the case that you are trying to create a unique index over a collection that 
 ## Restoring MongoDB from a backup
 
 So you've gone and performed the unthinkable. You either wiped or damaged the database beyond repair.
- 
- _Shame_. _SHAME!_ 
- 
+
+ _Shame_. _SHAME!_
+
 Don't fret, it's possible to restore the database using the most recent backup.
 
 The steps needed to restore a working copy of the DB are as follows:

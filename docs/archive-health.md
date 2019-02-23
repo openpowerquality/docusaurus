@@ -3,13 +3,16 @@ title: Deployment: Health
 sidebar_label: Health
 ---
 
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+
+
 The goal of the OPQ Health service is provide a diagnostic facility for determining whether or not all of the OPQ services appear to be running appropriately.  It does this by monitoring various aspects of the system and publishing its findings to a log file and mongodb.
 
 There are basically two steps to deploying OPQView: copying the deployment files (a python script and configuration file) from a development machine to the server, then running the script on the server.
 
 ## Developer system deployment tasks
 
-First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access). 
+First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access).
 
 
 ### Copy deployment files to the server
@@ -36,7 +39,7 @@ Here is what the invocation of this command should look like:
 + tar czf 20180408_083036.tar.gz 20180408_083036
 + rm -rf 20180408_083036
 + scp -P 29862 20180408_083036.tar.gz opquser@emilia.ics.hawaii.edu:health
-20180408_083036.tar.gz                                                                                                100%   43MB   1.5MB/s   00:29    
+20180408_083036.tar.gz                                                                                                100%   43MB   1.5MB/s   00:29
 + set +x
 ```
 
@@ -48,7 +51,7 @@ Now ssh to the server to do the remainder of the deployment:
 ssh -p 29862 opquser@emilia.ics.hawaii.edu
 ```
 
-### Unpack tar file with latest deployment files  
+### Unpack tar file with latest deployment files
 
 Change directories into the health/ subdirectory, and list the files:
 
@@ -66,7 +69,7 @@ You should see one (or more) timestamped tar.gz files (and potentially directori
 
 ```
 $ tar xf 20180408_085449.tar.gz
-```  
+```
 
 The cd into that directory, and list the contents:
 

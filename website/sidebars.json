@@ -3,9 +3,9 @@
     "Introduction": ["intro-motivation", "intro-power-quality", "intro-system-architecture", "intro-information-architecture", "intro-related-work", "intro-bibliography"],
     "User Guide": ["userguide-hardware", "userguide-software"],
     "OPQ Box": ["box-overview", "box-hardware-design", "box-software-design", "box-updater", "box-manufacturing"],
-    "OPQ Cloud": ["cloud-overview", "cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map"],
+    "OPQ Cloud": ["cloud-overview", "cloud-installation","cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map"],
     "Misc Development": ["developerguide-docusaurus", "developerguide-virtual-machine", "developerguide-bibliography"],
-    "Deployment": ["deploy-initial-configuration", "deploy-mongodb", "deploy-mauka", "deploy-makai", "deploy-view", "deploy-health", "deploy-docker"],
-    "Other": ["other-roadmap", "other-opportunities", "other-agile-power-monitoring",  "other-g1-pilot-study"]
+    "Other": ["other-roadmap", "other-opportunities", "other-agile-power-monitoring",  "other-g1-pilot-study"],
+    "Archive": ["archive-initial-configuration", "archive-mongodb", "archive-mauka", "archive-makai", "archive-view", "archive-health", "archive-docker"]
   }
 }

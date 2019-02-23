@@ -3,16 +3,18 @@ title: Deployment: Makai
 sidebar_label: Makai
 ---
 
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+
 Makai has three main components: a Triggering Broker, an Acquisition Broker, and a Triggering Service (the makai daemon).
 
-Each one is a self-contained application, requiring their own dependencies. The Triggering and Acquisition Brokers are written in C++ and as such require C/C++ libraries. The Makai daemon, the core of the triggering service, is written in Rust. This make dependency management simpler because we can use the `cargo` system. 
+Each one is a self-contained application, requiring their own dependencies. The Triggering and Acquisition Brokers are written in C++ and as such require C/C++ libraries. The Makai daemon, the core of the triggering service, is written in Rust. This make dependency management simpler because we can use the `cargo` system.
 
 ## Installation setup
 
-At this time, unlike other OPQ services, you must build the Makai service directly from sources on the server machine. 
+At this time, unlike other OPQ services, you must build the Makai service directly from sources on the server machine.
 
-First, login as opquser on the server. 
- 
+First, login as opquser on the server.
+
 Change directories to the makai/ directory.
 
 Next, checkout the [opq repository](https://github.com/openpowerquality/opq) into this directory.

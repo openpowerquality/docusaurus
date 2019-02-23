@@ -3,13 +3,16 @@ title: Deployment: View
 sidebar_label: View
 ---
 
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+
+
 OPQView is a [Meteor](http://meteor.com) application.  For general information on deploying Meteor applications, see the [Meteor Guide chapter on deployment](https://guide.meteor.com/deployment.html) and the [meteor build command documentation](https://docs.meteor.com/commandline.html#meteorbuild).
 
 There are basically two steps to deploying OPQView: building the production bundle (a nodejs application) on a development machine, then running the bundle on the server.
 
 ## Developer system deployment tasks
 
-First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access). 
+First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access).
 
 Second, invoke `meteor npm install` to verify that you have installed the latest versions of all libraries.
 
@@ -19,9 +22,9 @@ Fourth, invoke `meteor npm run start` and then go to http://localhost:3000 to ve
 
 ### Build the production bundle
 
-In general, you will build the production bundle from the master branch of OPQView. 
+In general, you will build the production bundle from the master branch of OPQView.
 
-In your development environment, be sure you are in the master branch, then change directories into the `opq/view/app/` directory. 
+In your development environment, be sure you are in the master branch, then change directories into the `opq/view/app/` directory.
 
 Now invoke `meteor npm run build`:
 
@@ -36,10 +39,10 @@ Node#moveTo was deprecated. Use Container#append.
 
 The contents of the `opq/view/deploy/` directory should now contain the following files:
 
-  * app.tar.gz: The file you just built containing the production version of the app (approximately 45 MB). 
+  * app.tar.gz: The file you just built containing the production version of the app (approximately 45 MB).
   * deploy-run.sh:  A script for running the deployment on the server.
-  * deploy-transfer.sh: A script for copying the appropriate files to the server. 
-  
+  * deploy-transfer.sh: A script for copying the appropriate files to the server.
+
 Note that *.gz files in the deploy directory are gitignored.
 
 ### Copy deployment files to the server
@@ -49,7 +52,7 @@ To copy deployment files to the server, cd to the opq/view/deploy directory, and
 Here is what the invocation of this command should look like:
 
 ```
-./deploy-transfer.sh 
+./deploy-transfer.sh
 ++ date +%Y%m%d_%H%M%S
 + timestamp=20180408_083036
 + mkdir 20180408_083036
@@ -63,7 +66,7 @@ Here is what the invocation of this command should look like:
 + tar czf 20180408_083036.tar.gz 20180408_083036
 + rm -rf 20180408_083036
 + scp -P 29862 20180408_083036.tar.gz opquser@emilia.ics.hawaii.edu:view
-20180408_083036.tar.gz                                                                                                100%   43MB   1.5MB/s   00:29    
+20180408_083036.tar.gz                                                                                                100%   43MB   1.5MB/s   00:29
 + set +x
 ```
 
@@ -93,7 +96,7 @@ You should see one (or more) timestamped tar.gz files (and potentially directori
 
 ```
 $ tar xf 20180408_085449.tar.gz
-```  
+```
 
 The cd into that directory, and list the contents:
 
@@ -131,7 +134,7 @@ $ kill -9 2069
 The file `bundle/.node_version.txt` indicates the required version of node. Print it with the following command:
 
 ```
-$ more bundle/.node_version.txt 
+$ more bundle/.node_version.txt
 v8.11.1
 ```
 
@@ -149,7 +152,7 @@ If these don't match, then update node to the appropriate version before proceed
 To run the new version of OPQView, invoke the deploy-run.sh script:
 
 ```
-$ ./deploy-run.sh 
+$ ./deploy-run.sh
 Make sure node version is v8.11.1
 
 > fibers@2.0.0 install /home/opquser/view/20180408_085449/bundle/programs/server/node_modules/fibers
@@ -193,7 +196,7 @@ $
 This script brings up OPQView in the background (so that you can exit this terminal session), and sends all output to the file logfile.txt. To check that the system came up normally, you can print out the contents of the logfile, which should look similar to this:
 
 ```
-$ more logfile.txt 
+$ more logfile.txt
 Starting SyncedCron to update System Stats every 10 seconds.
 Initializing 4 user profiles.
 Initializing 5 OPQ boxes.
@@ -204,6 +207,6 @@ Initializing 5 OPQ boxes.
 As a final check, retrieve OPQView for example: [http://emilia.ics.hawaii.edu](http://emilia.ics.hawaii.edu). You might want to check that whatever recent features you developed are appearing in this system. That verifies that you deployed the intended version.
 
 
- 
- 
+
+
 
