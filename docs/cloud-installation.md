@@ -15,7 +15,7 @@ We publish official Docker images for all of these services to the [Open Power Q
   1. Install Docker and Docker Compose.
   2. Download the OPQ Docker repository containing shell scripts and configuration files.
   3. Edit the configuration files appropriately for your local installation.
-  4. Run a script to bring up the five OPQ Cloud services.
+  4. Run a script to bring up the OPQ Cloud services.
   5. Verify installation by visiting the OPQ View landing page.
   5. Complete the installation by logging in to OPQ View.
 
