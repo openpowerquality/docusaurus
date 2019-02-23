@@ -1,10 +1,11 @@
 ---
-title: Deployment: MongoDB
+title: MongoDB on Emilia
 sidebar_label: MongoDB
 ---
 
-**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Updates will hopefully come soon)**
 
+This page contains instructions for installing, running, backing up, and restoring MongoDB on emilia.
 
 ## Install MongoDB
 
@@ -69,7 +70,7 @@ The script works by performing the following steps:
 5. Create log directory at /var/log/mongodb
 6. Set's ownership of data and log dirs to the system level `opq` user
 
-### Installing the MongoDB service
+### Install the MongoDB service
 
 This step will install MongoDB as a system level service. This allows MongoDB to be managed by the service daemon and to autostart when the server starts. This step requires three scripts:
 
@@ -152,7 +153,7 @@ Server has startup warnings:
 
 You may see some warnings that we can ignore for the time being, but you can also verify that you can connect to the running mongod instance using this approach.
 
-### Configuring mongod to support oplog
+### Configure mongodb with oplog
 
 First, connect to the primary mongod instance
 
@@ -204,13 +205,13 @@ Next, we will initiate the replica set with the config that we just created usin
 
 At this point, you should be ready to go. See the official mongodb documentation if you wish to setup further access rights such as users or permissions.
 
-## Setting up Indexes
+## Set up indexes
 
 The indexes defined in our [data model](cloud-datamodel.md) can be automatically setup by running the script `opq/util/mongod/ensure_indexes.sh` on the server that you've installed MongoDB on.
 
 In the case that you are trying to create a unique index over a collection that had duplicated, you can modify `opq/util/mongo/remove_dups.js` to remove documents in a collection with duplicate keys.
 
-## Restoring MongoDB from a backup
+## Restore MongoDB from a backup
 
 So you've gone and performed the unthinkable. You either wiped or damaged the database beyond repair.
 
@@ -220,7 +221,7 @@ Don't fret, it's possible to restore the database using the most recent backup.
 
 The steps needed to restore a working copy of the DB are as follows:
 
-### Transfer your backup to the target server and extract it.
+### Transfer your backup to the server
 
 Ensure that the tar.gz file is on the server that you intend to backup. For the purpose of this document, we will show the backup example in `/home/opquser/backups/`.
 
@@ -272,16 +273,11 @@ opq/fs.chunks.bson.gz
 opq/measurements.metadata.json.gz
 ```
 
-### Disable OPQ Services that touch the DB.
+### Bring down OPQ services
 
-Visit and perform the linked instructions for disabling OPQ services.
+Follow instructions elsewhere to bring down OPQ Services.
 
-1. Disable Makai by following the instructions under `Disabling the Makai service` in the [Makai Deployment Guide](deploy-makai.md).
-2. Disable Mauka by following the instructions under `Kill the current OPQMauka process` in the [Mauka deployment guide](deploy-mauka.md).
-3. Disable Health by following the instructions under `Kill the current OPQ Health process` in the [Health Deployment Guide](deploy-health.md).
-4. Disable View by following the instructions under `Kill the current OPQView processes` in the [View Deployment Guide](deploy-view.md).
-
-### Drop the old or damaged database (assuming it still exists!)
+### Drop the old database
 
 Log into the mongodb console and switch to the active opq database. Then run the `db.dropDatabase()` command. Please be careful, this will drop all of your data.
 
@@ -516,9 +512,4 @@ opquser@emilia:~/backups$ mongorestore --db opq --gzip opq
 
 ### Bring up OPQ services
 
-Visit and perform the linked instructions for re-enable OPQ services.
-
-1. Start Makai by following the instructions in the [Makai Deployment Guide](deploy-makai.md).
-2. Start Mauka by following the instructions in the [Mauka deployment guide](deploy-mauka.md).
-3. Start Health by following the instructions in the [Health Deployment Guide](deploy-health.md).
-4. Start View by following the instructions in the [View Deployment Guide](deploy-view.md).
+Follow instructions elsewhere to bring up OPQ services.

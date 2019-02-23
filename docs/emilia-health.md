@@ -1,9 +1,9 @@
 ---
-title: Deployment: Health
+title: Emilia Health
 sidebar_label: Health
 ---
 
-**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Updates soon.)**
 
 
 The goal of the OPQ Health service is provide a diagnostic facility for determining whether or not all of the OPQ services appear to be running appropriately.  It does this by monitoring various aspects of the system and publishing its findings to a log file and mongodb.
@@ -12,7 +12,7 @@ There are basically two steps to deploying OPQView: copying the deployment files
 
 ## Developer system deployment tasks
 
-First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access).
+First, make sure you have [set up opquser ssh access](emilia-ssh.html).
 
 
 ### Copy deployment files to the server

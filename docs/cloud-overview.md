@@ -1,5 +1,5 @@
 ---
-title: OPQ Box Overview
+title: OPQ Cloud Overview
 sidebar_label: Overview
 ---
 

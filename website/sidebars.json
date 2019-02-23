@@ -2,10 +2,10 @@
   "docs": {
     "Introduction": ["intro-motivation", "intro-power-quality", "intro-system-architecture", "intro-information-architecture", "intro-related-work", "intro-bibliography"],
     "User Guide": ["userguide-hardware", "userguide-software"],
-    "OPQ Box": ["box-overview", "box-hardware-design", "box-software-design", "box-updater", "box-manufacturing"],
-    "OPQ Cloud": ["cloud-overview", "cloud-installation","cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map"],
-    "Misc Development": ["developerguide-docusaurus", "developerguide-virtual-machine", "developerguide-bibliography"],
-    "Other": ["other-roadmap", "other-opportunities", "other-agile-power-monitoring",  "other-g1-pilot-study"],
-    "Archive": ["archive-initial-configuration", "archive-mongodb", "archive-mauka", "archive-makai", "archive-view", "archive-health", "archive-docker"]
+    "Developer Guide: OPQ Box": ["box-overview", "box-hardware-design", "box-software-design", "box-updater", "box-manufacturing"],
+    "Developer Guide: OPQ Cloud": ["cloud-overview", "cloud-installation","cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map", "cloud-docker"],
+    "Developer Guide: Emilia": ["emilia-ssh", "emilia-docker","emilia-mongodb", "emilia-mauka", "emilia-makai", "emilia-view", "emilia-health" ],
+    "Developer Guide: Misc": ["developerguide-docusaurus", "developerguide-virtual-machine", "developerguide-bibliography"],
+    "Other": ["other-roadmap", "other-opportunities", "other-agile-power-monitoring",  "other-g1-pilot-study" ]
   }
 }

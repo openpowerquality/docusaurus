@@ -3,7 +3,7 @@ title: Deployment: View
 sidebar_label: View
 ---
 
-**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Updates soon.)**
 
 
 OPQView is a [Meteor](http://meteor.com) application.  For general information on deploying Meteor applications, see the [Meteor Guide chapter on deployment](https://guide.meteor.com/deployment.html) and the [meteor build command documentation](https://docs.meteor.com/commandline.html#meteorbuild).
@@ -12,7 +12,7 @@ There are basically two steps to deploying OPQView: building the production bund
 
 ## Developer system deployment tasks
 
-First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access).
+First, make sure you have [set up opquser ssh access](emilia-ssh.html).
 
 Second, invoke `meteor npm install` to verify that you have installed the latest versions of all libraries.
 

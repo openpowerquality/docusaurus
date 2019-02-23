@@ -1,9 +1,9 @@
 ---
-title: Deployment: Makai
+title: Makai on Emilia
 sidebar_label: Makai
 ---
 
-**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Updates soon.)**
 
 Makai has three main components: a Triggering Broker, an Acquisition Broker, and a Triggering Service (the makai daemon).
 

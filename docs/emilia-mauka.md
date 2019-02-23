@@ -1,19 +1,19 @@
 ---
-title: Deployment: Mauka
+title: Mauka on Emilia
 sidebar_label: Mauka
 ---
 
-**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Relevant instructions will be migrated to other sections of this documentation site in the near future, and then this file will be deleted.)**
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Updates soon.)**
 
 
-There are basically three steps to deploying OPQMauka: building the production bundle (a Python application) on a development machine, installing OPQ Mauka on the production machine, and managing the OPQMauka service.
+There are basically three steps to deploying OPQMauka on emilia: building the production bundle (a Python application) on a development machine, installing OPQ Mauka on the production machine, and managing the OPQMauka service.
 
 
 ## Build and deploy the production bundle
 
 In general, you will build the production bundle from the master branch of OPQ Mauka.
 
-First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access).
+First, make sure you have [set up opquser ssh access](emilia-ssh.html).
 
 In your development environment, be sure you are in the master branch, then change directories into the `opq/mauka/deploy/` directory.
 
