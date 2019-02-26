@@ -32,7 +32,6 @@ This second diagram displays the port mappings between Mauka components and othe
 
 | Service | Description |
 |---------|-------------|
-| Makai Measurement Bridge | Provides low fidelity measurements to the `Measurement` topic. Data is bridged over a ZMQ proxy. |
 | Makai Event Bridge | Provides event id numbers to the `MakaiEvent` topic. Data is bridged over a ZMQ proxy.  |
 | Mauka Pub/Sub Broker | Provides a Publish/Subscribe ZMQ broker to all Mauka plugins. This is how plugins within Mauka communicate with each other. |
 | Mauka Plugin Manager | This is a process that manages plugin processes. It also allows developers to interact with plugins at runtime through the Mauka CLI. |
@@ -72,14 +71,6 @@ The [acquistion trigger plugin](https://github.com/openpowerquality/opq/blob/mas
 This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested. 
 
 The amount of data requested from Makai is padded on either end with a configurable amount of padding time tunable by the ```plugins.AcquisitionTriggerPlugin.msBefore``` and ```plugins.AcquisitionTriggerPlugin.msAfter``` configuration options.
-
-### Frequency Threshold Plugin
-
-The [frequency threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) subclasses the threshold plugin and classifies frequency dips and swells.
-
-By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The frequency reference can be configured by setting the key ```plugins.ThresholdPlugin.frequency.ref```.
- 
-Thresholds can be configured using the following configuration options ```plugins.ThresholdPlugin.frequency.threshold.percent.low``` and ```plugins.ThresholdPlugin.frequency.threshold.percent.high```.
 
 ### Frequency Variation Plugin
 
@@ -146,36 +137,6 @@ The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/pl
 
 The ```plugins.StatusPlugin.port``` config option can be changed to specify the port that the status plugin should run on.
 
-### Threshold Plugin
-
-The [threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/threshold_plugin.py) is a base plugin that implements functionality for determining preset threshold crossings over time. That is, this plugin, given a steady state, will detect deviations from the steady using percent deviation from the steady state as a discriminating factor. 
-
-When subclassing this plugin, other plugins will define the steady state value, the low threshold value, the high threshold value, and the duration threshold value.
-
-This plugin is subclassed by the [voltage](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) and [frequency](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) threshold plugins.
-
-Internally, the threshold plugin looks at individual measurements and determines if the value is low, stable, or high (as defined by the subclass). A finite state machine is used to switch between the following states and define events.
-
-**Low to low.** Still in a low threshold event. Continue recording low threshold event.
-
-**Low to stable.** Low threshold event just ended. Produce an event message.
-
-**Low to high.** Low threshold event just ended. Produce and event message. Start recording high threshold event.
-
-**Stable to low.** Start recording low threshold event.
-
-** Stable to stable.** Steady state. Nothing to record.
-
-**Stable to high.** Start recording high threshold event.
-
-**High to low.** High threshold event just ended. Produce event message. Start recording low threshold event.
-
-**High to stable.** High threshold event just ended. Produce event message.
-
-**High to high.** Still in high threshold event. Continue recording event. 
-
-Event messages are produced by passing the contents of a recorded event to the ```on_event``` method call. This method call needs to be implemented in all subclassing plugins in order to deal with the recorded event.
-
 ### Total Harmonic Distortion Plugin
 The [total harmonic distortion (THD) plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/thd_plugin.py) subscribes to all events that request data, waits until the data is realized, performs THD calculations over the data, and then stores the results back to the database.
 
@@ -200,18 +161,6 @@ The following configuration options are used for the transient plugin which show
 "plugins.TransientPlugin.max.periodic.notching.std.dev" : 2.0,
 "plugins.TransientPlugin.auto.corr.thresh.periodicity" : 0.4
 ```
-
-### Voltage Threshold Plugin
-
-The [voltage threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) subclasses the threshold plugin and classifies voltage dips and swells.
-
-By default, this plugin assumes a steady state of 120hz and will detect dips and swells over 5% in either direction. The thresholds can be configured by setting the keys plugins.ThresholdPlugin.voltage.ref, plugins.ThresholdPlugin.voltage.threshold.percent.low, and plugins.ThresholdPlugin.voltage.threshold.percent.high in the configuration file.
-
-When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
-
-By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The frequency reference can be configured by setting the key ```plugins.ThresholdPlugin.voltage.ref```.
- 
-Thresholds can be configured using the following configuration options ```plugins.ThresholdPlugin.voltage.threshold.percent.low``` and ```plugins.ThresholdPlugin.voltage.threshold.percent.high```. 
 
 ## Development
 
