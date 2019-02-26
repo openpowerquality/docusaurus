@@ -33,6 +33,8 @@ While the OPQ Box has much more limited functionality, it is designed to be manu
 
 [PQDif](http://pqdif.info/), the "Power Quality Data Interchange Format", is a binary file format that specifies voltage, current, power, and energy measurements in standard fashion that allows this data to produced and consumed by devices in a vendor-independent fashion. 
 
+The [Grid Protection Alliance](https://gridprotectionalliance.org/) produces a [suite of open source software products](https://gridprotectionalliance.org/products.asp) for addressing various issues in power data management and analysis, including data collection, archiving, notifications, event analysis, and visualization.  
+
 ## Comparison with OPQ Cloud
 
 The differences between the way these systems store and manipulate power quality data and the way used by OPQ arise from fundamentally different architectural assumptions and the historical background of the technology. PQView and PQSCADA Sapphire are designed to operate in a technology environment consisting of a large number of installed, "stand alone" power quality monitors built by different vendors. Their goal is to aggregate the data collected by these devices, and in order to do so, they depend upon the PQDif standard as a way to obtain power quality data independent of the vendor and device generating it.  This results in a kind of "store and forward" process: power quality data is captured and stored on the device, and then periodically bundled into a PQDif file and sent to the database software.
