@@ -1,16 +1,19 @@
 ---
-title: Deployment: Mauka
+title: Mauka on Emilia
 sidebar_label: Mauka
 ---
 
-There are basically three steps to deploying OPQMauka: building the production bundle (a Python application) on a development machine, installing OPQ Mauka on the production machine, and managing the OPQMauka service.
+**(Now that we have migrated to Docker for deployment, this provides potentially obsolete installation and deployment instructions. Updates soon.)**
+
+
+There are basically three steps to deploying OPQMauka on emilia: building the production bundle (a Python application) on a development machine, installing OPQ Mauka on the production machine, and managing the OPQMauka service.
 
 
 ## Build and deploy the production bundle
 
-In general, you will build the production bundle from the master branch of OPQ Mauka. 
+In general, you will build the production bundle from the master branch of OPQ Mauka.
 
-First, make sure you have [set up opquser ssh access](deploy-initial-configuration.html#set-up-opquser-ssh-access). 
+First, make sure you have [set up opquser ssh access](emilia-ssh.html).
 
 In your development environment, be sure you are in the master branch, then change directories into the `opq/mauka/deploy/` directory.
 
@@ -22,7 +25,7 @@ This directory contains the following items:
 * deploy-install.sh: Installs the OPQMauka service and utilities on emilia.
 * mauka-service.sh: Service file that gets installed as system service.
 * mauka-cli.sh: Utility script for starting the mauka command line interface.
-* mauka-log.sh: Utility script for viewing mauka log. 
+* mauka-log.sh: Utility script for viewing mauka log.
 * [timestamp].tar.bz2 (local copies of created bundles)
 
 Now invoke `./deploy-build.sh`:
@@ -32,7 +35,7 @@ This script builds a OPQMauka bundle from the current branch as a compressed tar
 The following is an example run performed on one of our development machines.
 
 ```
-$ ./deploy-build.sh 
+$ ./deploy-build.sh
 + cd ../..
 ++ date +%Y%m%d_%H%M%S
 + TIMESTAMP=20180515_121432
@@ -90,7 +93,7 @@ $ ./deploy-build.sh
 + rm -rf mauka/deploy/20180515_121432
 + set +x
 ```
-  
+
 Note that *tar.bz2 files in the deploy directory are gitignored.
 
 Now we can deploy the production bundle either to the production server (emilia) or to a development environment using OPQ Sim. to deploy to the production environment, invoke the deploy-transfer-emilia.sh script passing the bundle as the first and only argument to the script.
@@ -100,16 +103,16 @@ Now we can deploy the production bundle either to the production server (emilia)
 Here is an example of running this step on one of our machines.
 
 ```
-./deploy-transfer-emilia.sh 20180515_121432.tar.bz2 
+./deploy-transfer-emilia.sh 20180515_121432.tar.bz2
 + DIST=20180515_121432.tar.bz2
 + scp -P 29862 20180515_121432.tar.bz2 opquser@emilia.ics.hawaii.edu:/home/opquser/mauka/.
-20180515_121432.tar.bz2  100%   21KB 648.7KB/s   00:00    
+20180515_121432.tar.bz2  100%   21KB 648.7KB/s   00:00
 + set +x
 ```
 
 ## Server-side deployment tasks
 
-Now ssh into the server to do the remainder of the deployment. 
+Now ssh into the server to do the remainder of the deployment.
 
 If you are deploying to production (emilia), use the following command:
 
@@ -122,7 +125,7 @@ If you are deploying to the development environment (OPQ Sim), use the following
 ```
 ssh -p 3022 pi@localhost
 ```
- 
+
 ### Unpack tar file with latest release
 
 Change directories into the mauka/ subdirectory, and list the files:
@@ -144,12 +147,12 @@ You should see one (or more) timestamped tar.bz2 files (and potentially director
 
 ```
 $ tar xfv 20180515_121432.tar.bz2
-```  
+```
 
 The untar process will look something like
 
 ```
-opquser@emilia:~/mauka$ tar xfv 20180515_121432.tar.bz2 
+opquser@emilia:~/mauka$ tar xfv 20180515_121432.tar.bz2
 20180515_121432/
 20180515_121432/scripts/
 20180515_121432/scripts/mauka-cli.sh
@@ -214,11 +217,11 @@ sudo apt-get install -y python3
 pip3 install -r mauka/requirements.txt
 ```
 
-### Kill the current OPQMauka process 
+### Kill the current OPQMauka process
 
 OPQMauka is installed as a system service which runs under the opq system user account. This is a special account that does not have a login shell which provides hardened security. The other advantage to running as a system service is that the service will automatically boot if the server restarts. Further, the service can be managed by the operating system's `service` command.
 
-To kill the current OPQMauka service, invoke 
+To kill the current OPQMauka service, invoke
 
 `sudo service mauka stop`
 
@@ -227,7 +230,7 @@ To kill the current OPQMauka service, invoke
 To install OPQMauka, simple run the `deploy-install.sh` script as root.
 
 ```
-opquser@emilia:~/mauka/20180515_121432$ sudo ./deploy-install.sh 
+opquser@emilia:~/mauka/20180515_121432$ sudo ./deploy-install.sh
 + cp scripts/mauka-service.sh /etc/init.d/mauka
 + update-rc.d mauka defaults
 + cp scripts/mauka-cli.sh /usr/local/bin/mauka-cli
@@ -245,7 +248,7 @@ opquser@emilia:~/mauka/20180515_121432$ sudo ./deploy-install.sh
 
 ### Run the new version of OPQMauka
 
-To run the new version of OPQMauka, start the service with 
+To run the new version of OPQMauka, start the service with
 
 `sudo service mauka start`
 
@@ -300,6 +303,6 @@ Here, we see that the plugins are enabled, started, and not set to exit which sh
 
 
 
- 
- 
+
+
 

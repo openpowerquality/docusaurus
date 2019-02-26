@@ -18,20 +18,25 @@ OPQ Mauka is a distributed plugin-based middleware for OPQ that provides higher 
 
 ### Overview
 
-OPQMauka is written in Python 3 and depends on 2 ZMQ brokers as well as a Mongo database. The architecture of OPQMauka is designed in such a way that all analytics are provided by plugins that communicate using publish/subscribe semantics using ZMQ. This allows for a distributed architecture and horizontal scalability. 
+OPQMauka is written in Python 3.7 and depends on 2 ZMQ brokers as well as a Mongo database. The architecture of OPQMauka is designed in such a way that all analytics are provided by plugins that communicate using publish/subscribe semantics using ZMQ. This allows for a distributed architecture and horizontal scalability. 
 
 ### Mauka Services
 
-Mauka utilizes several services that are started as separate processes in order to function. A diagram of these services and utilized ports is provided below. Followed by their descriptions.
+Mauka utilizes several services that are started as separate processes in order to function. Diagram of these services and utilized ports are provided below. Followed by their descriptions.
 
-<img src="/docs/assets/mauka/mauka-services.png">
+All items within the blue box are components that together make up OPQMauka. This first diagram shows how Mauka interacts with other parts of OPQ.
+<img src="/docs/assets/mauka/mauka_integration_diagram.png">
+
+This second diagram displays the port mappings between Mauka components and other OPQ services.
+<img src="/docs/assets/mauka/mauka_port_diagram.png">
 
 | Service | Description |
 |---------|-------------|
 | Makai Measurement Bridge | Provides low fidelity measurements to the `Measurement` topic. Data is bridged over a ZMQ proxy. |
-| Makai Event Bridge | Provides event id numbers to the `RequestDataEvent` topic. Data is bridged over a ZMQ proxy.  |
-| Mauka Pub/Sub Broker | Provides a Publish/Subscribe ZMQ broker to all Mauka plugins. This is how plugins within Mauka communicate. |
-| Mauka Plugin Manager | This is a process that manages plugin processes. It also allows developers to interact with plugins at runtime. Plugins can be hot loaded at run time as well. |
+| Makai Event Bridge | Provides event id numbers to the `MakaiEvent` topic. Data is bridged over a ZMQ proxy.  |
+| Mauka Pub/Sub Broker | Provides a Publish/Subscribe ZMQ broker to all Mauka plugins. This is how plugins within Mauka communicate with each other. |
+| Mauka Plugin Manager | This is a process that manages plugin processes. It also allows developers to interact with plugins at runtime through the Mauka CLI. |
+| Mauka CLI | This provides a networked command line interface for interfacing with the Mauka Plugin Manager to manage plugins at runtime. |
 
 ### Mauka Plugins
 
@@ -41,12 +46,16 @@ Each OPQMauka Plugin provides a set of topics that it subscribes to and a set of
 
 Below is a figure of the current plugin architecture.
 
-<img src="/docs/assets/mauka/mauka-plugins.png">
+<img src="/docs/assets/mauka/mauka_functional_diagram.png">
+
+This figure shows Mauka's  class inheritance structure.
+
+<img src="/docs/assets/mauka/mauka_class_inheritance_diagram.png">
 
 
 ### Base Plugin (MaukaPlugin)
 
-The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/base.py) is a base class which implements common functionally across all plugins. This plugin in subclassed by all other OPQMauka plugins. The functionality this plugin provides includes:
+The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/base_plugin.py) is a base class which implements common functionally across all plugins. This plugin in subclassed by all other OPQMauka plugins. The functionality this plugin provides includes:
 
 * Access to the underlying Mongo database
 * Automatic publish subscribe semantics with ```on_message``` and ```publish``` APIs (via ZMQ)
@@ -54,13 +63,96 @@ The [base plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plug
 * Python multiprocessing primitives 
 * Status/heartbeat notifications
 
+The base plugin produces heartbeats at a configurable amount of time which can be modified using the ```plugins.base.heartbeatIntervalS``` configuration option.
+
+### Acquisition Trigger Plugin
+
+The [acquistion trigger plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/acquisition_trigger_plugin.py) subscribes to all events and forms event request messages to send to OPQMakai to enable the retrieval of raw power data for higher level analytics.
+
+This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested. 
+
+The amount of data requested from Makai is padded on either end with a configurable amount of padding time tunable by the ```plugins.AcquisitionTriggerPlugin.msBefore``` and ```plugins.AcquisitionTriggerPlugin.msAfter``` configuration options.
+
+### Frequency Threshold Plugin
+
+The [frequency threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) subclasses the threshold plugin and classifies frequency dips and swells.
+
+By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The frequency reference can be configured by setting the key ```plugins.ThresholdPlugin.frequency.ref```.
+ 
+Thresholds can be configured using the following configuration options ```plugins.ThresholdPlugin.frequency.threshold.percent.low``` and ```plugins.ThresholdPlugin.frequency.threshold.percent.high```.
+
+### Frequency Variation Plugin
+
+The [frequency variation plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_variation_plugin.py) subscribes to WindowedFrequency messages and classifies frequency incidents as frequency swells, frequency interruptions, and frequency sags. These classifications can be parameterized by tuning the threshold and duration values that these incidents are fired on.
+
+When thresholds are tripped, frequency events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
+
+The frequency reference is defined by the ```plugins.FrequencyVariationPlugin.frequency.ref``` config key. 
+
+Frequency thresholds are defined by the ```plugins.FrequencyVariationPlugin.frequency.variation.threshold.low``` and ```plugins.FrequencyVariationPlugin.frequency.variation.threshold.high``` keys.
+
+Frequency interruptions are defined using the ```plugins.FrequencyVariationPlugin.frequency.interruption``` config key.
+
+The number of lull windows can be set with ```plugins.FrequencyVariationPlugin.max.lull.windows```.
+
+### IEEE 1159 Voltage Plugin
+The [IEEE1159 voltage event plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ieee1159_voltage_plugin.py) subscribes to all events that request data, analyzes the waveforms, and stores classified incidents back in the database. A received waveform is analyzed for continuous segments with non-nominal amplitudes. There are two important features of these segments that are considered for classification: duration and relative amplitude. The duration is the length of the segment in periods and/or seconds. The relative amplitude, which is defined per window (e.g period) of a waveform, is given as the actual divided by the nominal amplitude (where nominal is as specified by country/region).
+
+The IEE1159 documentation specifies incidents by ranges of values for duration and relative amplitudes of a segment. The categories include undervoltage, overvoltage, and interruption (describing events lasting longer than a minute) and instantaneous, momentary, and temporary dips and swells (for shorter timescales). For example, a stretch with relative amplitudes between 0.1 and 0.9 that lasts 0.5 to 30 periods is classified as an instantaneous dip.
+
+### ITIC Plugin 
+
+The [ITIC plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/itic_plugin.py) subscribes to all events that request data, waits until the data is realized, performs ITIC calculations over the data, and then stores the results back to the database.
+
+This plugin subscribes to events that request data and also ITIC specific messages so that this plugin can be triggered to run over historic data as well. The amount of time from when this plugin receives a message until it assumes the data is in the database can be configured in the configuration file. 
+
+The ITIC calculations are computed in a separate thread and the results are stored back to the database. 
+
+ITIC regions are determined by plotting the curve and performing a point in polygon algorithm to determine which curve the point falls within.
+
+The ITIC plugin uses segmentation to determine segments of stable Vrms values. The Vrms threshold for segmentation is configurable by setting the ```plugins.IticPlugin.segment.threshold.rms``` config option.
+
+### Makai Event Plugin
+
+The [makai event plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/makai_event_plugin.py) subscribes to MakaiEvent messages which contains an integer representing the id of an event that Makai generated and stored to the database. This plugin receives event notifications from Makai asynchronously. When an event notification is received, this plugin goes to the database, reads the raw waveform, and then publishes the raw waveform, calibrated waveform, windowed Vrms, and windowed frequency to any plugins that performs analysis on those data types.
+
+The Makai Event plugin provides the following configuration options and default values:
+
+```json
+"plugins.MakaiEventPlugin.getDataAfterS": 10.0,
+"plugins.MakaiEventPlugin.filterOrder":4,
+"plugins.MakaiEventPlugin.cutoffFrequency": 500.0,
+"plugins.MakaiEventPlugin.frequencyWindowCycles": 1,
+"plugins.MakaiEventPlugin.frequencyDownSampleRate": 2
+```
+
+### Outage Plugin
+
+The [outage plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/outage_plugin.py) subscribes to heatbeats and on each heartbeat checks queries the health collection of the database to determine if a box has been down for a specified period of time.
+
+If a box appears as down and is not marked as unplugged, then this plugin produces and outage incident which is stored to the database.
+
+### Print Plugin
+
+The [print plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/print_plugin.py) subscribes to all topics and prints every message. This plugin is generally disabled and mainly only useful for debugging purposes.
+
+### Semi F47 Plugin
+
+The [semi f47 plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/semi_f47_plugin.py) classifies voltage incidents according to the Semi F47 standard. This standard was designed to model how voltage dips can cause damage to semiconductor equipment.
+
+### Status Plugin
+
+The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/status_plugin.py) subscribes to heartbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status of Mauka, Mauka services, and Mauka plugins can be ascertained by other services.
+
+The ```plugins.StatusPlugin.port``` config option can be changed to specify the port that the status plugin should run on.
+
 ### Threshold Plugin
 
-The [threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ThresholdPlugin.py) is a base plugin that implements functionality for determining preset threshold crossings over time. That is, this plugin, given a steady state, will detect deviations from the steady using percent deviation from the steady state as a discriminating factor. 
+The [threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/threshold_plugin.py) is a base plugin that implements functionality for determining preset threshold crossings over time. That is, this plugin, given a steady state, will detect deviations from the steady using percent deviation from the steady state as a discriminating factor. 
 
 When subclassing this plugin, other plugins will define the steady state value, the low threshold value, the high threshold value, and the duration threshold value.
 
-This plugin is subclassed by the voltage and frequency threshold plugins.
+This plugin is subclassed by the [voltage](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) and [frequency](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/frequency_threshold_plugin.py) threshold plugins.
 
 Internally, the threshold plugin looks at individual measurements and determines if the value is low, stable, or high (as defined by the subclass). A finite state machine is used to switch between the following states and define events.
 
@@ -84,58 +176,42 @@ Internally, the threshold plugin looks at individual measurements and determines
 
 Event messages are produced by passing the contents of a recorded event to the ```on_event``` method call. This method call needs to be implemented in all subclassing plugins in order to deal with the recorded event.
 
-### Frequency Threshold Plugin
-
-The [frequency threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/FrequencyThresholdPlugin.py) subclasses the threshold plugin and classifies frequency dips and swells.
-
-By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The thresholds can be configured by setting the keys ```plugins.ThresholdPlugin.frequency.ref```, ```plugins.ThresholdPlugin.frequency.threshold.percent.low```, and ```plugins.ThresholdPlugin.frequency.threshold.percent.high``` in the configuration file.
-
-When thresholds are tripped, frequency events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
-
-### Voltage Threshold Plugin
-
-The [voltage threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/VoltageThresholdPlugin.py) subclasses the threshold plugin and classifies voltage dips and swells.
-
-By default, this plugin assumes a steady state of 120hz and will detect dips and swells over 5% in either direction. The thresholds can be configured by setting the keys plugins.ThresholdPlugin.voltage.ref, plugins.ThresholdPlugin.voltage.threshold.percent.low, and plugins.ThresholdPlugin.voltage.threshold.percent.high in the configuration file.
-
-When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
-
 ### Total Harmonic Distortion Plugin
-The [total harmonic distortion (THD) plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/ThdPlugin.py) subscribes to all events that request data, waits until the data is realized, performs THD calculations over the data, and then stores the results back to the database.
+The [total harmonic distortion (THD) plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/thd_plugin.py) subscribes to all events that request data, waits until the data is realized, performs THD calculations over the data, and then stores the results back to the database.
 
 This plugin subscribes to events that request data and also THD specific messages so that this plugin can be triggered to run over historic data as well. The amount of time from when this plugin receives a message until it assumes the data is in the database can be configured in the configuration file. 
 
 The THD calculations are computed in a separate thread and the results are stored back to the database. 
 
-### ITIC Plugin 
+### Transient Plugin
 
-The [ITIC plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/IticPlugin.py) subscribes to all events that request data, waits until the data is realized, performs ITIC calculations over the data, and then stores the results back to the database.
+The [transient plugin] is capable of discriminating between several different transient types. A decision tree is used to prune possibilities by extracting features from the PQ data. The transient classes this plugin is able to classify include impulsive, arcing, oscillatory, and periodic notching. 
 
-This plugin subscribes to events that request data and also ITIC specific messages so that this plugin can be triggered to run over historic data as well. The amount of time from when this plugin receives a message until it assumes the data is in the database can be configured in the configuration file. 
+The following configuration options are used for the transient plugin which shows the options and the default values:
 
-The ITIC calculations are computed in a separate thread and the results are stored back to the database. 
+```json
+"plugins.TransientPlugin.noise.floor" : 6.0,
+"plugins.TransientPlugin.oscillatory.min.cycles" : 3,
+"plugins.TransientPlugin.oscillatory.low.freq.max.hz" : 5000.0,
+"plugins.TransientPlugin.oscillatory.med.freq.max.hz" : 500000.0,
+"plugins.TransientPlugin.oscillatory.high.freq.max.hz" : 5000000.0,
+"plugins.TransientPlugin.arcing.zero.crossing.threshold" : 10,
+"plugins.TransientPlugin.max.lull.ms" : 4.0,
+"plugins.TransientPlugin.max.periodic.notching.std.dev" : 2.0,
+"plugins.TransientPlugin.auto.corr.thresh.periodicity" : 0.4
+```
 
-ITIC regions are determined by plotting the curve and performing a point in polygon algorithm to determine which curve the point falls within.
+### Voltage Threshold Plugin
 
+The [voltage threshold plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/voltage_threshold_plugin.py) subclasses the threshold plugin and classifies voltage dips and swells.
 
-### Acquisition Trigger Plugin
+By default, this plugin assumes a steady state of 120hz and will detect dips and swells over 5% in either direction. The thresholds can be configured by setting the keys plugins.ThresholdPlugin.voltage.ref, plugins.ThresholdPlugin.voltage.threshold.percent.low, and plugins.ThresholdPlugin.voltage.threshold.percent.high in the configuration file.
 
-The [acquistion trigger plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/AcquisitionTriggerPlugin.py) subscribes to all events and forms event request messages to send to OPQMakai to enable the retrieval of raw power data for higher level analytics.
+When thresholds are tripped, voltage events are generated and published to the system. These are most importantly used to generate event triggering requests to OPQMauka to request raw data from affected devices.
 
-This plugin employs a deadzone between event messages to ensure that multiple requests for the same data are not sent in large bursts, overwhelming OPQBoxes or OPQMakai. The deadzone by default is set to 60 seconds, but can be configured by setting the ```plugins.AcquisitionTriggerPlugin.sDeadZoneAfterTrigger``` key in the configuration. If this plugin encounters an event while in a deadzone, a request is still generated and sent to OPQMakai, however a flag is set indicating to Makai that raw data should not be requested.
-
-### IEEE 1159 Voltage Plugin
-The IEEE1159 voltage event plugin subscribes to all events that request data, analyzes the waveforms, and stores classified incidents back in the database. A received waveform is analyzed for continuous segments with non-nominal amplitudes. There are two important features of these segments that are considered for classification: duration and relative amplitude. The duration is the length of the segment in periods and/or seconds. The relative amplitude, which is defined per window (e.g period) of a waveform, is given as the actual divided by the nominal amplitude (where nominal is as specified by country/region).
-
-The IEE1159 documentation specifies incidents by ranges of values for duration and relative amplitudes of a segment. The categories include undervoltage, overvoltage, and interruption (describing events lasting longer than a minute) and instantaneous, momentary, and temporary dips and swells (for shorter timescales). For example, a stretch with relative amplitudes between 0.1 and 0.9 that lasts 0.5 to 30 periods is classified as an instantaneous dip.
-
-### Status Plugin
-
-The [status plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/StatusPlugin.py) subscribes to heatbeat messages and logs heartbeats from all other plugins (including itself). Also provides an HTTP endpoint so the status can be ascertained by other services.
-
-### Print Plugin
-
-The [print plugin](https://github.com/openpowerquality/opq/blob/master/mauka/plugins/PrintPlugin.py) subscribes to all topics and prints every message. This plugin is generally disabled and mainly only useful for debugging purposes.
+By default, this plugin assumes a steady state of 60Hz and will detect dips and swells over 0.5% in either direction. The frequency reference can be configured by setting the key ```plugins.ThresholdPlugin.voltage.ref```.
+ 
+Thresholds can be configured using the following configuration options ```plugins.ThresholdPlugin.voltage.threshold.percent.low``` and ```plugins.ThresholdPlugin.voltage.threshold.percent.high```. 
 
 ## Development
 
@@ -150,18 +226,28 @@ The top level of the `opq/mauka` directory contains the following files:
 
 | Files | Description |
 |-------|-------------|
-| OpqMauka.py | Entry point into OPQ Mauka. Provides high level management of plugins. Starts and manages Mauka services. |
+| analysis.py | High level helper functions for time conversions and signal segmentation |
 | config.json | Default key-value based configuration values for Mauka |
-| requirements.txt | List of Python dependencies required by Mauka. |
-| mongo.py | Python module providing high level access to the OPQ Mongo database. |
+| config.py | Provides functions for loading configurations and providing default values |
 | constants.py | Python module providing constant values. |
+| incident_viewer.py | Script for displaying Mauka classified incidents. |
+| log.py | Contains a top level mauka level logging interface. |
+| mongo.py | Python module providing high level access to the OPQ Mongo database. |
+| opq_mauka.py | Entry point into OPQ Mauka. Provides high level management of plugins. Starts and manages Mauka services. |
+| requirements.txt | List of Python dependencies required by Mauka. |
+| rerun_incidents.py | This script provides functionality for rerunning all past incidents through new or updated analysis plugins. |
+| .coafile | Contains rules for Mauka style checking |
 
 The top level of the `opq/mauka` directory contains the following directories:
 
 | Directory | Description |
 |-------|-------------|
-| deploy | Contains scripts for building and deploying Mauka to emilia or OPQ Sim. |
+| api_docs | Contains tool generated API documentation. |
+| deploy | Contains scripts for building and deploying Mauka to emilia or OPQ Sim. (deprecated, use docker deploy)|
+| diagrams | Contains mauka system diagrams generated using the graph description language and graphviz |
+| docker | Contains scripts for building, publishing, and running docker images for Mauka. |
 | plugins | Contains all Mauka plugin modules |
+| profilers | Contains profilers designed to profile mauka plugins. |
 | protobuf | Contains the Python protobuf wrapper for OPQ as well as some utilities. This is mainly needed for working with Makai. |
 | services | Contains modules that build the Mauka services layer. |
 | tests | Mauka tests directory. |
@@ -180,61 +266,79 @@ To test OPQ Mauka in a development environment, you can use OPQ Sim.
 
 The following steps are required to create a new OPQMauka plugin:
 
-1. Create a new Python module for the plugin in the plugins package (i.e. MyFancyPlugin.py).
+1. Create a new Python module for the plugin in the plugins package (i.e. my_fancy_plugin.py). Ensure that the plugin module name follows PEP 8 conventions.
 
-2. import the plugin base
-```
-import plugins.base
+2. import the plugin base modules
+```python
+import plugins.base_plugin
+import protobuf.mauka_pb2
+import protobuf.util
 ```
 
 3. Create a class that extends the base plugin.
-```
-class MyFancyPlugin(plugins.base.MaukaPlugin):
+```python
+class MyFancyPlugin(plugins.base_plugin.MaukaPlugin):
       ...
 ```
 
 5. Provide the following constructor for your class. Ensure the a call to super provides the configuration, list of topics to subscribe to, and the name of the plugin. Finally, a multiprocess exit event object is passed to the base class with allows the plugin manager to safely terminate plugins.
-```
+```python
 def __init__(self, config, exit_event):
       NAME = "MyFancyPlugin"
-      super().__init__(config, ["foo", "bar"], NAME, exit_event)
+      def __init__(self, config: typing.Dict, exit_event: multiprocessing.Event):
+              """
+              Initializes this plugin
+              :param config: Mauka configuration
+              :param exit_event: Exit event that can disable this plugin from parent process
+              """
+              super().__init__(config, ["SubscribeTopicA", "SubscribeTopicB"], MyFancyPlugin.NAME, exit_event)
 ```
 
-6. Overload the ```on_message``` from the base class. This is how you will receive all the messages from topics you subscribe to.
-```
-def on_message(self, topic, message):
-      ...
+6. Overload the ```on_message``` from the base class and use the protobuf utils to check to ensure your receiving a message of a type that the plugin expects.
+```python
+def on_message(self, topic, mauka_message):
+    """
+    Fired when this plugin receives a message. 
+    :param topic: Topic of the message.
+    :param mauka_message: Contents of the message.
+    """
+    if protobuf.util.is_payload(mauka_message, protobuf.mauka_pb2.MESSAGE_TYPE): # Replace MESSAGE_TYPE with proper type
+        self.debug("on_message {}:{} len:{}".format(mauka_message.payload.event_id,
+                                                    mauka_message.payload.box_id,
+                                                    len(mauka_message.payload.data)))
+        # Call the function that handles the recvieved message. Something like below...
+        handle_message(arg0, arg1, ..., argN)
+    else:
+        self.logger.error("Received incorrect mauka message [%s] at ThdPlugin",
+                          protobuf.util.which_message_oneof(mauka_message))
 ```
 
-7. Produce messages by invoking the superclasses produce method.
-```
-self.produce("topic", "message")
-```
-
-8. Import and add your plugin in plugins/```__init__.py```.
-```
-from plugins import MyFancyPlugin
+7. Produce messages by invoking the superclasses produce method where message is an instance of a mauka protobuf message.
+```python
+self.produce(topic: str, message)
 ```
 
-9. Add your plugin to the plugin list in ```OpqMauka.py```.
-
-An example plugin template might look something like:
-
+8. Import  your plugin in ```mauka/opq_mauka.py```.
+```python
+import plugins.my_fancy_plugin
 ```
-# plugins/MyFancyPlugin.py
-import plugins.base
 
-def run_plugin(config):
-    plugins.base.run_plugin(MyFancyPlugin, config)
-
-def MyFancyPlugin(plugins.base.MaukaPlugin):
-    def __init__(self, config, exit_event):
-         NAME = "MyFancyPlugin"
-         super().__init__(config, ["foo", "bar"], NAME, exit_event)
-
-    def on_message(self, topic, message):
-          print(topic, message)
+9. Register your plugin in ```mauka/opq_mauka.py```.
+```python
+plugin_manager.register_plugin(plugins.my_fancy_plugin.MyFancyPlugin)
 ```
+
+### Suggested Subscriptions
+
+When developing a new Mauka plugin, it's likely there there is already a data source that you can subscribe to. The MakaiEventPlugin publishes both high and low fidelity data streams when events are triggered by OPQMakai. These data streams can be subscribed to by other Mauka plugins. These message types include:
+
+```AdcSamples``` which provide raw ADC samples sampled by the OPQBox.
+
+```RawVoltage``` which converts the ADC samples in raw voltage samples.
+
+```RmsWindowedVoltage``` provides Vrms features from a voltage waveform where Vrms is calculated by cycle.
+
+```WindowedFrequency``` provides frequency features calculated at the cycle level from the original power waveform.
 
 ### Message Injection
 
@@ -288,7 +392,7 @@ OK
 6. Functions and methods should document their purpose, input, and output as Python [docstrings](http://docs.python-guide.org/en/latest/writing/documentation/).
 7. Do not add type information to documentation, instead provide type information using Python's built-in [type hints](https://docs.python.org/3/library/typing.html) (see also https://www.python.org/dev/peps/pep-0484/)
 8. Whenever practical and when types are known, provide type hints for class variables, instance variables, and function/method inputs and return types. The type hints are not enforced at runtime, but merely provide compile time hints. These are most useful in conjunction with an IDE so that your editor can highlight when input or return types do not match what is expected.
-9. Whenever a new plugin is developed, update OPQ's docusaurus to provide a high-level and technical documentation on the plugin. Mauka Diagrams may also need to be updated.  
+9. Whenever a new plugin is developed, update OPQ's [docusaurus](https://github.com/openpowerquality/docusaurus) to provide a high-level and technical documentation on the plugin. Mauka Diagrams may also need to be updated.  
 10. Whenever you commit or merge to master, ensure the Mauka code base passes all static analysis checks and all unit tests pass.
 
 [The Zen of Python (pep 20)](https://www.python.org/dev/peps/pep-0020/)
@@ -368,7 +472,7 @@ else:
     # do something else
 ```
 
-which tests if the collection is empty directly using the if statement. This issue with this approach is that this idiom does not work for numpy arrays. These are so prevailent in our code that we decided to use the len(collection) idiom to test for all empty collections since this approach does work with numpy.
+which tests if the collection is empty directly using the if statement. This issue with this approach is that this idiom does not work for numpy arrays. These are so prevalent in our code that we decided to use the len(collection) idiom to test for all empty collections since this approach does work with numpy.
 
 
 `mauka.pyflakes` (https://github.com/PyCQA/pyflakes) performs similar linting to pylint.
