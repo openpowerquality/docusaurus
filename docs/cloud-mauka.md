@@ -428,3 +428,6 @@ which tests if the collection is empty directly using the if statement. This iss
 
 `mauka.bandit` performs security checks over the code base. B322 is disabled since it only applies to Python 2 code bases.
 
+## API Documentation
+
+[Mauka API Documentation](/mauka/api_docs/opq_mauka.html)
