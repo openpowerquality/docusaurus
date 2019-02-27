@@ -542,7 +542,7 @@ Password:
 Login Succeeded
 ```
 
-Push the image to DockerHub by invoking `docker push openpowerquality:1.5.0`:
+Push the image to DockerHub by invoking `docker push openpowerquality/view:1.5.0`:
 
 ```
 $ docker push openpowerquality/view:1.5.0
