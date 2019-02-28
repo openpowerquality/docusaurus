@@ -485,7 +485,7 @@ View's Docker files can be found in the `opq/view/docker` directory. Of utmost i
   * `Dockerfile`: Contains the configuration for building the Docker image. Used by the `docker-build.sh` script.
   * `docker-build.sh`: A script for building a new local View Docker image.
 
-In most cases, creating a new image is simply a matter of invoking the `docker-build.sh` script; it should seldom necessary to modify the `Dockerfile`.
+In most cases, creating a new image is simply a matter of invoking the `docker-build.sh` script; it should seldom be necessary to modify the `Dockerfile`.
 
 However, one such use case where you would need to modify the `Dockerfile` is when View's Meteor is updated to a new 
 version, in which case it will be necessary to modify View's `Dockerfile` to use a base Node image with matching versions.

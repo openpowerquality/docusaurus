@@ -444,7 +444,7 @@ Mauka's Docker files can be found in the `opq/mauka/docker` directory. Of utmost
   * `Dockerfile`: Contains the configuration for building the Docker image. Used by the `docker-build.sh` script.
   * `docker-build.sh`: A script for building a new local Mauka Docker image.
 
-In most cases, creating a new image is simply a matter of invoking the `docker-build.sh` script; it should seldom necessary to modify the `Dockerfile`.
+In most cases, creating a new image is simply a matter of invoking the `docker-build.sh` script; it should seldom be necessary to modify the `Dockerfile`.
 
 ### Creating a new local Mauka Docker image
 
