@@ -517,5 +517,26 @@ daf45b2cad9a: Layer already exists
 1.5.0: digest: sha256:b0299638d1528390399a43fff74f71f397780e70d5f4432218cb5c12d7cf0d66 size: 2636
 ```
 
-You're done!
+Your Docker image has been published!
 Verify that the image was successfully published by visiting the [OPQ Mauka DockerHub](https://hub.docker.com/r/openpowerquality/mauka/tags) repository.
+
+#### Update the official OPQ-Docker GitHub repository with the latest image version
+
+In most cases after publishing a new image, you will want to update the official [OPQ Docker GitHub repository](https://github.com/openpowerquality/opq-docker) with your newly published image version for other OPQ Cloud deployments to use.
+
+Git clone the repository and change into the `opq-docker` directory. 
+Open the `.env` file and modify the `MAUKA_IMAGE` variable with the new Docker image version tag that had just been published:
+
+Before:
+```
+MAUKA_IMAGE=openpowerquality/mauka:1.0.0
+```
+
+After:
+```
+MAUKA_IMAGE=openpowerquality/mauka:1.5.0
+```
+
+Then, just commit and push these changes back to the OPQ-Docker GitHub repository for the world to see and use for their own OPQ Cloud deployments!
+
+See the [Cloud Installation](cloud-installation.md#upgrading-to-new-opq-cloud-releases) page on how to upgrade an existing OPQ Cloud deployment.
