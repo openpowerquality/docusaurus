@@ -239,13 +239,13 @@ We will occasionally make new releases of OPQ Cloud services.
 
 If you installed OPQ Cloud by git cloning the official [OPQ Docker GitHub repository](https://github.com/openpowerquality/opq-docker), upgrading is a trivial process:
 
-Change into your local `opq-docker` directory and pull the latest files by invoking:
+On your production system, change into the `opq-docker` directory and pull the latest files by invoking:
 
 ```
 git pull origin master
 ```
 
-Then, simply redeploy OPQ Cloud with the latest changes by invoking the `docker-compose-run.sh` script:
+Then, redeploy OPQ Cloud with the latest changes by invoking the `docker-compose-run.sh` script:
 
 ```
 ./docker-compose-run.sh
@@ -262,7 +262,7 @@ $ ./docker-compose-run.sh
 opq-docker_mongo_1 is up-to-date
 opq-docker_boxupdateserver_1 is up-to-date
 opq-docker_makai_1 is up-to-date
-Recreating opq-docker_view1 ... done
+Recreating opq-docker_view_1 ... done
 opq-docker_mauka_1 is up-to-date
 opq-docker_health_1 is up-to-date
 ```
