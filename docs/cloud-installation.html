@@ -9,35 +9,144 @@
 <p>We utilize <a href="https://www.docker.com/">Docker</a> to manage the installation of each of these OPQ Cloud services.</p>
 <p>We publish official Docker images for all of these services to the <a href="https://hub.docker.com/u/openpowerquality">Open Power Quality organization at DockerHub</a>.  In a nutshell, to install OPQ Cloud, you must:</p>
 <ol>
-<li>Install Docker and Docker Compose.</li>
-<li>Download the OPQ Docker repository containing shell scripts and configuration files.</li>
+<li>Install Docker and Docker Compose on your production system.</li>
+<li>Download the OPQ Docker GitHub repository containing all the necessary shell scripts and configuration files required to run OPQ Cloud.</li>
 <li>Edit the configuration files appropriately for your local installation.</li>
-<li>Run a script to bring up the OPQ Cloud services.</li>
+<li>Run the <code>docker-compose-run.sh</code> script to bring up the OPQ Cloud services.</li>
 <li>Verify installation by visiting the OPQ View landing page.</li>
 <li>Complete the installation by logging in to OPQ View.</li>
 </ol>
 <p>Note: OPQ Cloud can currently be installed only on Unix (Macintosh and Linux) systems.</p>
 <h2><a class="anchor" aria-hidden="true" id="install-docker-and-docker-compose"></a><a href="#install-docker-and-docker-compose" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install Docker and Docker Compose</h2>
-<p>The first step in installing OPQ Cloud is to install Docker and Docker Compose.</p>
+<p>The first step in installing OPQ Cloud is to install Docker and Docker Compose on your production system.</p>
 <p>Please consult the <a href="https://docs.docker.com/install/">Docker installation documentation</a> and the <a href="https://docs.docker.com/compose/install/">Docker Compose installation documentation</a> for instructions.</p>
-<h2><a class="anchor" aria-hidden="true" id="download-the-openpowerquality-docker-repository"></a><a href="#download-the-openpowerquality-docker-repository" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Download the openpowerquality/docker repository</h2>
-<p>Next, download the <a href="https://github.com/openpowerquality/docker">OPQ Docker repository</a>. You can either download it as a zip file and uncompress it to create a local directory named &quot;docker-master&quot;, or clone it from GitHub.  The advantage to the latter approach is that if we make updates to the files, you can get the changes easily by pulling them from GitHub. Otherwise, you have to download a new zip file and migrate your changes into it.</p>
-<h2><a class="anchor" aria-hidden="true" id="edit-configuration-files"></a><a href="#edit-configuration-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Edit configuration files</h2>
-<p>Your local docker directory contains a subdirectory called &quot;config&quot; containing a set of configuration files for each of the services.</p>
-<p>We provide default values for most configuration variables that are appropriate for normal installations.</p>
-<p>You will need to edit one configuration file before proceeding. Change directories into config/view/ and edit the file view.settings.json. Look for a section called &quot;userProfiles&quot;, which has one entry with all blank fields. You will want to fill out the &quot;username&quot; field with an email address of an admin at your site (for example, &quot;<a href="mailto:johnson@hawaii.edu">johnson@hawaii.edu</a>&quot;), provide a password (for example, &quot;6ydhdk3ac!&quot;), a first name (for example, &quot;Philip&quot;), last name (for example, &quot;Johnson&quot;), and role (which should be &quot;admin&quot;).</p>
+<h2><a class="anchor" aria-hidden="true" id="download-the-openpowerquality-opq-docker-github-repository"></a><a href="#download-the-openpowerquality-opq-docker-github-repository" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Download the openpowerquality/opq-docker GitHub repository</h2>
+<p>Next, download the <a href="https://github.com/openpowerquality/opq-docker">OPQ Docker GitHub repository</a>.</p>
+<p>You can either download it as a zip file and uncompress it to create a local directory named &quot;opq-docker-master&quot;, or clone it from GitHub with <code>git clone https://github.com/openpowerquality/opq-docker.git</code> - which will create a local directory named &quot;opq-docker&quot;.</p>
+<p>The advantage to the latter approach is that if we make updates to the files, you can get the changes easily by pulling them from GitHub. Otherwise, you have to download a new zip file and migrate your changes into it.</p>
+<h2><a class="anchor" aria-hidden="true" id="copy-and-edit-configuration-files"></a><a href="#copy-and-edit-configuration-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Copy and edit configuration files</h2>
+<p>Your local opq-docker directory contains a subdirectory called &quot;sample-config&quot; containing a set of configuration files for each of the services.</p>
+<p>These sample configuration files provide the recommended default values for most configuration variables that are appropriate for normal installations.</p>
+<h3><a class="anchor" aria-hidden="true" id="copy-configuration-files"></a><a href="#copy-configuration-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Copy configuration files</h3>
+<p>As the directory name implies, the &quot;sample-config&quot; files are just a set of recommended default configuration files.</p>
+<p>In order for OPQ Cloud to deploy successfully, it expects to find these files in a directory named &quot;config&quot; - which you will need to create yourself for your OPQ Cloud installation.</p>
+<p>Change into the top-level directory and copy all the default configuration files by invoking:</p>
+<pre><code class="hljs"><span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">config</span>
+cp -R sample-<span class="hljs-built_in">config</span><span class="hljs-comment">/* config
+</span></code></pre>
+<h3><a class="anchor" aria-hidden="true" id="edit-the-viewconfigjson-file"></a><a href="#edit-the-viewconfigjson-file" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Edit the view.config.json file</h3>
+<p>While we recommend initially using the default values provided by our sample configuration files, there is one configuration file that you <strong>must</strong> modify in order to create an initial OPQ Cloud user: <code>view.config.json</code>.</p>
+<p>Change into the <code>config/view</code> directory and edit the <code>view.config.json</code> file.</p>
+<p>Look for a section called &quot;userProfiles&quot;, which has one entry with all blank fields. You will want to fill out the &quot;username&quot; field with an email address of an admin at your site (for example, &quot;<a href="mailto:johnson@hawaii.edu">johnson@hawaii.edu</a>&quot;), provide a password (for example, &quot;6ydhdk3ac!&quot;), a first name (for example, &quot;Philip&quot;), last name (for example, &quot;Johnson&quot;), and role (which should be &quot;admin&quot;).</p>
 <h2><a class="anchor" aria-hidden="true" id="bring-up-services"></a><a href="#bring-up-services" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bring up services</h2>
-<p>Now, cd into the top-level directory, where you should find a script called docker-compose-run.sh.  To make it executable, invoke:</p>
+<p>Now, cd into the top-level directory, where you should find a script called <code>docker-compose-run.sh</code>.  To make it executable, invoke:</p>
 <pre><code class="hljs">chmod <span class="hljs-number">775</span> docker-compose-<span class="hljs-keyword">run</span>.<span class="bash">sh
 </span></code></pre>
 <p>Now invoke it with:</p>
 <pre><code class="hljs">./docker-compose-<span class="hljs-keyword">run</span>.<span class="bash">sh
 </span></code></pre>
-<p>This will download the latest official public images for each of the OPQ Cloud services, and run them.  The output should look like this:</p>
-<pre><code class="hljs">(<span class="hljs-name">docker</span> compose output here)
+<p>This will download all the latest official public images for each of the OPQ Cloud services, and run them.  The output should look like this:</p>
+<pre><code class="hljs">$ ./docker-compose-run.<span class="hljs-keyword">sh</span>
+Creating network <span class="hljs-string">"opq-docker_default"</span> with the default driver
+Pulling mongo (mongo:<span class="hljs-number">4.0</span>.<span class="hljs-number">5</span>)...
+<span class="hljs-number">4.0</span>.<span class="hljs-number">5</span>: Pulling from library/mongo
+<span class="hljs-number">7</span>b722c1070cd: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">5</span>fbf74db61f1: Pull <span class="hljs-built_in">complete</span>
+ed41cb72e5c9: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">7</span>ea47a67709e: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">778</span>aebe6fb26: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>b4b1e0b80ed: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">844</span>ccc42fe76: Pull <span class="hljs-built_in">complete</span>
+eab01fe8ebf8: Pull <span class="hljs-built_in">complete</span>
+e5758d5381b1: Pull <span class="hljs-built_in">complete</span>
+a795f1f35522: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">67</span>bc6388d1cd: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">89</span>b55f4f3473: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">10886</span>b20b4fc: Pull <span class="hljs-built_in">complete</span>
+Pulling <span class="hljs-keyword">view</span> (openpowerquality/<span class="hljs-keyword">vie</span><span class="hljs-variable">w:1</span>.<span class="hljs-number">0.0</span>)...
+<span class="hljs-number">1.0</span>.<span class="hljs-number">0</span>: Pulling from openpowerquality/<span class="hljs-keyword">view</span>
+f189db1b88b3: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>d06cf2f1b5e: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">687</span>ebdda822c: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">99119</span>ca3f34e: Pull <span class="hljs-built_in">complete</span>
+e771d6006054: Pull <span class="hljs-built_in">complete</span>
+b0cc28d0be2c: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">9</span>bbe77ca0944: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">75</span>f7d70e2d07: Pull <span class="hljs-built_in">complete</span>
+f70d7ef53f76: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">596</span>c5fb5e7e7: Pull <span class="hljs-built_in">complete</span>
+cafea2ea58df: Pull <span class="hljs-built_in">complete</span>
+Pulling makai (openpowerquality/makai:<span class="hljs-number">1.0</span>.<span class="hljs-number">1</span>)...
+<span class="hljs-number">1.0</span>.<span class="hljs-number">1</span>: Pulling from openpowerquality/makai
+ae11a5913a58: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>ce739f90f20: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">6</span>b2875055ebc: Pull <span class="hljs-built_in">complete</span>
+d107d79a2a01: Pull <span class="hljs-built_in">complete</span>
+b0fc967adfd7: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">408</span>db9a181c3: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">2</span>d749b78ede9: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">37</span>e94afe8a77: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">6328</span>efdc5f7c: Pull <span class="hljs-built_in">complete</span>
+db943cd8d815: Pull <span class="hljs-built_in">complete</span>
+f446b20f5e29: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">290291559557</span>: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>c06c7f85116: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>f10433be88d: Pull <span class="hljs-built_in">complete</span>
+Pulling mauka (openpowerquality/mauk<span class="hljs-variable">a:1</span>.<span class="hljs-number">0.1</span>)...
+<span class="hljs-number">1.0</span>.<span class="hljs-number">1</span>: Pulling from openpowerquality/mauka
+<span class="hljs-number">6</span>c40cc604d8e: Pull <span class="hljs-built_in">complete</span>
+eb28c72fd5c9: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">8</span>b7b7e8a3ec6: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">07400</span>c149ca6: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">93</span>b52b0b4673: Pull <span class="hljs-built_in">complete</span>
+d3bbba19a0d<span class="hljs-variable">a:</span> Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">7</span>bb2c64cc517: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">59</span>a0d300c126: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3653218</span>ed311: Pull <span class="hljs-built_in">complete</span>
+ed0160d19280: Pull <span class="hljs-built_in">complete</span>
+fe748bad2346: Pull <span class="hljs-built_in">complete</span>
+Pulling health (openpowerquality/health:<span class="hljs-number">1.0</span>.<span class="hljs-number">1</span>)...
+<span class="hljs-number">1.0</span>.<span class="hljs-number">1</span>: Pulling from openpowerquality/health
+<span class="hljs-number">741437</span>d97401: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">34</span>d8874714d7: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">0</span>a108aa26679: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">7</span>f0334c36886: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">65</span>c95cb8b3be: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">9107</span>d7193263: Pull <span class="hljs-built_in">complete</span>
+dd6f212ec984: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">43288</span>b101abf: Pull <span class="hljs-built_in">complete</span>
+f68aede0db03: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>d7e15d338f3: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">1267</span>bc468955: Pull <span class="hljs-built_in">complete</span>
+Pulling boxupdateserver (openpowerquality/box-<span class="hljs-keyword">update</span>-server:<span class="hljs-number">1.0</span>.<span class="hljs-number">0</span>)...
+<span class="hljs-number">1.0</span>.<span class="hljs-number">0</span>: Pulling from openpowerquality/box-<span class="hljs-keyword">update</span>-server
+<span class="hljs-number">48</span>ecbb6b270e: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">692</span>f29ee68f<span class="hljs-variable">a:</span> Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">6439819450</span>d1: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">3</span>c7be240f7bf: Pull <span class="hljs-built_in">complete</span>
+ca4b349df8ed: Pull <span class="hljs-built_in">complete</span>
+<span class="hljs-number">19</span>ba2260209e: Pull <span class="hljs-built_in">complete</span>
+cdd4562c6eb9: Pull <span class="hljs-built_in">complete</span>
+Creating opq-docker_mongo_1           ... done
+Creating opq-docker_boxupdateserver_1 ... done
+Creating opq-docker_view_1            ... done
+Creating opq-docker_makai_1           ... done
+Creating opq-docker_mauka_1           ... done
+Creating opq-docker_health_1          ... done
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="verify-installation"></a><a href="#verify-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Verify installation</h2>
-<p>To see if your OPQ Cloud installation has come up correctly, go to <a href="https://localhost/">https://localhost/</a>. You should see the landing page of OPQ View, and the System Health panel should show that all services have been contacted and appear to be functional:</p>
+<p>Invoke the <code>docker ps</code> command to verify that all OPQ Cloud containers are running. It should look similar to this:</p>
+<pre><code class="hljs">$ docker ps
+CONTAINER ID        IMAGE                                      COMMAND                  CREATED             STATUS              PORTS                                                                                                   NAMES
+bfbca049f966        openpowerquality/health:<span class="hljs-number">1.0</span><span class="hljs-meta">.1</span>              <span class="hljs-string">"python3 -u health.py"</span>   <span class="hljs-number">12</span> minutes ago      <span class="hljs-meta">Up</span> <span class="hljs-number">12</span> minutes                                                                                                               opq-docker_health_1
+f45a12252235        openpowerquality/mauka:<span class="hljs-number">1.0</span><span class="hljs-meta">.1</span>               <span class="hljs-string">"python3 mauka/opq_m…"</span>   <span class="hljs-number">12</span> minutes ago      <span class="hljs-meta">Up</span> <span class="hljs-number">12</span> minutes       <span class="hljs-number">8911</span>/tcp, <span class="hljs-number">9881</span>/tcp, <span class="hljs-number">9884</span>/tcp, <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">9882</span>-<span class="hljs-number">9883</span>-&gt;<span class="hljs-number">9882</span>-<span class="hljs-number">9883</span>/tcp, <span class="hljs-number">9899</span>/tcp, <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">12000</span>-&gt;<span class="hljs-number">12000</span>/tcp      opq-docker_mauka_1
+1a328b646393        openpowerquality/makai:<span class="hljs-number">1.0</span><span class="hljs-meta">.1</span>               <span class="hljs-string">"/bin/bash /build/bi…"</span>   <span class="hljs-number">12</span> minutes ago      <span class="hljs-meta">Up</span> <span class="hljs-number">12</span> minutes       <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">8194</span>-&gt;<span class="hljs-number">8194</span>/tcp, <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">8196</span>-&gt;<span class="hljs-number">8196</span>/tcp, <span class="hljs-number">8080</span>/tcp, <span class="hljs-number">9899</span>/tcp, <span class="hljs-number">10000</span>/tcp, <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">9880</span>-&gt;<span class="hljs-number">9880</span>/tcp   opq-docker_makai_1
+4c5d586b6dc7        openpowerquality/view:<span class="hljs-number">1.0</span><span class="hljs-meta">.0</span>                <span class="hljs-string">"node main.js"</span>           <span class="hljs-number">12</span> minutes ago      <span class="hljs-meta">Up</span> <span class="hljs-number">12</span> minutes       <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">8888</span>-&gt;<span class="hljs-number">8888</span>/tcp                                                                                  opq-docker_view_1
+31102b7a08f4        openpowerquality/box-update-server:<span class="hljs-number">1.0</span><span class="hljs-meta">.0</span>   <span class="hljs-string">"python3 box_update_…"</span>   <span class="hljs-number">12</span> minutes ago      <span class="hljs-meta">Up</span> <span class="hljs-number">12</span> minutes       <span class="hljs-number">0.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.0</span>:<span class="hljs-number">8151</span>-&gt;<span class="hljs-number">8151</span>/tcp                                                                                  opq-docker_boxupdateserver_1
+8f7f92bf2a56        mongo:<span class="hljs-number">4.0</span><span class="hljs-meta">.5</span>                                <span class="hljs-string">"docker-entrypoint.s…"</span>   <span class="hljs-number">12</span> minutes ago      <span class="hljs-meta">Up</span> <span class="hljs-number">12</span> minutes       <span class="hljs-number">127.0</span><span class="hljs-meta">.0</span><span class="hljs-meta">.1</span>:<span class="hljs-number">27017</span>-&gt;<span class="hljs-number">27017</span>/tcp                                                                              opq-docker_mongo_1
+</code></pre>
+<p>In addition, you should also check the OPQ View service by opening up your web browser and going to <a href="http://localhost:8888">http://localhost:8888</a>.
+You should see the landing page of OPQ View, and the System Health panel should show that all services have been contacted and appear to be functional:</p>
 <p><img src="/docs/assets/cloud/view-landing.png" width="100%"></p>
 <p>(Note: this image should be replaced with one that more accurately reflects what a &quot;fresh&quot; OPQ Cloud instance should look like.)</p>
 <h2><a class="anchor" aria-hidden="true" id="complete-installation"></a><a href="#complete-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete installation</h2>
@@ -45,15 +154,55 @@
 <p>(More instructions will follow for how to define users, boxes, and locations.)</p>
 <h2><a class="anchor" aria-hidden="true" id="managing-your-installation"></a><a href="#managing-your-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Managing your installation</h2>
 <h3><a class="anchor" aria-hidden="true" id="bringing-services-up-and-down"></a><a href="#bringing-services-up-and-down" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bringing services up and down</h3>
-<p>If you need to bring services down for any reason, you can invoke &quot;docker down&quot;:</p>
-<pre><code class="hljs"><span class="hljs-string">./docker</span> down
+<p>If you need to bring services down for any reason, just change into the top-level directory (where the <code>docker-compose.yml</code> file is), and invoke <code>docker-compose down</code>:</p>
+<pre><code class="hljs"><span class="hljs-symbol">$</span> docker-compose down
+<span class="hljs-function"><span class="hljs-title">Stopping</span></span> opq-docker_health_1          ... done
+<span class="hljs-function"><span class="hljs-title">Stopping</span></span> opq-docker_view_1            ... done
+<span class="hljs-function"><span class="hljs-title">Stopping</span></span> opq-docker_mauka_1           ... done
+<span class="hljs-function"><span class="hljs-title">Stopping</span></span> opq-docker_makai_1           ... done
+<span class="hljs-function"><span class="hljs-title">Stopping</span></span> opq-docker_boxupdateserver_1 ... done
+<span class="hljs-function"><span class="hljs-title">Stopping</span></span> opq-docker_mongo_1           ... done
+<span class="hljs-function"><span class="hljs-title">Removing</span></span> opq-docker_health_1          ... done
+<span class="hljs-function"><span class="hljs-title">Removing</span></span> opq-docker_view_1            ... done
+<span class="hljs-function"><span class="hljs-title">Removing</span></span> opq-docker_mauka_1           ... done
+<span class="hljs-function"><span class="hljs-title">Removing</span></span> opq-docker_makai_1           ... done
+<span class="hljs-function"><span class="hljs-title">Removing</span></span> opq-docker_boxupdateserver_1 ... done
+<span class="hljs-function"><span class="hljs-title">Removing</span></span> opq-docker_mongo_1           ... done
+Removing network opq-docker_default
 </code></pre>
-<p>To bring them back up, you can invoke docker up:</p>
-<pre><code class="hljs"><span class="hljs-string">./docker</span> up
+<p>To bring services back up, just invoke the <code>docker-compose-run.sh</code> script:</p>
+<pre><code class="hljs">$ ./docker-compose-run.sh
+Creating<span class="hljs-built_in"> network </span><span class="hljs-string">"opq-docker_default"</span> with the<span class="hljs-built_in"> default </span>driver
+Creating opq-docker_mongo_1           <span class="hljs-built_in">..</span>. done
+Creating opq-docker_boxupdateserver_1 <span class="hljs-built_in">..</span>. done
+Creating opq-docker_view_1            <span class="hljs-built_in">..</span>. done
+Creating opq-docker_makai_1           <span class="hljs-built_in">..</span>. done
+Creating opq-docker_mauka_1           <span class="hljs-built_in">..</span>. done
+Creating opq-docker_health_1          <span class="hljs-built_in">..</span>. done
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="upgrading-to-new-releases"></a><a href="#upgrading-to-new-releases" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upgrading to new releases</h3>
-<p>We will occasionally make new releases of OPQ Cloud services.  Unfortunately, I have no idea how you are going to get them at this point.  Hopefully, by the time you read this, these sentences will have been replaced by actual instructions.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="cloud-overview.html">← OPQ Cloud Overview</a><a class="docs-next button" href="cloud-datamodel.html">OPQ Data Model →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a></li><li><a href="#install-docker-and-docker-compose">Install Docker and Docker Compose</a></li><li><a href="#download-the-openpowerquality-docker-repository">Download the openpowerquality/docker repository</a></li><li><a href="#edit-configuration-files">Edit configuration files</a></li><li><a href="#bring-up-services">Bring up services</a></li><li><a href="#verify-installation">Verify installation</a></li><li><a href="#complete-installation">Complete installation</a></li><li><a href="#managing-your-installation">Managing your installation</a><ul class="toc-headings"><li><a href="#bringing-services-up-and-down">Bringing services up and down</a></li><li><a href="#upgrading-to-new-releases">Upgrading to new releases</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects">Project Boards</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+<h3><a class="anchor" aria-hidden="true" id="upgrading-to-new-opq-cloud-releases"></a><a href="#upgrading-to-new-opq-cloud-releases" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upgrading to new OPQ Cloud releases</h3>
+<p>We will occasionally make new releases of OPQ Cloud services.</p>
+<p>If you installed OPQ Cloud by git cloning the official <a href="https://github.com/openpowerquality/opq-docker">OPQ Docker GitHub repository</a>, upgrading is a trivial process:</p>
+<p>Change into your local <code>opq-docker</code> directory and pull the latest files by invoking:</p>
+<pre><code class="hljs">git pull origin <span class="hljs-keyword">master</span>
+<span class="hljs-title"></span></code></pre>
+<p>Then, simply redeploy OPQ Cloud with the latest changes by invoking the <code>docker-compose-run.sh</code> script:</p>
+<pre><code class="hljs">./docker-compose-<span class="hljs-keyword">run</span>.<span class="bash">sh
+</span></code></pre>
+<p>That's all there is to it!
+Note that we did not have to shut down the currently running OPQ Cloud instance - in most cases, it should not be necessary at all.</p>
+<p>When invoking the <code>docker-compose-run.sh</code> script, Docker Compose detects the differences between the previous and new OPQ Cloud configuration files - and only redeploys the necessary services.
+For example, after pulling the latest changes from the official OPQ Docker GitHub repository - in which the only change was a new version of the official OPQ View image, the resulting re-deployment output looks like:</p>
+<pre><code class="hljs">$ ./docker-compose-<span class="hljs-built_in">run</span>.sh
+opq-docker_mongo_1 <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-built_in">date</span>
+opq-docker_boxupdateserver_1 <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-built_in">date</span>
+opq-docker_makai_1 <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-built_in">date</span>
+Recreating opq-docker_view1 ... done
+opq-docker_mauka_1 <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-built_in">date</span>
+opq-docker_health_1 <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-built_in">date</span>
+</code></pre>
+<p>(To do: How to best explain upgrading process for users who did not clone the opq-docker GitHub repository...)</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="cloud-overview.html">← OPQ Cloud Overview</a><a class="docs-next button" href="cloud-datamodel.html">OPQ Data Model →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a></li><li><a href="#install-docker-and-docker-compose">Install Docker and Docker Compose</a></li><li><a href="#download-the-openpowerquality-opq-docker-github-repository">Download the openpowerquality/opq-docker GitHub repository</a></li><li><a href="#copy-and-edit-configuration-files">Copy and edit configuration files</a><ul class="toc-headings"><li><a href="#copy-configuration-files">Copy configuration files</a></li><li><a href="#edit-the-viewconfigjson-file">Edit the view.config.json file</a></li></ul></li><li><a href="#bring-up-services">Bring up services</a></li><li><a href="#verify-installation">Verify installation</a></li><li><a href="#complete-installation">Complete installation</a></li><li><a href="#managing-your-installation">Managing your installation</a><ul class="toc-headings"><li><a href="#bringing-services-up-and-down">Bringing services up and down</a></li><li><a href="#upgrading-to-new-opq-cloud-releases">Upgrading to new OPQ Cloud releases</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects">Project Boards</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
               var search = docsearch({
                 
                 apiKey: '9bf16cc78135dbeeb3826894ebbbb2ee',
