@@ -195,3 +195,112 @@ Since Rust FFI is designed to interoperate with C/C++ it is quite easy to develo
 #### Other languages
 
 For a natively compiled language, as long as the language has a C/C++ binding, that binding can interplay with Rust. Again the only requirement is a Rust shim which translates the rust types into C/C++ types and finally into the types of a language of your choice. Many interpreted languages such as Python and Javascript have rust bindings for their virtual machines. An example of embedding a VM into the triggering service plugin is shown [here](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/ketos/). This plugin embeds a Lisp VM into a Rust plugin to provide type translation and runtime Lisp-based analysis and triggering. A similar plugin can be developed for any interpreted language with Rust bindings.
+
+
+## Docker
+
+Note: Make sure you have Docker installed on your system prior to continuing.
+Please refer to the official [Docker documentation](https://docs.docker.com/install/) for installation instructions.
+
+At some point during development, you will want to create and publish a new Docker image containing all your latest features and changes.
+
+Makai's Docker files can be found in the `opq/makai/docker` directory. Of utmost importance are the following two files:
+  * `Dockerfile`: Contains the configuration for building the Docker image. Used by the `docker-build.sh` script.
+  * `docker-build.sh`: A script for building a new local Makai Docker image.
+
+In most cases, creating a new image is simply a matter of invoking the `docker-build.sh` script; it should seldom be necessary to modify the `Dockerfile`.
+
+### Creating a new local Makai Docker image
+
+  1. Change into the `opq/makai/docker` directory.
+  2. Invoke the `docker-build.sh` script to begin building the image. This can take up to a few minutes.
+  3. Verify that the image was successfully created by invoking the `docker image ls` command. You should see the recently created image named `makai` with tag `latest`
+
+### Publishing image to DockerHub
+
+In the previous section, we described the process of building a new local Makai Docker image.
+In most cases, you will want to follow this up by publishing your newly created image for the world to use on DockerHub.
+
+Note: Before continuing, make sure that your DockerHub account is a member of the official `openpowerquality` DockerHub organization.
+
+#### Determine version number to tag image as
+
+Before publishing a new Makai image, you will need to determine what version number you wish to tag the image as.
+
+Visit the official [OPQ Makai DockerHub](https://hub.docker.com/r/openpowerquality/makai/tags) repository to see the list of previously published Makai image version tags.
+
+#### Tag the local Makai Docker image
+
+For the sake of example, let's assume that we wish to publish a new Makai image with version `1.5.0`.
+
+Recall that in the previous section, we had just created a new local Makai image named `makai` with tag `latest`.
+
+We must now tag this local image appropriately in a DockerHub-valid format in the form of: `<dockerhub-organization>/<repository-name>:<version-tag>`
+
+Proceed to tag the image by invoking:
+
+```
+docker tag makai:latest openpowerquality/makai:1.5.0
+```
+
+You should invoke the `docker image ls` command to verify that the image was correctly tagged.
+
+#### Push image to DockerHub
+
+Now that we have tagged our new image in a DockerHub-valid format, we can go ahead and actually publish the image to DockerHub.
+
+Login to your DockerHub account by invoking the `docker login` command.
+If you are unsure which account you are currently logged into, you may invoke `docker logout` first.
+
+```
+$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: <Your-Username>
+Password:
+<some lines removed>
+
+Login Succeeded
+```
+
+Push the image to DockerHub by invoking `docker push openpowerquality/makai:1.5.0`:
+
+```
+$ docker push openpowerquality/makai:1.5.0
+The push refers to repository [docker.io/openpowerquality/makai]
+274a938dfe74: Pushed
+c447352fa851: Pushed
+df9fbba33a0d: Pushed
+be0fb77bfb1f: Layer already exists
+63c810287aa2: Layer already exists
+2793dc0607dd: Layer already exists
+74800c25aa8c: Layer already exists
+ba504a540674: Layer already exists
+81101ce649d5: Layer already exists
+daf45b2cad9a: Layer already exists
+8c466bf4ca6f: Layer already exists
+1.5.0: digest: sha256:b0299638d1528390399a43fff74f71f397780e70d5f4432218cb5c12d7cf0d66 size: 2636
+```
+
+Your Docker image has been published!
+Verify that the image was successfully published by visiting the [OPQ Makai DockerHub](https://hub.docker.com/r/openpowerquality/makai/tags) repository.
+
+#### Update the official OPQ-Docker GitHub repository with the latest image version
+
+In most cases after publishing a new image, you will want to update the official [OPQ Docker GitHub repository](https://github.com/openpowerquality/opq-docker) with your newly published image version for other OPQ Cloud deployments to use.
+
+Git clone the repository and change into the `opq-docker` directory. 
+Open the `.env` file and modify the `MAKAI_IMAGE` variable with the new Docker image version tag that had just been published:
+
+Before:
+```
+MAKAI_IMAGE=openpowerquality/makai:1.0.0
+```
+
+After:
+```
+MAKAI_IMAGE=openpowerquality/makai:1.5.0
+```
+
+Then, just commit and push these changes back to the OPQ-Docker GitHub repository for the world to see and use for their own OPQ Cloud deployments!
+
+See the [Cloud Installation](cloud-installation.md#upgrading-to-new-opq-cloud-releases) page on how to upgrade an existing OPQ Cloud deployment.
