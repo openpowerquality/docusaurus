@@ -67,19 +67,19 @@ Look for a section called "userProfiles", which has one entry with all blank fie
 
 Now, cd into the top-level directory, where you should find a script called `docker-compose-run.sh`.  To make it executable, invoke:
 
-```
+```shell
 chmod 775 docker-compose-run.sh
 ```
 
 Now invoke it with:
 
-```
+```shell
 ./docker-compose-run.sh
 ```
 
 This will download all the latest official public images for each of the OPQ Cloud services, and run them.  The output should look like this:
 
-```
+```shell
 $ ./docker-compose-run.sh
 Creating network "opq-docker_default" with the default driver
 Pulling mongo (mongo:4.0.5)...
@@ -173,7 +173,7 @@ Creating opq-docker_health_1          ... done
 
 Invoke the `docker ps` command to verify that all OPQ Cloud containers are running. It should look similar to this:
 
-```
+```shell
 $ docker ps
 CONTAINER ID        IMAGE                                      COMMAND                  CREATED             STATUS              PORTS                                                                                                   NAMES
 bfbca049f966        openpowerquality/health:1.0.1              "python3 -u health.py"   12 minutes ago      Up 12 minutes                                                                                                               opq-docker_health_1
@@ -203,7 +203,7 @@ To complete your installation, you will want to define additional OPQ View users
 
 If you need to bring services down for any reason, just change into the top-level directory (where the `docker-compose.yml` file is), and invoke `docker-compose down`:
 
-```
+```shell
 $ docker-compose down
 Stopping opq-docker_health_1          ... done
 Stopping opq-docker_view_1            ... done
@@ -222,7 +222,7 @@ Removing network opq-docker_default
 
 To bring services back up, just invoke the `docker-compose-run.sh` script:
 
-```
+```shell
 $ ./docker-compose-run.sh
 Creating network "opq-docker_default" with the default driver
 Creating opq-docker_mongo_1           ... done
@@ -241,13 +241,13 @@ If you installed OPQ Cloud by git cloning the official [OPQ Docker GitHub reposi
 
 On your production system, change into the `opq-docker` directory and pull the latest files by invoking:
 
-```
+```shell
 git pull origin master
 ```
 
 Then, redeploy OPQ Cloud with the latest changes by invoking the `docker-compose-run.sh` script:
 
-```
+```shell
 ./docker-compose-run.sh
 ```
 
@@ -257,7 +257,7 @@ Note that we did not have to shut down the currently running OPQ Cloud instance 
 When invoking the `docker-compose-run.sh` script, Docker Compose detects the differences between the previous and new OPQ Cloud configuration files - and only redeploys the necessary services.
 For example, after pulling the latest changes from the official OPQ Docker GitHub repository - in which the only change was a new version of the official OPQ View image, the resulting re-deployment output looks like:
 
-```
+```shell
 $ ./docker-compose-run.sh
 opq-docker_mongo_1 is up-to-date
 opq-docker_boxupdateserver_1 is up-to-date

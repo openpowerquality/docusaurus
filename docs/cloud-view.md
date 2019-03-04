@@ -519,7 +519,7 @@ We must now tag this local image appropriately in a DockerHub-valid format in th
 
 Proceed to tag the image by invoking:
 
-```
+```shell
 docker tag view:latest openpowerquality/view:1.5.0
 ```
 
@@ -532,7 +532,7 @@ Now that we have tagged our new image in a DockerHub-valid format, we can go ahe
 Login to your DockerHub account by invoking the `docker login` command.
 If you are unsure which account you are currently logged into, you may invoke `docker logout` first.
 
-```
+```shell
 $ docker login
 Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
 Username: <Your-Username>
@@ -544,7 +544,7 @@ Login Succeeded
 
 Push the image to DockerHub by invoking `docker push openpowerquality/view:1.5.0`:
 
-```
+```shell
 $ docker push openpowerquality/view:1.5.0
 The push refers to repository [docker.io/openpowerquality/view]
 274a938dfe74: Pushed
@@ -572,12 +572,12 @@ Git clone the repository and change into the `opq-docker` directory.
 Open the `.env` file and modify the `VIEW_IMAGE` variable with the new Docker image version tag that had just been published:
 
 Before:
-```
+```shell
 VIEW_IMAGE=openpowerquality/view:1.0.0
 ```
 
 After:
-```
+```shell
 VIEW_IMAGE=openpowerquality/view:1.5.0
 ```
 
