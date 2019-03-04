@@ -392,15 +392,15 @@ In most cases, you will want to follow this up by publishing your newly created 
 <p>Recall that in the previous section, we had just created a new local View image named <code>view</code> with tag <code>latest</code>.</p>
 <p>We must now tag this local image appropriately in a DockerHub-valid format in the form of: <code>&lt;dockerhub-organization&gt;/&lt;repository-name&gt;:&lt;version-tag&gt;</code></p>
 <p>Proceed to tag the image by invoking:</p>
-<pre><code class="hljs">docker <span class="hljs-keyword">tag</span> <span class="hljs-keyword">vie</span><span class="hljs-variable">w:latest</span> openpowerquality/<span class="hljs-keyword">vie</span><span class="hljs-variable">w:1</span>.<span class="hljs-number">5.0</span>
+<pre><code class="hljs css shell">docker tag view:latest openpowerquality/view:1.5.0
 </code></pre>
 <p>You should invoke the <code>docker image ls</code> command to verify that the image was correctly tagged.</p>
 <h4><a class="anchor" aria-hidden="true" id="push-image-to-dockerhub"></a><a href="#push-image-to-dockerhub" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Push image to DockerHub</h4>
 <p>Now that we have tagged our new image in a DockerHub-valid format, we can go ahead and actually publish the image to DockerHub.</p>
 <p>Login to your DockerHub account by invoking the <code>docker login</code> command.
 If you are unsure which account you are currently logged into, you may invoke <code>docker logout</code> first.</p>
-<pre><code class="hljs">$ docker login
-Login <span class="hljs-keyword">with</span> your Docker ID <span class="hljs-keyword">to</span> push <span class="hljs-keyword">and</span> pull images <span class="hljs-keyword">from</span> Docker Hub. <span class="hljs-keyword">If</span> you don<span class="hljs-comment">'t have a Docker ID, head over to https://hub.docker.com to create one.</span>
+<pre><code class="hljs css shell"><span class="hljs-meta">$</span><span class="bash"> docker login</span>
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
 Username: &lt;Your-Username&gt;
 Password:
 &lt;some lines removed&gt;
@@ -408,20 +408,20 @@ Password:
 Login Succeeded
 </code></pre>
 <p>Push the image to DockerHub by invoking <code>docker push openpowerquality/view:1.5.0</code>:</p>
-<pre><code class="hljs">$ docker push openpowerquality/<span class="hljs-string">view:</span><span class="hljs-number">1.5</span><span class="hljs-number">.0</span>
-The push refers to repository [docker.io<span class="hljs-regexp">/openpowerquality/</span>view]
-<span class="hljs-number">274</span><span class="hljs-string">a938dfe74:</span> Pushed
-<span class="hljs-string">c447352fa851:</span> Pushed
-<span class="hljs-string">df9fbba33a0d:</span> Pushed
-<span class="hljs-string">be0fb77bfb1f:</span> Layer already exists
-<span class="hljs-number">63</span><span class="hljs-string">c810287aa2:</span> Layer already exists
-<span class="hljs-number">2793</span><span class="hljs-string">dc0607dd:</span> Layer already exists
-<span class="hljs-number">74800</span><span class="hljs-string">c25aa8c:</span> Layer already exists
-<span class="hljs-string">ba504a540674:</span> Layer already exists
-<span class="hljs-number">81101</span><span class="hljs-string">ce649d5:</span> Layer already exists
-<span class="hljs-string">daf45b2cad9a:</span> Layer already exists
-<span class="hljs-number">8</span><span class="hljs-string">c466bf4ca6f:</span> Layer already exists
-<span class="hljs-number">1.5</span><span class="hljs-number">.0</span>: <span class="hljs-string">digest:</span> <span class="hljs-string">sha256:</span>b0299638d1528390399a43fff74f71f397780e70d5f4432218cb5c12d7cf0d66 <span class="hljs-string">size:</span> <span class="hljs-number">2636</span>
+<pre><code class="hljs css shell"><span class="hljs-meta">$</span><span class="bash"> docker push openpowerquality/view:1.5.0</span>
+The push refers to repository [docker.io/openpowerquality/view]
+274a938dfe74: Pushed
+c447352fa851: Pushed
+df9fbba33a0d: Pushed
+be0fb77bfb1f: Layer already exists
+63c810287aa2: Layer already exists
+2793dc0607dd: Layer already exists
+74800c25aa8c: Layer already exists
+ba504a540674: Layer already exists
+81101ce649d5: Layer already exists
+daf45b2cad9a: Layer already exists
+8c466bf4ca6f: Layer already exists
+1.5.0: digest: sha256:b0299638d1528390399a43fff74f71f397780e70d5f4432218cb5c12d7cf0d66 size: 2636
 </code></pre>
 <p>Your Docker image has been published!
 Verify that the image was successfully published by visiting the <a href="https://hub.docker.com/r/openpowerquality/view/tags">OPQ View DockerHub</a> repository.</p>
@@ -430,10 +430,10 @@ Verify that the image was successfully published by visiting the <a href="https:
 <p>Git clone the repository and change into the <code>opq-docker</code> directory.
 Open the <code>.env</code> file and modify the <code>VIEW_IMAGE</code> variable with the new Docker image version tag that had just been published:</p>
 <p>Before:</p>
-<pre><code class="hljs"><span class="hljs-attr">VIEW_IMAGE</span>=openpowerquality/view:<span class="hljs-number">1.0</span>.<span class="hljs-number">0</span>
+<pre><code class="hljs css shell">VIEW_IMAGE=openpowerquality/view:1.0.0
 </code></pre>
 <p>After:</p>
-<pre><code class="hljs"><span class="hljs-attr">VIEW_IMAGE</span>=openpowerquality/view:<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>
+<pre><code class="hljs css shell">VIEW_IMAGE=openpowerquality/view:1.5.0
 </code></pre>
 <p>Then, just commit and push these changes back to the OPQ-Docker GitHub repository for the world to see and use for their own OPQ Cloud deployments!</p>
 <p>See the <a href="/docs/cloud-installation.html#upgrading-to-new-opq-cloud-releases">Cloud Installation</a> page on how to upgrade an existing OPQ Cloud deployment.</p>
