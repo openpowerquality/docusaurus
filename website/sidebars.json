@@ -3,7 +3,7 @@
     "Introduction": ["intro-motivation", "intro-power-quality", "intro-system-architecture", "intro-information-architecture", "intro-related-work", "intro-bibliography"],
     "User Guide": ["userguide-hardware", "userguide-software"],
     "Developer Guide: OPQ Box": ["box-overview", "box-hardware-design", "box-software-design", "box-updater", "box-manufacturing"],
-    "Developer Guide: OPQ Cloud": ["cloud-overview", "cloud-installation","cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-protocol", "cloud-port-map", "cloud-docker"],
+    "Developer Guide: OPQ Cloud": ["cloud-overview", "cloud-installation","cloud-datamodel", "cloud-view", "cloud-mauka", "cloud-makai", "cloud-health", "cloud-box-update-server", "cloud-protocol", "cloud-port-map", "cloud-docker"],
     "Developer Guide: Misc": ["developerguide-docusaurus", "developerguide-virtual-machine", "developerguide-bibliography", "developerguide-emilia-ssh"],
     "Other": ["other-roadmap", "other-opportunities", "other-agile-power-monitoring",  "other-g1-pilot-study" ]
   }

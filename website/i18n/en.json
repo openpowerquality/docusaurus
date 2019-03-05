@@ -14,6 +14,8 @@
     "Software Design": "Software Design",
     "box-updater": "OPQ Box Updater",
     "Updater": "Updater",
+    "cloud-box-update-server": "OPQ Box Update Server",
+    "Box Update Server": "Box Update Server",
     "cloud-datamodel": "OPQ Data Model",
     "Data Model": "Data Model",
     "cloud-docker": "Building, Publishing, and Deploying OPQ Cloud services with Docker",
