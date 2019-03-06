@@ -1,6 +1,6 @@
 ---
 title: Emilia SSH Access
-sidebar_label: SSH
+sidebar_label: Emilia SSH
 ---
 
 In order to deploy OPQ to emilia.ics.hawaii.edu, you will generally need to configure ssh access to the opquser account. Here's how to do it.

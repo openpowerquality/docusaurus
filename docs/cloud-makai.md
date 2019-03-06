@@ -195,3 +195,8 @@ Since Rust FFI is designed to interoperate with C/C++ it is quite easy to develo
 #### Other languages
 
 For a natively compiled language, as long as the language has a C/C++ binding, that binding can interplay with Rust. Again the only requirement is a Rust shim which translates the rust types into C/C++ types and finally into the types of a language of your choice. Many interpreted languages such as Python and Javascript have rust bindings for their virtual machines. An example of embedding a VM into the triggering service plugin is shown [here](https://github.com/openpowerquality/opq/blob/master/makai/TriggeringService/plugins/ketos/). This plugin embeds a Lisp VM into a Rust plugin to provide type translation and runtime Lisp-based analysis and triggering. A similar plugin can be developed for any interpreted language with Rust bindings.
+
+
+## Docker
+
+Please see [Building, Publishing, and Deploying OPQ Cloud Services with Docker](cloud-docker.html) for information on packaging up this service using Docker.
