@@ -31,7 +31,7 @@ This will produce a compressed and archived backup image of the database in `/va
 
 The directory `opq/mongod` contains helper scripts for backing up and restoring OPQ MongoDB databases.
 
-The steps required for backing up the database is as follows:
+The steps required for restoring a database is as follows:
 
 1. Copy the restore-mongodb.sh script from [opq/mongod/restore-mongodb.sh](https://github.com/openpowerquality/opq/blob/master/mongod/restore-mongodb.sh) to your host machine.
 2. Ensure that all docker containers *except* for mongo are stopped. We don't want services reading or writing to the database while we restore. 
