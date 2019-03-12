@@ -3,9 +3,6 @@ title: OPQ Cloud Installation
 sidebar_label: Installation
 ---
 
-
-## Overview
-
 OPQ Cloud currently consists of six services: OPQ Makai (for triggering and collecting power quality data from boxes), OPQ Mauka (for analysis and classification of power quality data), OPQ View (for data visualization and system management), OPQ Health (for monitoring boxes and services), OPQ Box Updater (for over-the-air updates to the Box software), and MongoDB (the backend database system).
 
 We utilize [Docker](https://www.docker.com/) to manage the installation of each of these OPQ Cloud services.

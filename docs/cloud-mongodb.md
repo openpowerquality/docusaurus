@@ -3,11 +3,9 @@ title: MongoDB
 sidebar_label: MongoDB
 ---
 
-## MongoDB
-
 OPQ utilizes MongoDB as its database for all OPQ services. The database is provided as part of our Docker deployment.
 
-### Initializing the database
+## Initializing a new database
 
 When you create a new OPQ database for the first time, it's best to ensure that the indexes are created before any data is accepted.
 
@@ -15,7 +13,46 @@ When you create a new OPQ database for the first time, it's best to ensure that 
 2. Ensure that the MongoDB docker container is running and all other docker containers are stopped.
 3. Run the ensure-indexes.sh script (`./ensure-indexes.sh`)
 
-### Backing up MongoDB
+Note: other initialization activities include setting up TTL indexes and defining schemas.  These activities will be documented soon.
+
+## Accessing the database
+
+For development purposes, it is often useful to inspect the contents of collections. We use two ways: via the command line [Mongo Shell](https://docs.mongodb.com/manual/mongo/) and via the [RoboMongo (Robo 3T) GUI](https://robomongo.org/).
+
+### Mongo Shell access
+
+To access the OPQ database via [Mongo Shell](https://docs.mongodb.com/manual/mongo/), you must first ssh into the server running the MongoDB Docker container. For example, here are instructions to [ssh into emilia.ics.hawaii.edu](developerguide-emilia-ssh.html#ssh-without-password-prompt).
+
+Once you've done that, you connect to the running MongoDB Docker container and run the Mongo Shell with:
+
+```
+docker exec -it opq-mongo mongo
+```  
+
+### RoboMongo access
+
+The access the OPQ database via [RoboMongo (Robo 3T) GUI](https://robomongo.org/), you must configure your connection in RoboMongo to use port forwarding.
+
+First, create a new connection and name it appropriately. For example, here is the dialog window for creating a connection called "emilia.ics.hawaii.edu":
+
+<img src="/docs/assets/mongodb/robomongo-connection.png" >
+
+Next, set up SSH access to the server running the MongoDB container. For example, here is the dialog window for defining ssh access to emilia.ics.hawaii.edu.
+
+<img src="/docs/assets/mongodb/robomongo-authentication.png" >
+
+If you have configured things correctly, then you should be able to access the OPQ MongoDB database. For example, here is a screenshot showing a document in the system-stats collection:
+
+<img src="/docs/assets/mongodb/robomongo-example-access.png" >
+
+
+ 
+
+
+
+## Backups
+
+### Making a backup
 
 The directory `opq/mongod` contains helper scripts for backing up and restoring OPQ MongoDB databases.
 
@@ -27,7 +64,7 @@ The steps required for backing up the database is as follows:
 
 This will produce a compressed and archived backup image of the database in `/var/bak` and the file name will look like `opq.dump.YYYY-MM-DD.bak` where YYYY-MM-DD is the current year, month, and day that the backup was created on.
 
-### Restoring a backup to MongoDB
+### Restoring a backup
 
 The directory `opq/mongod` contains helper scripts for backing up and restoring OPQ MongoDB databases.
 

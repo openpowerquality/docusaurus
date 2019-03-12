@@ -3,8 +3,6 @@ title: Building, Publishing, and Deploying OPQ Cloud services with Docker
 sidebar_label: Docker
 ---
 
-## Overview
-
 We utilize [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to containerize and deploy the OPQ Services: View, Mauka, Makai, Health, and Box Updater.  For Mongo, we use the official Mongo image without modification.  
 
 This page provides documentation on the standard procedures used in OPQ for building and publishing OPQ Cloud services using Docker. This procedure is:

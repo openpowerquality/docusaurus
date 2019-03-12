@@ -3,9 +3,6 @@ title: Deployment: Docker
 sidebar_label: Docker
 ---
 
-
-## Overview
-
 We utilize [Docker](https://www.docker.com/) to containerize each of our services into easy-to-deploy bundles. In combination with [Docker Compose](https://docs.docker.com/compose/), the task of deploying and running a new OPQ Cloud instance is a very simple and straight-forward process.
 
 This guide will be covering three separate concerns:

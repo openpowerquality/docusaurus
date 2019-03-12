@@ -3,10 +3,11 @@ title: OPQ Box Software Design
 sidebar_label: Software Design
 ---
 
-## The OPQ Box software stack
+OPQ Box uses a mix of software written in python and C/C++. This page documents the software structure, installation, and deployment. 
 
-OPQ Box uses a mix of software written in python and C/C++. There are three
-main portions to the OPQBox software:
+## Structure
+
+There are three main portions to the OPQBox software:
 
 * DSP Firmware
 * Kernel Driver
@@ -37,6 +38,6 @@ Readout software is the userland component of the readout stack. It is responsib
 
 (How to configure the development environment to support development of the OPQ Box software stack.)
 
-## Deployment to a box
+## Deployment
 
 (How to create an image and install it on a box.)
