@@ -248,7 +248,6 @@ Then, redeploy OPQ Cloud with the latest changes by invoking the `docker-compose
 ./docker-compose-run.sh
 ```
 
-That's all there is to it!
 Note that we did not have to shut down the currently running OPQ Cloud instance - in most cases, it should not be necessary at all.
 
 When invoking the `docker-compose-run.sh` script, Docker Compose detects the differences between the previous and new OPQ Cloud configuration files - and only redeploys the necessary services.
@@ -264,4 +263,60 @@ opq-docker_mauka_1 is up-to-date
 opq-docker_health_1 is up-to-date
 ```
 
-(To do: How to best explain upgrading process for users who did not clone the opq-docker GitHub repository...)
+### Pruning the installed Docker containers and images
+
+As noted in the [Docker chapter on prune unused Docker objects](https://docs.docker.com/config/pruning/), when you install new Docker images, the old ones are not automatically deleted. Over time, unused and out of date Docker objects can consume significant amounts of disk space.  
+
+To determine if you have unused Docker containers, you can run the `docker ps -a` command, which lists both running and stopped containers. Here is a sample run of that command:
+
+```
+$ docker ps -a
+CONTAINER ID        IMAGE                                      COMMAND                  CREATED             STATUS              PORTS                                                                                                                                                                       NAMES
+a14bc92c53a1        openpowerquality/health:1.0.1              "python3 -u health.py"   3 hours ago         Up 3 hours                                                                                                                                                                                      opq-docker_health_1
+714ce76b75bb        openpowerquality/mauka:1.0.7               "python3 mauka/opq_m…"   3 hours ago         Up 3 hours          8911/tcp, 9881/tcp, 9884/tcp, 0.0.0.0:9882-9883->9882-9883/tcp, 9899/tcp, 0.0.0.0:12000->12000/tcp                                                                          opq-docker_mauka_1
+c9044a3a2089        certbot/certbot                            "/bin/sh -c 'trap ex…"   3 days ago          Up 3 days           80/tcp, 443/tcp                                                                                                                                                             opq-docker_certbot_1
+95e159b49a64        nginx:1.15-alpine                          "/bin/sh -c 'while :…"   3 days ago          Up 3 days           0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp                                                                                                                                    opq-docker_nginx_1
+402fe9b16200        openpowerquality/makai:1.0.6               "/bin/bash /build/bi…"   3 days ago          Up 13 hours         0.0.0.0:8194->8194/tcp, 0.0.0.0:8196->8196/tcp, 127.0.0.1:8080->8080/tcp, 127.0.0.1:9884->9884/tcp, 127.0.0.1:9899->9899/tcp, 0.0.0.0:9880-9881->9880-9881/tcp, 10000/tcp   opq-docker_makai_1
+741fe724f9ac        openpowerquality/view:1.0.1                "node main.js"           3 days ago          Up 3 days           80/tcp, 0.0.0.0:8888->8888/tcp                                                                                                                                              opq-docker_view_1
+00e9a674810e        mongo:4.0.5                                "docker-entrypoint.s…"   3 days ago          Up 3 days           127.0.0.1:27017->27017/tcp                                                                                                                                                  opq-mongo
+e1cc09f69510        openpowerquality/box-update-server:1.0.3   "python3 box_update_…"   3 days ago          Up 3 days           0.0.0.0:8151->8151/tcp                                                                                                                                                      opq-docker_boxupdateserver_1 
+```
+
+In this sample output, all containers are current and running. Should you discover stopped and out-of-date containers, you can run the following commands to get rid of both out of date containers and images.
+
+To prune containers:
+
+```
+$ docker container prune
+WARNING! This will remove all stopped containers.
+Are you sure you want to continue? [y/N] y
+Total reclaimed space: 0B
+```
+
+To prune images:
+
+```
+$ docker image prune -a
+  WARNING! This will remove all images without at least one container associated to them.
+  Are you sure you want to continue? [y/N] y
+  Deleted Images:
+  untagged: mongo:latest
+  untagged: mongo@sha256:c4fe6705e1dffb91d3fdb4f2c00f58a5ce9b82dd010bce33e250d320518047b5
+  deleted: sha256:a3abd47e8d61c923dd1561ad3720af4d948627c524a53d321c2a5bd6f6467060
+  deleted: sha256:9c04aae8ecf33b57edf8893881b42d7483a4ef19e871ed9687fbe40468ede99e
+  deleted: sha256:eb8c65e58c7f29789466d3d88b4961b98a4674bb0b892745d22cda11c8ce79b2
+  deleted: sha256:be8087eddc5150dbd849a4ba7870ddf01125130e0b4f700a363f0b079553fa64
+  deleted: sha256:11aedb0b4e679e62bf96e59f340326e1360a135d8efa175995887b352a3e7c72
+  deleted: sha256:16c92c73bea3b0bca3eb887fdc1d482b7dbcb22173ca7633500824ff8f450a4c
+  deleted: sha256:cc571f11735ac3eb1391d97eecde319c979871d7f9ab1272e588254d63ab41d1
+  deleted: sha256:436cc613f90228becea77f76af6dfea10ac293f5d6951fbf73b6356dc0a53a21
+  deleted: sha256:d21986d83085adfcefa2b12d347e14eebab64baec1caa2febfdc4f2e58e6a9c5
+  deleted: sha256:d9b3c6372b7ebde73497fbde28baddcf487883c53a1a2a053c94131b98235800
+  deleted: sha256:59a6856f439d187f3ce3381d0a6b0816db99cc3d8468bcf8c9d1c39d2071dcff
+  deleted: sha256:82997a16a0d57ac7d8b416c0d83f5841193b6a56a7844b486ab6324730867fe0
+  deleted: sha256:5c6983f277f26021b5e38501fdf06fa29f7158a93641f3f10aedbdc9869121d0
+  deleted: sha256:aa54c2bc12290df2851a94b8834cae75e4627219d2b423d4d3db8b0a497e79a2
+  untagged: bak-mongo:latest
+  
+  Total reclaimed space: 394.4MB
+```
