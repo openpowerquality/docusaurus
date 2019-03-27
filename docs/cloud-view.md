@@ -3,7 +3,7 @@ title: OPQ View
 sidebar_label: View
 ---
 
-OPQ View is a web application that provides visualization, notification, and user management services. 
+OPQ View is a web application that provides visualization, notification, and user management services.
 
 
 ## Installation
@@ -16,75 +16,70 @@ First, [install Meteor](https://www.meteor.com/install).
 ### Install libraries
 
 Now [download a copy of OPQ](https://github.com/openpowerquality/opq/archive/master.zip), or clone it using git.
-  
+
 Next, cd into the opq/view/app/ directory and install libraries with:
 
 ```
 $ meteor npm install
 ```
 
-### Configure settings (optional)
+### Configuration (view.config.json)
 
-The 'start' script loads the settings file located in view/config/settings.development.json.  This file enables you to specify information about the authorized users of the system and the OPQ Boxes.  Currently, editing this file is the only way to manage user and OPQ Box meta-data.  If the "initializeEntities" field is true, then the information about users and OPQ boxes is "upserted" each time the system is started. What this means is that you can edit the contents of the settings.development.json, set initializeEntities to true, then restart Meteor, and your changes to users and OPQ Boxes will take effect.  (You do not have to reset the Mongo database.)
+View is configured through a file called "view.config.json".
 
-Here is a simplified example of a settings.development.json file that illustrates its capabilities:
+The following table documents the two configuration properties that must be specified for each production environment: an admin user and the MAIL_URL:
 
-```
-{
-  "syncedCronLogging": false,
-  "enableStartupIntegrityCheck": false,
-  "integrityCheckCollections": ["fs.files", "fs.chunks"],
-  "systemStatsUpdateIntervalSeconds": 10,
-  "initializeEntities": false,
-  "opqBoxes" : [
-    { "box_id": "5", 
-      "name": "Philip's Box", 
-      "description": "Version 2.8, 2017", 
-      "calibration_constant": 146.5,
-      "locations": [
-        {"start_time_ms": 1514844000000, 
-         "zipcode": "96822", 
-         "nickname": "CSDL Office" },
-        {"start_time_ms": "2018-03-01 12:00:00", 
-         "zipcode": "96734", 
-         "nickname": "Kailua, HI (PJ)" }]
-    }
-  ],
+| Property          | Description                            |
+| ------------------| -------------------------------------- |
+| adminUser         | A JSON object that defines the initial, admin user for a new OPQ Cloud instance. The admin user can login and then use OPQ View to define additional admin and/or regular users. See the required fields below.|
+| adminUser.username |  The admin username (an email address).  Must be changed from the default ("adminuser@example.com") |
+| adminUser.password | The admin password. Must be changed from the default ("foo"). |
+| adminUser.firstName | The admin user's first name. |
+| adminUser.lastName | The admin user's last name. |
+| env                | A JSON object that specifies environment variables. See the required fields below. |
+| env.MAIL_URL       | For OPQ email and text message notifications, a MAIL_URL value must be provided that provides an SMTP server address and password. |
 
-  "userProfiles": [
-    { "username": "johnson@hawaii.edu", 
-      "password": "foo", 
-      "firstName": "Philip", 
-      "lastName": "Johnson", 
-      "role": "admin", 
-      "boxIds": ["1", "2", "3"]
-    },
-  ]
-}
-```
+For production, a sample version of the view.config.json configuration file is located in the opq-docker repository, at [opq-docker/sample-config/view/view.config.json](https://github.com/openpowerquality/opq-docker/blob/master/sample-config/view/view.config.json).
 
-Here are the currently available properties:
+The person installing an OPQ Cloud will make a copy of the sample-config directory called config, then edit the config/view/view.config.json file to provide new values for adminUser and MAIL_URL. This edited version will be loaded when the user invokes the  `docker-compose-run.sh` script to bring up all of the OPQ Cloud services.
 
-| Property | Description |
-| -- | -- |
-| syncedCronLogging | System Stats are generated through a cron job.  This property should be true or false in order to indicate if logging information should be sent to the console. |
-| enableStartupIntegrityCheck | This boolean indicates whether or not to check that the documents in the Mongo database conform to our data model. |
-| integrityCheckCollections | This array specifies the Mongo collections to check if enableStartupIntegrityCheck is true. |
-| initializeEntities | If true, then the OPQ Box and User Profiles defined in this file will be loaded into the MongoDB database on startup. Prior entity definitions will be overwritten. Default: false. |
-| opqBoxes | An array of objects, each object providing metadata about an OPQBox according to our data model.  Note that for convenience, the `start_time_ms` field in the locations subarray can be either a UTC millisecond value, or a string that can be parsed by Moment and converted to UTC milliseconds. The example above shows both possible ways of specifying the `start_time_ms`. |
-| userProfiles | An array of objects, each object providing metadata about an authorized user of OPQView.  The role field can be either "admin" or "user". |
+### Additional configuration for development (view.config.json)
 
-Note that a "production" settings file is used for deployment to emilia.  It has the same structure, but the actual file is not committed to github.  
+For development, a number of additional properties can be specified to aid in debugging, as summarized in this table:
+
+| Property          | Description                            |
+| ------------------| -------------------------------------- |
+| syncedCron        | A JSON object controlling the behavior of the cron jobs running inside OPQ View. |
+| syncedCron.logging | Debugging logs are disabled unless explicitly enabled by setting this property to true. |
+| systemStats        | A JSON object controlling the behavior of the SystemStats object inside OPQ View. |
+| systemStats.updateIntervalSeconds | How often system stats are refreshed.  Defaults to once per minute. |
+| healthCron        | A JSON object controlling the behavior of the Health cron job inside OPQ View. |
+| healthCron.enabled | The Health cron job is implicitly enabled unless this property is provided and set to false. |
+| integrityCheck    | A JSON object controlling the behavior of the entity integrity checking mechanism that is available in OPQ View. |
+| integrityCheck.enabled | Integrity checking is disabled by default. Set this to true to enable it. |
+| integrityCheck.verbose |  Controls the amount of output associated with integrity checking. |
+| integrityCheck.maxChecks | Controls how many entities to check. Entities are checked most-recent-first.  |
+| integrityCheck.repair |  If true, then entities are repaired if possible. |
+| integrityCheck.collections | An array indicating the entities (collections) to check.  |
+| initialEntities | A JSON object representing a set of entities to define upon startup. |
+| initialEntities.enabled | Must be true in order for the specified entities to be loaded into the database. In addition, the entities are only loaded if the database is currently empty (i.e. there are no defined location or opqbox entities. See the code for how to override this safety feature. |
+| initialEntities.opqBoxes | An array of objects, each specifying an OPQBox entity. See opq/view/config/view.config.json for details. |
+| initialEntities.userProfiles | An array of objects, each specifying a user. See opq/view/config/view.config.json for details. |
+| initialEntities.locations | An array of objects, each specifying a location entity. See opq/view/config/view.config.json for details. |
+| initialEntities.regions | An array of objects, each specifying a region entity. See opq/view/config/view.config.json for details. |
+
+For development, the view.config.json configuration file is located in the opq repository, at [opq/view/config/view.config.json](https://github.com/openpowerquality/opq/blob/master/view/config/view.config.json).  This file is loaded when the developer runs the `meteor npm run start` script.
+
 
 ### Use snapshot DB (optional)
 
-For OPQView development, it can be useful to initialize your development database with a snapshot of OPQ data. Here are the steps to do so. 
+For OPQView development, it can be useful to initialize your development database with a snapshot of OPQ data. Here are the steps to do so.
 
-[Install MongoDB](https://docs.mongodb.com/manual/installation/).  Even though Meteor comes with a copy of Mongo, you will need to install MongoDB in order to run the mongorestore command.  
+[Install MongoDB](https://docs.mongodb.com/manual/installation/).  Even though Meteor comes with a copy of Mongo, you will need to install MongoDB in order to run the mongorestore command.
 
 Download a snapshot of an OPQ database into a directory outside of the opq repository directory. (This is to avoid unintentional committing of the DB snapshot). Here is a link to a recent DB snapshot:
- 
-   * [opq.dump.01May2018.tar.gz](https://drive.google.com/file/d/18SYu0cTL9e0p99yp0-w_Ri-1SjtXGYgF/view?usp=sharing) (4 GB)
+
+   * (No snapshot available at this time.)
 
 Uncompress the downloaded tar.gz file. (Typically, double-clicking the file name will do the trick.) This will create a directory called "opq".
 
@@ -118,9 +113,9 @@ mongorestore -h 127.0.0.1 --port 3001 --gzip -d meteor opq
 2018-01-29T14:53:01.999-1000	done
 ```
 
-Control-c to exit Meteor.  This is important, since you brought up Meteor without the settings file. 
+Control-c to exit Meteor.  This is important, since you brought up Meteor without the settings file.
 
-### Use production DB (optional) 
+### Use production DB (optional)
 
 An alternative to loading a snapshot of the database into your local Mongo database is to connect directly to the Mongo database running on emilia.  This is good because you can, for example, test out real-time components on a database that is constantly receiving new data from boxes. It is bad because your development application now has the ability to mess up the production database.  Be careful.
 
@@ -138,37 +133,37 @@ Once you have an account on emilia, you can use ssh port forwarding to create a 
 $ ssh -C -p 29862 -N -L 27017:localhost:27017 opquser@emilia.ics.hawaii.edu
 ```
 
-You'll need to replace `opquser` if that's not the account you're using, and you'll need to supply the correct password after executing this command. Once you successfully provide your password, port forwarding will have started.  When you no longer want port forwarding, you can control-c or close the shell. 
+You'll need to replace `opquser` if that's not the account you're using, and you'll need to supply the correct password after executing this command. Once you successfully provide your password, port forwarding will have started.  When you no longer want port forwarding, you can control-c or close the shell.
 
 **3. Run OPQView, specifying an alternative MongoDB port**
 
 To run OPQView and connect to the database on emilia, invoke the following command:
 
 ```
-$ MONGO_URL='mongodb://localhost:27017/opq' meteor npm run start 
+$ MONGO_URL='mongodb://localhost:27017/opq' meteor npm run start
 ```
 This is simply the normal command to invoke OPQView (i.e. `meteor npm run start`, prefixed with the definition of the MONGO_URL environment variable specifying the port and database name associated with emilia.)
 
-### Run OPQView 
+### Run OPQView
 
 To start up OPQView on the local development database, run Meteor using our start script as follows:
 
 ```
-meteor npm run start 
+meteor npm run start
 ```
 
 You should seem messages like this in the console:
 
 ```
-$ meteor npm run start 
+$ meteor npm run start
 
 > opqview@ start /Users/philipjohnson/github/openpowerquality/opq/view/app
 > meteor --settings ../config/settings.development.json
 
 [[[[[ ~/github/openpowerquality/opq/view/app ]]]]]
 
-=> Started proxy.                             
-=> Started MongoDB.                           
+=> Started proxy.
+=> Started MongoDB.
 I20180328-12:38:05.148(-10)? Starting SyncedCron to update System Stats every 10 seconds.
 I20180328-12:38:05.207(-10)? Initializing 4 user profiles.
 I20180328-12:38:05.207(-10)? Initializing 5 OPQ boxes.
@@ -193,7 +188,7 @@ For OPQ View development, we highly recommend [IntelliJ IDEA](https://www.jetbra
 
 ### ESLint
 
-[ESLint](https://eslint.org/) is a static quality assurance tool that helps ensure that Javascript code conforms to best practices. For example, it can flag uses of `==`,  which should almost always be replaced by `===`.  For novice Javascript developers, ESLint can detect many significant problems in code due to inappropriate language use, and for more experienced Javascript developers, ESLint can help identify places where code can be improved by use of ES6 (and later) language constructs. 
+[ESLint](https://eslint.org/) is a static quality assurance tool that helps ensure that Javascript code conforms to best practices. For example, it can flag uses of `==`,  which should almost always be replaced by `===`.  For novice Javascript developers, ESLint can detect many significant problems in code due to inappropriate language use, and for more experienced Javascript developers, ESLint can help identify places where code can be improved by use of ES6 (and later) language constructs.
 
 To install ESLint in your development environment, please follow the instructions in the [Improve code quality using ESLint in IntelliJ](http://courses.ics.hawaii.edu/ics314s18/morea/coding-standards/experience-install-eslint.html).
 
@@ -201,29 +196,29 @@ To install ESLint in your development environment, please follow the instruction
 
 [React](https://reactjs.org/) is the Javascript framework used to build the OPQ View user interface. More specifically, we use a library built on top of React called [Semantic UI React](https://react.semantic-ui.com/).
 
-If you are not familiar with React or Semantic UI, you might want to work through the [ICS 314 React Module](http://courses.ics.hawaii.edu/ics314s18/modules/react/), which has a curated set of tutorial exercises.  
+If you are not familiar with React or Semantic UI, you might want to work through the [ICS 314 React Module](http://courses.ics.hawaii.edu/ics314s18/modules/react/), which has a curated set of tutorial exercises.
 
 Once you have basic familiarity with React, you can hopefully become facile with Semantic UI React by reading the OPQ View code. It's pretty straightforward, and the Semantic UI React documentation is excellent.
 
-### Uniforms 
+### Uniforms
 
 For form implementation, we use the [vazco/uniforms](https://github.com/vazco/uniforms) package, which simplifies form implementation, is well maintained, and works well with both Meteor and Semantic UI.
 
 ### React Time Series Charts
 
-For charts and visualizations, our first choice is the [ESNet React Time Series Charts](http://software.es.net/react-timeseries-charts/#/).  This charting library is designed with a variety of special features for time series data visualization.  Please try this package first, and consult other developers if you believe a different package will better suit your visualization needs. 
+For charts and visualizations, our first choice is the [ESNet React Time Series Charts](http://software.es.net/react-timeseries-charts/#/).  This charting library is designed with a variety of special features for time series data visualization.  Please try this package first, and consult other developers if you believe a different package will better suit your visualization needs.
 
 ## Quality Assurance
 
 ### Coding standards
 
-As noted above, we use ESLint to help ensure that OPQ View code adheres to the current best practices for Javascript and Meteor development. 
+As noted above, we use ESLint to help ensure that OPQ View code adheres to the current best practices for Javascript and Meteor development.
 
 To manually invoke ESLint, invoke `meteor npm run lint`. Here is an example invocation:
 
 ```
 app$ meteor npm run lint
-     
+
 > opqview@ lint /Users/philipjohnson/github/openpowerquality/opq/view/app
 > eslint --quiet --ext .jsx --ext .js ./imports
 ```
@@ -252,7 +247,7 @@ api/
   test/
   trends/
   users/
-``` 
+```
 
 Most of these directories contain files that implement an entity in the [OPQ Data Model](cloud-datamodel.md), such as "Event" or "Measurement". Each entity is implemented as a Javascript Class that encapsulates access to the underlying MongoDB collection, and also provides higher level methods (such as `define`, `update`, and `remove`) that ensure that the integrity of the data model is maintained as objects are created, modified, and deleted.
 
@@ -293,8 +288,8 @@ if (Meteor.isServer) {
       Trends.define({ box_id, timestamp_ms, voltage: trend3, frequency: trend3 });
     });
 
-// additional unit tests follow... 
-``` 
+// additional unit tests follow...
+```
 
 As you can see, there is code to set up and tear down the test fixture, and a unit test to exercise the define() and isDefined() methods in the Trends class instance.
 
@@ -306,57 +301,57 @@ To manually invoke all of the unit tests, use `meteor npm run test`. Here is an 
 > opqview@ test /Users/philipjohnson/github/openpowerquality/opq/view/app
 > METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha --no-release-check --port 3100
 
-[[[[[ Tests ]]]]]                             
+[[[[[ Tests ]]]]]
 
-=> Started proxy.                             
-=> Started MongoDB.                           
-I20180522-16:07:41.049(-10)?                  
+=> Started proxy.
+=> Started MongoDB.
+I20180522-16:07:41.049(-10)?
 I20180522-16:07:41.087(-10)? --------------------------------
 I20180522-16:07:41.088(-10)? ----- RUNNING SERVER TESTS -----
 I20180522-16:07:41.088(-10)? --------------------------------
-I20180522-16:07:41.088(-10)? 
-I20180522-16:07:41.088(-10)? 
-I20180522-16:07:41.089(-10)? 
+I20180522-16:07:41.088(-10)?
+I20180522-16:07:41.088(-10)?
+I20180522-16:07:41.089(-10)?
 I20180522-16:07:41.089(-10)?   LocationsCollection
 => Started your app.
 
 => App running at: http://localhost:3100/
     ✓ #define, #findLocation (212ms)
-I20180522-16:07:41.275(-10)? 
+I20180522-16:07:41.275(-10)?
 I20180522-16:07:41.275(-10)?   RegionsCollection
     ✓ #define, #findLocationsForRegion, #findRegionsForLocation (66ms)
-I20180522-16:07:41.382(-10)? 
+I20180522-16:07:41.382(-10)?
 I20180522-16:07:41.382(-10)?   BoxOwnersCollection
     ✓ #define, #findBoxesWithOwner, #findOwnersWithBox (58ms)
-I20180522-16:07:41.408(-10)? 
+I20180522-16:07:41.408(-10)?
 I20180522-16:07:41.408(-10)?   UserProfilesCollection
     ✓ #define, #isDefined, #findBoxIds, #findDoc, #findOne, #remove (161ms)
-I20180522-16:07:41.572(-10)? 
-I20180522-16:07:41.572(-10)? 
+I20180522-16:07:41.572(-10)?
+I20180522-16:07:41.572(-10)?
 I20180522-16:07:41.572(-10)?   4 passing (524ms)
-I20180522-16:07:41.572(-10)? 
-I20180522-16:07:41.573(-10)? 
+I20180522-16:07:41.572(-10)?
+I20180522-16:07:41.573(-10)?
 I20180522-16:07:41.573(-10)? --------------------------------
 I20180522-16:07:41.573(-10)? ----- RUNNING CLIENT TESTS -----
 I20180522-16:07:41.573(-10)? --------------------------------
-I20180522-16:07:43.033(-10)? 
-I20180522-16:07:43.035(-10)? 
+I20180522-16:07:43.033(-10)?
+I20180522-16:07:43.035(-10)?
 I20180522-16:07:43.036(-10)?   0 passing (3ms)
-I20180522-16:07:43.036(-10)? 
+I20180522-16:07:43.036(-10)?
 I20180522-16:07:43.093(-10)? All tests finished!
-I20180522-16:07:43.093(-10)? 
+I20180522-16:07:43.093(-10)?
 I20180522-16:07:43.094(-10)? --------------------------------
 I20180522-16:07:43.094(-10)? SERVER FAILURES: 0
 I20180522-16:07:43.094(-10)? CLIENT FAILURES: 0
 I20180522-16:07:43.094(-10)? --------------------------------
-~/g/o/o/v/app (master|✔) $ 
+~/g/o/o/v/app (master|✔) $
 ```
 
 There should be no server or client failures listed. There will also be no client tests at all. In OPQ View, all unit tests occur on the server side.
 
 ### Meteor Method testing
 
-When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via [Meteor Methods](https://guide.meteor.com/methods.html), which is basically a remote procedure call system. 
+When OPQ View client-side code needs to modify the contents of the MongoDB database, or perform complex data queries, it does this via [Meteor Methods](https://guide.meteor.com/methods.html), which is basically a remote procedure call system.
 
 We can validate the correct functioning of OPQ View's Meteor Methods using Meteor's "full app" testing mode.  This mode runs all of the tests in files named with the suffix `app-test.js`. In OPQ, the goal of "full app" testing is to exercise the remote procedure calls from the client to the server and make sure they can be invoked correctly.  Here is an excerpt from the [TrendsCollection.methods.app-test.js](https://github.com/openpowerquality/opq/blob/master/view/app/imports/api/trends/TrendsCollection.methods.app-test.js) file that shows a test of the "dailyTrends" Meteor Method:
 
@@ -403,20 +398,20 @@ To manually invoke Meteor Method testing, invoke `meteor npm run test-app`. Here
 > opqview@ test-app /Users/philipjohnson/github/openpowerquality/opq/view/app
 > METEOR_NO_RELEASE_CHECK=1 TEST_BROWSER_DRIVER=nightmare meteor test --full-app --once --driver-package meteortesting:mocha --port 3100
 
-[[[[[ Tests ]]]]]                             
+[[[[[ Tests ]]]]]
 
-=> Started proxy.                             
-=> Started MongoDB.                           
-I20180522-16:11:43.843(-10)?                  
+=> Started proxy.
+=> Started MongoDB.
+I20180522-16:11:43.843(-10)?
 I20180522-16:11:43.890(-10)? --------------------------------
 I20180522-16:11:43.891(-10)? --- RUNNING APP SERVER TESTS ---
 I20180522-16:11:43.891(-10)? --------------------------------
-I20180522-16:11:43.892(-10)? 
-I20180522-16:11:43.892(-10)? 
-I20180522-16:11:43.892(-10)? 
+I20180522-16:11:43.892(-10)?
+I20180522-16:11:43.892(-10)?
+I20180522-16:11:43.892(-10)?
 I20180522-16:11:43.893(-10)?   0 passing (0ms)
-I20180522-16:11:43.893(-10)? 
-I20180522-16:11:43.893(-10)? 
+I20180522-16:11:43.893(-10)?
+I20180522-16:11:43.893(-10)?
 I20180522-16:11:43.893(-10)? --------------------------------
 I20180522-16:11:43.894(-10)? --- RUNNING APP CLIENT TESTS ---
 I20180522-16:11:43.894(-10)? --------------------------------
@@ -424,9 +419,9 @@ I20180522-16:11:44.014(-10)? Defining test user: opqtestuser@hawaii.edu
 => Started your app.
 
 => App running at: http://localhost:3100/
-I20180522-16:11:46.286(-10)? 
-I20180522-16:11:46.286(-10)? 
-I20180522-16:11:46.496(-10)?   UserProfilesCollection Meteor Methods 
+I20180522-16:11:46.286(-10)?
+I20180522-16:11:46.286(-10)?
+I20180522-16:11:46.496(-10)?   UserProfilesCollection Meteor Methods
 I20180522-16:11:46.589(-10)?     Loaded database/fixture/minimal.fixture.json: Defines a single entity in a selection of OPQ collections to show how it's done.
 I20180522-16:11:46.589(-10)? Defining 2 locations documents.
 I20180522-16:11:46.655(-10)? Defining 2 regions documents.
@@ -439,33 +434,33 @@ I20180522-16:11:47.426(-10)?     ✓ Verify DB fixture
 I20180522-16:11:47.529(-10)?     ✓ Define Method (103ms)
 I20180522-16:11:47.540(-10)?     ✓ Update Method
 I20180522-16:11:47.558(-10)?     ✓ Remove Method
-I20180522-16:11:47.559(-10)? 
-I20180522-16:11:47.559(-10)? 
+I20180522-16:11:47.559(-10)?
+I20180522-16:11:47.559(-10)?
 I20180522-16:11:47.560(-10)?   4 passing (1s)
-I20180522-16:11:47.560(-10)? 
+I20180522-16:11:47.560(-10)?
 I20180522-16:11:47.608(-10)? All tests finished!
-I20180522-16:11:47.609(-10)? 
+I20180522-16:11:47.609(-10)?
 I20180522-16:11:47.609(-10)? --------------------------------
 I20180522-16:11:47.609(-10)? APP SERVER FAILURES: 0
 I20180522-16:11:47.609(-10)? APP CLIENT FAILURES: 0
 I20180522-16:11:47.610(-10)? --------------------------------
 ```
 
-As you can see, in contrast to unit tests, in which only server-side tests are run, only client-side tests are invoked in "app-test" mode. 
+As you can see, in contrast to unit tests, in which only server-side tests are run, only client-side tests are invoked in "app-test" mode.
 
 ### meteor npm run test-all
 
 It is a good idea to run all of the tests (i.e. coding standards, data model, and meteor methods) in the following situations:
 
   * Whenever you update your branch from master (to make sure the update has not introduced bugs into your branch)
-  
-  * Before you merge your changes from your branch into master (to make sure you are not introducing bugs into master)  
-  
+
+  * Before you merge your changes from your branch into master (to make sure you are not introducing bugs into master)
+
 You could invoke the three types of tests individually, but it's easier to run the test-all script which will invoke them all for you with one command:
 
 ```
 meteor npm run test-all
-``` 
+```
 
 ### Continuous Integration
 
