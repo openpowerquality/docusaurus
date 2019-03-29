@@ -2,6 +2,7 @@ digraph mauka_functional_diagram {
     // Define styles for certain nodes
     OPQMakai [shape=box];
     MongoDB [shape=cylinder];
+    OPQHealth [shape=box];
 
     // Coming from Makai
     OPQMakai -> MakaiEventPlugin [label="MakaiEvent"]
@@ -9,6 +10,8 @@ digraph mauka_functional_diagram {
     // From MaukaPlugin
     MaukaPlugin -> OutagePlugin [label="heartbeat"]
     MaukaPlugin -> StatusPlugin [label="heartbeat"]
+    MaukaPlugin -> LahaGcPlugin [label="heartbeat"]
+    MaukaPlugin -> SystemStatsPlugin [label="heartbeat"]
 
     // Coming from MakaiEventPlugin
     MakaiEventPlugin -> FrequencyVariationPlugin [label="WindowedFrequency"]
@@ -29,4 +32,21 @@ digraph mauka_functional_diagram {
     TransientPlugin -> MongoDB
     ThdPlugin -> MongoDB
     OutagePlugin -> MongoDB
+    SystemStatsPlugin -> MongoDB
+
+    // GC triggers
+    MakaiEventPlugin -> LahaGcPlugin [label="GcUpdate"]
+    FrequencyVariationPlugin -> LahaGcPlugin [label="GcUpdate"]
+    Ieee1159VoltagePlugin -> LahaGcPlugin [label="GcUpdate"]
+    IticPlugin -> LahaGcPlugin [label="GcUpdate"]
+    SemiF47Plugin -> LahaGcPlugin [label="GcUpdate"]
+    TransientPlugin -> LahaGcPlugin [label="GcUpdate"]
+    ThdPlugin -> LahaGcPlugin [label="GcUpdate"]
+
+    // Other GC
+    LahaGcPlugin -> SystemStatsPlugin [label="GcStats"]
+
+    // Misc
+    StatusPlugin -> OPQHealth
+
 }
