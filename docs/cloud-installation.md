@@ -471,7 +471,7 @@ LETSENCRYPT_EMAIL=admin@openpowerquality.org
 LETSENCRYPT_STAGING_MODE=0
 ```
 
-Finally, invoke the `init-letsencrypt.sh` script and following the prompts. The output should be nearly identical to
+Finally, invoke the `init-letsencrypt.sh` script and follow the prompts. The output should be nearly identical to
 that of the test run that was performed earlier:
 
 ```shell
