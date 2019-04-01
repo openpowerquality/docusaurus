@@ -19,7 +19,7 @@ digraph mauka_services_diagram {
         MaukaPluginManager -> MaukaCli [label="12000"]
     }
 
-    OPQMakai -> MakaiEventBridge [label="9899"]
+    OPQMakai -> MakaiEventBridge [label="10000"]
 
     OPQHealth[shape=box];
     OPQView[shape=box]
@@ -30,6 +30,4 @@ digraph mauka_services_diagram {
     MaukaPlugins -> OPQHealth [label="8911"]
 
     MongoDB -> OPQView [label="27017"]
-
-    MaukaPlugins -> OPQMakai [label="9884"]
 }
