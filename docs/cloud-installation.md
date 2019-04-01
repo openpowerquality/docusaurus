@@ -366,8 +366,8 @@ LETSENCRYPT_STAGING_MODE=1
 
 ### Perform a test run with LETSENCRYPT_STAGING_MODE = 1
 
-Before we begin, ensure that all OPQ Cloud services are down by changing into the `opq-docker` directory and invoking
-`docker-compose down`.
+Before we begin, ensure that all OPQ Cloud services are shut down by changing into the `opq-docker` directory and
+invoking `docker-compose down`.
 
 Then, invoke the `init-letsencrypt.sh` script and follow the prompts. It should look something like this:
 
@@ -460,7 +460,7 @@ to display the SSL certificates of the web site being visited. On Chrome, it sho
 
 Now that everything looks good, we can now go ahead and request a real SSL certificate!
 
-First, shut down all OPQ Cloud services being changing into the `opq-docker` directory and invoking `docker-compose down`.
+First, shut down all OPQ Cloud services by changing into the `opq-docker` directory and invoking `docker-compose down`.
 
 Then, open the `opq-docker/config/nginx/nginx.env` file and set the `LETSENCRYPT_STAGING_MODE` variable to `0`.
 The file should now look something like this:
