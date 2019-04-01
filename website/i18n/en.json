@@ -20,6 +20,8 @@
     "Docker": "Docker",
     "cloud-health": "OPQ Health",
     "Health": "Health",
+    "cloud-healthv2": "OPQ Health v2",
+    "Health v2": "Health v2",
     "cloud-installation": "OPQ Cloud Installation",
     "Installation": "Installation",
     "cloud-makai": "OPQ Makai",
