@@ -45,13 +45,6 @@ sudo chgrp -R opqdev /var/opq
 sudo chmod -R g+rwx /var/opq
 ```
 
-### Setup Public Key Authentication (Optional)
-On the server, generate a new key pair.
-
-`ssh-keygen -t rsa -b 4096`
-
-Then, for each user, copy the contents of their `~/.ssh/id_rsa.pub` file into the server's `~/.ssh/authorized_keys` file. If `~/.ssh/authorized_keys` does not exist on the server, create it.
-
 ## Install System Dependencies
 There are a few system dependencies that are required for setting up OPQ Cloud. These include git, docker, and docker-compose.
 
@@ -367,6 +360,14 @@ You may want to setup MongoDB backups as described here: https://openpowerqualit
 There is a large list of docker functions and aliases for interacting with docker at https://github.com/openpowerquality/opq/blob/master/util/system/system-utils.sh .
 
 Copy this file into each user's home directory at `~/system-utils.sh`. Then, at the end of each user's `~/.bashrc` file, add the line `source system-utils.sh` so that you can access these utilities from the command line.
+
+### Setup Public Key Authentication
+On the server, generate a new key pair.
+
+`ssh-keygen -t rsa -b 4096`
+
+Then, for each user, copy the contents of their `~/.ssh/id_rsa.pub` file into the server's `~/.ssh/authorized_keys` file. If `~/.ssh/authorized_keys` does not exist on the server, create it.
+
 
 ## Test the Installation
 If everything goes well, you should now be able to access OPQView at the new endpoint. In our case, you can navigate to https://ics02.colo.hawaii.edu .
