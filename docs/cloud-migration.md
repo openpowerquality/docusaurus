@@ -109,8 +109,9 @@ Finally, perform the restoration of the MongoDB backup by following instructions
 
 At this time, you may wish to install a mongo client locally on the server to verify that the contents of the database have been restored correctly. 
 
-## Update Configs
-### Update Makai Configs
+## Update Configs and Required Directories/Files
+
+### Update Makai
 Makai requires a special private key to provide encryption to OPQ Boxes. First, create a directory to hold the key:
 
 `sudo mkdir -p /etc/opq/curve/private_keys`
@@ -125,24 +126,185 @@ sudo chmod -R 551 /etc/opq/curve
 sudo chmod 440 /etc/opq/curve/private_keys/opqserver_secret
 ```
 
-### Update box-update-server Configs
+### Update box-update-server
 Create the directory `/var/opq/box-updates`.
 
 `mkdir -p /var/opq/box-updates`
 
 This directory is used to store updates for OPQ Boxes read by the box-update-server docker service. See https://openpowerquality.org/docs/cloud-box-update-server.html for more information.
 
-### Update Let's Encrypt Configs
+### Update nginx and Let's Encrypt
+In order for nginx to properly forward connections, we need to update its config to point to the new server's host name.
+
+Edit the file `opq-docker/config/nginx/nginx.env`. 
+
+Change the key `NGINX_SERVER_NAME` to point to your new host name.
+
+Change the key `LETSENCRYPT_EMAIL` to the main system administrator of your new OPQ Cloud deployment. The following is 
+an example of `opq-docker/config/nginx/nginx.env` after we updated it for our new host name.
+
+```
+# Required for Nginx's server_name directive (in app.conf.template), as well as View's ROOT_URL env var.
+# Also used by the init-letsencrypt.sh script for setting up SSL certs for https.
+NGINX_SERVER_NAME=ics02.colo.hawaii.edu
+
+# Used by the init-letsencrypt.sh script for setting up SSL certs for https.
+# It is recommended to set a valid email address when requesting a certificate from LetsEncrypt.
+# Set LETSENCRYPT_STAGING_MODE to 1 while testing your setup to avoid hitting cert request limits. Set it back to 0
+# when you are ready to request real certificates.
+LETSENCRYPT_EMAIL=aghalarp@hawaii.edu
+LETSENCRYPT_STAGING_MODE=0
+```
+
+Update the two `server_name` keys in `opq-docker/data/nginx/app.conf` to point to your new host name.
+
+An example of this file after we migrated is provided below. 
+
+```
+upstream view_app {
+    server view:8888;
+}
+
+upstream boxupdateserver_health_server {
+    server boxupdateserver:8151;
+}
+
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+server {
+    listen 80;
+    server_name ics02.colo.hawaii.edu;
+    server_tokens off;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name ics02.colo.hawaii.edu;
+    server_tokens off;
+
+    ssl_certificate /etc/letsencrypt/live/ics02.colo.hawaii.edu/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/ics02.colo.hawaii.edu/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    client_max_body_size 10M;
+
+    # View Proxy
+    location / {
+        proxy_pass  http://view_app/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $http_host;
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forward-Proto $scheme;
+        proxy_set_header X-Nginx-Proxy true;
+
+        proxy_redirect off;
+
+        proxy_connect_timeout 43200s;
+        proxy_read_timeout    43200s;
+        proxy_send_timeout    43200s;
+    }
+
+    # Box Updater Server Proxy
+    location /box-update-server/ {
+        proxy_pass  http://boxupdateserver_health_server/;
+        proxy_redirect ~^/(.*) http://$http_host/box-update-server/$1;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forward-Proto $scheme;
+        proxy_set_header X-Nginx-Proxy true;
+    }
+}
+```
+
+### Update Health
+Edit the file at `opq-docker/config/health/health.config.json`. Update the service with name `mongo` to match the following:
+
+```
+{
+      "name": "mongo",
+      "url": "http://localhost:28420"
+},
+```
+
+Update the `view` service config with the new host:
+
+```
+{
+      "name": "view",
+      "url": "https://ics02.colo.hawaii.edu/health"
+},
+```
+
+The following is an example of our health config after migration:
+
+```
+{
+  "interval": 20,
+  "mongo_host": "mongo",
+  "mongo_port": 27017,
+  "mongo_service_checker_addr": "0.0.0.0:28420",
+  "services": [
+    {
+      "name": "mongo",
+      "url": "http://localhost:28420"
+    },
+    {
+      "name": "view",
+      "url": "https://ics02.colo.hawaii.edu/health"
+    },
+    {
+      "name": "makai",
+      "url": "http://makai:8080"
+    },
+    {
+      "name": "mauka",
+      "url": "http://mauka:8911"
+    }
+  ]
+}
+```
+
+## Initialize Lets Encrypt
 First, if you've copied over opq-docker from a previous server, you need to clear the `opq-docker/data/certbot` directory.
 
 `rm -rf opq-docker/data/certbot/*`
 
+Next, run the script `opq-docker/init-letsencrypt.sh`
 
-### Update Health Configs
-
-## Initialize Lets Encrypt
+You should see a successful message about acquiring an HTTPS certificate from letsencrypt. 
 
 ## Start OPQ Cloud
+
+Now that all of the configurations have been updated and the infrastructure put in place, you can start the rest of the OPQ Cloud system
+
+```
+cd /var/opq/opq-docker
+docker-compose down
+./docker-compose-run.sh
+```
+
+You can verify that all docker images are running with `docker ps`.
 
 ## Update Deployed OPQ Boxes
 
@@ -196,6 +358,15 @@ An example of the configuration file after moving servers from `emilia.ics.hawai
 Once the changes to the config file have been saved, reboot the box:
 
 `sudo reboot`
+
+## Optional Installation Steps
+### Automated MongoDB Backups
+You may want to setup MongoDB backups as described here: https://openpowerquality.org/docs/cloud-mongodb.html#automating-backups
+
+### Docker helper functions and aliases
+There is a large list of docker functions and aliases for interacting with docker at https://github.com/openpowerquality/opq/blob/master/util/system/system-utils.sh .
+
+Copy this file into each user's home directory at `~/system-utils.sh`. Then, at the end of each user's `~/.bashrc` file, add the line `source system-utils.sh` so that you can access these utilities from the command line.
 
 ## Test the Installation
 If everything goes well, you should now be able to access OPQView at the new endpoint. In our case, you can navigate to https://ics02.colo.hawaii.edu .
