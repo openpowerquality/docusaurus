@@ -41,7 +41,7 @@ class Footer extends React.Component {
             <a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a>
             <a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a>
             <a href={this.props.config.baseUrl + 'blog'}>News</a>
-            <a href="http://emilia.ics.hawaii.edu">Emilia (public OPQ View)</a>
+            <a href="https://ics02.colo.hawaii.edu/">Public OPQ Cloud</a>
             <a href={this.props.config.baseUrl + 'contact-us.html'}>Contact Us</a>
           </div>
           <div>

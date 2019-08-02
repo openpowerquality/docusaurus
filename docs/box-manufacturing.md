@@ -9,6 +9,8 @@ OPQBox manufacture is done in three steps. First, the PCB has to be manufactured
 
 A PCB vendor will require you to provide them with the Gerber files, drill file and PCB dimensions. The PCB is a 4 layer 100mm X 100mm board with minimum trace width of 6 mil. The PCB repository contains the latest Gerbers and drill files [here](https://github.com/openpowerquality/opq/tree/master/box/Schematics/Gerbers). Additional this directory contains the the component position [file](https://github.com/openpowerquality/opq/blob/master/box/Schematics/Gerbers/Positions.txt), which will be used for assembly. If your PCB board house provides a gerber preview, make sure that the preview looks similar to the images below:
 
+https://github.com/openpowerquality/opq/tree/master/box
+
 <img src="/docs/assets/box/opqbox_gerber_top.png" width="400px">
 
 <img src="/docs/assets/box/opqbox_gerber_bottom.png" width="400px">
