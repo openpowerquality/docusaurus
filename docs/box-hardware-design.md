@@ -13,9 +13,24 @@ Currently, an OPQ Box device looks like this:
 
 <img src="/docs/assets/box/opqbox-feb-2019-wide.jpg">
 
+## Safety
+Schematics for the latest version of the device can be found [here](https://github.com/openpowerquality/opq/blob/master/box/Schematics/v3/opqbox3.pdf).
+Furthermore an annotated bill of materials is located [here](https://github.com/openpowerquality/opq/blob/master/box/Schematics/v3/manufacturer_files/bom.csv).
+The list of components composing the hot side of the device is as follows:
+
+| Component | Datasheet | Description|Certification|
+|-----------|:---------:|:-----------|:------------|
+|IRM-15-5   | [here](https://www.meanwell.com/Upload/PDF/IRM-15/IRM-15-SPEC.PDF) | \(120V_{ac}\) to 5V isolated DC-DC converter.| UL60950-1, EN60950-1|
+|AMC1100 | [here](http://www.ti.com/lit/ds/symlink/amc1100.pdf) | Isolation Transformer.| UL1577,IEC60747-5-2 |
+|ADuM5010| [here](https://www.analog.com/media/en/technical-documentation/data-sheets/ADuM5010.pdf) | Isolated DC-DC. | UL 1577|
+| CMF551 | [here](https://www.mouser.com/datasheet/2/427/cmfind-111261.pdf) | Flameproof resistor. |  MIL-STD-202 tested |
+|RSTA-1-BULK| [here](https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-rsta-series.pdf) | Main system fuse. | IEC 60127-3 | 
+|0466.125NR	| [here](https://www.littelfuse.com/~/media/electronics/datasheets/fuses/littelfuse_fuse_466_datasheet.pdf.pdf) | Measurement system fuse | ISO 9001:2015, ISO 14001:2015   |
+
+
 ## Hardware components
 
-The following diagram illustrates OPQ Box hardware components:
+The following diagram illustrates OPQ Box hardware components, 
 
 <img src="/docs/assets/box/opqbox_diagram.png" width="100%">
 
