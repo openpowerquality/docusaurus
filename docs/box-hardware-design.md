@@ -14,8 +14,11 @@ Currently, an OPQ Box device looks like this:
 <img src="/docs/assets/box/opqbox-feb-2019-wide.jpg">
 
 ## Safety
-Schematics for the latest version of the device can be found [here](https://github.com/openpowerquality/opq/blob/master/box/Schematics/v3/opqbox3.pdf).
-Furthermore an annotated bill of materials is located [here](https://github.com/openpowerquality/opq/blob/master/box/Schematics/v3/manufacturer_files/bom.csv).
+
+The schematics for the latest version of the device can be found [here](https://github.com/openpowerquality/opq/blob/master/box/Schematics/v3/opqbox3.pdf).  These schematics have been informally reviewed by multiple licensed electrical engineers for both functionality and safety.  
+  
+An annotated bill of materials is located [here](https://github.com/openpowerquality/opq/blob/master/box/Schematics/v3/manufacturer_files/bom.csv).
+
 The list of components composing the hot side of the device is as follows:
 
 | Component | Datasheet | Description|Certification|
@@ -26,6 +29,8 @@ The list of components composing the hot side of the device is as follows:
 | CMF551 | [here](https://www.mouser.com/datasheet/2/427/cmfind-111261.pdf) | Flameproof resistor. |  MIL-STD-202 tested |
 |RSTA-1-BULK| [here](https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-rsta-series.pdf) | Main system fuse. | IEC 60127-3 | 
 |0466.125NR	| [here](https://www.littelfuse.com/~/media/electronics/datasheets/fuses/littelfuse_fuse_466_datasheet.pdf.pdf) | Measurement system fuse | ISO 9001:2015, ISO 14001:2015   |
+
+At this time, we have not sought UL Listing for the box as a whole.
 
 
 ## Hardware components
