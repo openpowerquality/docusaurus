@@ -4,185 +4,85 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Open source hardware and software for low-cost distributed power quality data collection, analysis, and visualization.",
-    "docs": {
-      "box-hardware-design": {
-        "title": "OPQ Box Hardware Design",
-        "sidebar_label": "Hardware Design"
-      },
-      "box-manufacturing": {
-        "title": "Manufacturing an OPQ Box",
-        "sidebar_label": "Manufacturing"
-      },
-      "box-overview": {
-        "title": "OPQ Box Overview",
-        "sidebar_label": "Overview"
-      },
-      "box-software-design": {
-        "title": "OPQ Box Software Design",
-        "sidebar_label": "Software Design"
-      },
-      "cloud-box-update-server": {
-        "title": "OPQ Box Update Server",
-        "sidebar_label": "Box Update Server"
-      },
-      "cloud-datamodel": {
-        "title": "OPQ Data Model",
-        "sidebar_label": "Data Model"
-      },
-      "cloud-docker": {
-        "title": "Building, Publishing, and Deploying OPQ Cloud services with Docker",
-        "sidebar_label": "Docker"
-      },
-      "cloud-health": {
-        "title": "OPQ Health",
-        "sidebar_label": "Health"
-      },
-      "cloud-healthv2": {
-        "title": "OPQ Health v2",
-        "sidebar_label": "Health v2"
-      },
-      "cloud-installation": {
-        "title": "OPQ Cloud Installation",
-        "sidebar_label": "Installation"
-      },
-      "cloud-makai": {
-        "title": "OPQ Makai",
-        "sidebar_label": "Makai"
-      },
-      "cloud-mauka": {
-        "title": "OPQ Mauka",
-        "sidebar_label": "Mauka"
-      },
-      "cloud-migration": {
-        "title": "Server Migration",
-        "sidebar_label": "Cloud Migration"
-      },
-      "cloud-mongodb": {
-        "title": "MongoDB",
-        "sidebar_label": "MongoDB"
-      },
-      "cloud-overview": {
-        "title": "OPQ Cloud Overview",
-        "sidebar_label": "Overview"
-      },
-      "cloud-port-map": {
-        "title": "OPQ Cloud Port Map",
-        "sidebar_label": "Port Map"
-      },
-      "cloud-protocol": {
-        "title": "OPQ Protocol",
-        "sidebar_label": "Protocol"
-      },
-      "cloud-view": {
-        "title": "OPQ View",
-        "sidebar_label": "View"
-      },
-      "developerguide-bibliography": {
-        "title": "Bibliography",
-        "sidebar_label": "Bibliography"
-      },
-      "developerguide-docusaurus": {
-        "title": "Documentation",
-        "sidebar_label": "Documentation"
-      },
-      "developerguide-emilia-ssh": {
-        "title": "Emilia SSH Access",
-        "sidebar_label": "Emilia SSH"
-      },
-      "developerguide-virtual-machine": {
-        "title": "Virtual Machine and Simulator",
-        "sidebar_label": "VM & Sim"
-      },
-      "intro-bibliography": {
-        "title": "Bibliography",
-        "sidebar_label": "Bibliography"
-      },
-      "intro-heilmeier-catechism": {
-        "title": "The Heilmeier Catechism for OPQ",
-        "sidebar_label": "The Heilmeier Catechism"
-      },
-      "intro-information-architecture": {
-        "title": "OPQ Information Architecture",
-        "sidebar_label": "OPQ Information Architecture"
-      },
-      "intro-motivation": {
-        "title": "Motivation for OPQ",
-        "sidebar_label": "Motivation for OPQ"
-      },
-      "intro-power-quality": {
-        "title": "A beginner's guide to power quality",
-        "sidebar_label": "A beginner's guide to power quality"
-      },
-      "intro-related-work": {
-        "title": "Related Work",
-        "sidebar_label": "Related Work"
-      },
-      "intro-system-architecture": {
-        "title": "OPQ System Architecture",
-        "sidebar_label": "OPQ System Architecture"
-      },
-      "old/deploy-docker": {
-        "title": "Deployment: Docker",
-        "sidebar_label": "Docker"
-      },
-      "old/emilia-docker": {
-        "title": "Using Docker on Emilia",
-        "sidebar_label": "Docker"
-      },
-      "old/emilia-health": {
-        "title": "Emilia Health",
-        "sidebar_label": "Health"
-      },
-      "old/emilia-makai": {
-        "title": "Makai on Emilia",
-        "sidebar_label": "Makai"
-      },
-      "old/emilia-mauka": {
-        "title": "Mauka on Emilia",
-        "sidebar_label": "Mauka"
-      },
-      "old/emilia-mongodb": {
-        "title": "MongoDB on Emilia",
-        "sidebar_label": "MongoDB"
-      },
-      "old/emilia-view": {
-        "title": "Deployment: View",
-        "sidebar_label": "View"
-      },
-      "other-agile-power-monitoring": {
-        "title": "Agile Power Monitoring for UH"
-      },
-      "other-g1-pilot-study": {
-        "title": "G1 Pilot Study (2014)"
-      },
-      "other-opportunities": {
-        "title": "R&D Opportunities"
-      },
-      "other-roadmap": {
-        "title": "Roadmap"
-      },
-      "userguide-hardware": {
-        "title": "OPQ Box User Guide",
-        "sidebar_label": "OPQ Box"
-      },
-      "userguide-software": {
-        "title": "OPQ Cloud User Guide",
-        "sidebar_label": "OPQ Cloud"
-      }
-    },
-    "links": {
-      "Documentation": "Documentation",
-      "Opportunities": "Opportunities",
-      "News": "News"
-    },
-    "categories": {
-      "Introduction": "Introduction",
-      "User Guide": "User Guide",
-      "Developer Guide: OPQ Box": "Developer Guide: OPQ Box",
-      "Developer Guide: OPQ Cloud": "Developer Guide: OPQ Cloud",
-      "Developer Guide: Misc": "Developer Guide: Misc",
-      "Other": "Other"
-    }
+    "box-hardware-design": "OPQ Box Hardware Design",
+    "Hardware Design": "Hardware Design",
+    "box-manufacturing": "Manufacturing an OPQ Box",
+    "Manufacturing": "Manufacturing",
+    "box-overview": "OPQ Box Overview",
+    "Overview": "Overview",
+    "box-software-design": "OPQ Box Software Design",
+    "Software Design": "Software Design",
+    "cloud-box-update-server": "OPQ Box Update Server",
+    "Box Update Server": "Box Update Server",
+    "cloud-datamodel": "OPQ Data Model",
+    "Data Model": "Data Model",
+    "cloud-docker": "Building, Publishing, and Deploying OPQ Cloud services with Docker",
+    "Docker": "Docker",
+    "cloud-health": "OPQ Health",
+    "Health": "Health",
+    "cloud-healthv2": "OPQ Health v2",
+    "Health v2": "Health v2",
+    "cloud-installation": "OPQ Cloud Installation",
+    "Installation": "Installation",
+    "cloud-makai": "OPQ Makai",
+    "Makai": "Makai",
+    "cloud-mauka": "OPQ Mauka",
+    "Mauka": "Mauka",
+    "cloud-migration": "Server Migration",
+    "Cloud Migration": "Cloud Migration",
+    "cloud-mongodb": "MongoDB",
+    "MongoDB": "MongoDB",
+    "cloud-overview": "OPQ Cloud Overview",
+    "cloud-port-map": "OPQ Cloud Port Map",
+    "Port Map": "Port Map",
+    "cloud-protocol": "OPQ Protocol",
+    "Protocol": "Protocol",
+    "cloud-view": "OPQ View",
+    "View": "View",
+    "developerguide-bibliography": "Bibliography",
+    "Bibliography": "Bibliography",
+    "developerguide-docusaurus": "Documentation",
+    "Documentation": "Documentation",
+    "developerguide-emilia-ssh": "Emilia SSH Access",
+    "Emilia SSH": "Emilia SSH",
+    "developerguide-virtual-machine": "Virtual Machine and Simulator",
+    "VM & Sim": "VM & Sim",
+    "intro-bibliography": "Bibliography",
+    "intro-heilmeier-catechism": "The Heilmeier Catechism for OPQ",
+    "The Heilmeier Catechism": "The Heilmeier Catechism",
+    "intro-information-architecture": "OPQ Information Architecture",
+    "OPQ Information Architecture": "OPQ Information Architecture",
+    "intro-motivation": "Motivation for OPQ",
+    "Motivation for OPQ": "Motivation for OPQ",
+    "intro-power-quality": "A beginner's guide to power quality",
+    "A beginner's guide to power quality": "A beginner's guide to power quality",
+    "intro-related-work": "Related Work",
+    "Related Work": "Related Work",
+    "intro-system-architecture": "OPQ System Architecture",
+    "OPQ System Architecture": "OPQ System Architecture",
+    "deploy-docker": "Deployment: Docker",
+    "emilia-docker": "Using Docker on Emilia",
+    "emilia-health": "Emilia Health",
+    "emilia-makai": "Makai on Emilia",
+    "emilia-mauka": "Mauka on Emilia",
+    "emilia-mongodb": "MongoDB on Emilia",
+    "emilia-view": "Deployment: View",
+    "other-agile-power-monitoring": "Agile Power Monitoring for UH",
+    "other-g1-pilot-study": "G1 Pilot Study (2014)",
+    "other-opportunities": "R&D Opportunities",
+    "other-roadmap": "Roadmap",
+    "userguide-hardware": "OPQ Box User Guide",
+    "OPQ Box": "OPQ Box",
+    "userguide-software": "OPQ Cloud User Guide",
+    "OPQ Cloud": "OPQ Cloud",
+    "Opportunities": "Opportunities",
+    "News": "News",
+    "Introduction": "Introduction",
+    "User Guide": "User Guide",
+    "Developer Guide: OPQ Box": "Developer Guide: OPQ Box",
+    "Developer Guide: OPQ Cloud": "Developer Guide: OPQ Cloud",
+    "Developer Guide: Misc": "Developer Guide: Misc",
+    "Other": "Other"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

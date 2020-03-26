@@ -4,6 +4,9 @@ author: Philip Johnson
 authorURL: http://philipmjohnson.org
 ---
 
+<div style="padding-bottom: 50px">
+<img src="/docs/assets/people/negrashov.jpg" class="center-block img-responsive" style="margin-left: 15px; margin-bottom: 10px; float: right" width="150px">
+
 The OPQ team is delighted to announce that Serge Negrashov has successfully completed his Ph.D. dissertation: "Design, Implementation, and Evaluation of Napali: A novel distributed sensor network for improved power quality monitoring". The complete dissertation is available at [http://csdl.ics.hawaii.edu/techreports/2020/20-02/20-02.pdf](http://csdl.ics.hawaii.edu/techreports/2020/20-02/20-02.pdf).
 
 Here's the abstract:
