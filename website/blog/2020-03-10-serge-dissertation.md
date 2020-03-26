@@ -7,6 +7,7 @@ authorURL: http://philipmjohnson.org
 <div style="padding-bottom: 50px">
 <img src="/docs/assets/people/negrashov.jpg" class="center-block img-responsive" style="margin-left: 15px; margin-bottom: 10px; float: right" width="150px">
 
+
 The OPQ team is delighted to announce that Serge Negrashov has successfully completed his Ph.D. dissertation: "Design, Implementation, and Evaluation of Napali: A novel distributed sensor network for improved power quality monitoring". The complete dissertation is available at [http://csdl.ics.hawaii.edu/techreports/2020/20-02/20-02.pdf](http://csdl.ics.hawaii.edu/techreports/2020/20-02/20-02.pdf).
 
 Here's the abstract:
@@ -30,3 +31,4 @@ Additionally, Napali was compared with standard methods of power quality event d
 Napali methodology outperformed the standard methods of power quality monitoring in resource consumption, event quality and sensitivity.
 Additionally, I was able to validate that residential utility monitoring is capable of event detection and localization without monitoring higher levels of the power grid hierarchy.
 Finally, as a demonstration of Napali capabilities, I showed how data collected by my framework can be used to partition the power delivery infrastructure without prior knowledge of the power grid topology.
+</div>
