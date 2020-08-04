@@ -4,7 +4,7 @@
         <title>Open Power Quality Blog</title>
         <link>https://openpowerquality.org/blog</link>
         <description>The best place to stay up-to-date with the latest Open Power Quality news and events.</description>
-        <lastBuildDate>Fri, 30 Nov 2018 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 04 Aug 2020 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
@@ -12,7 +12,61 @@
             <url>https://openpowerquality.org/img/opqlogo_white.png</url>
             <link>https://openpowerquality.org/blog</link>
         </image>
-        <copyright>Copyright © 2019Open Power Quality</copyright>
+        <copyright>Copyright © 2020Open Power Quality</copyright>
+        <item>
+            <title><![CDATA[OPQ Study published in Energies]]></title>
+            <link>https://openpowerquality.org/blog/2020/08/04/energies.html</link>
+            <guid>https://openpowerquality.org/blog/2020/08/04/energies.html</guid>
+            <pubDate>Tue, 04 Aug 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>The OPQ team is happy to announce the publication of an article in the journal Energies entitled : &quot;Design, Implementation, and Evaluation of Open Power Quality&quot;.</p>
+<p>Here's the abstract:</p>
+<p>Modern electrical grids are transitioning from a centralized gen</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Serge Negrashov completes Ph.D. dissertation]]></title>
+            <link>https://openpowerquality.org/blog/2020/03/10/serge-dissertation.html</link>
+            <guid>https://openpowerquality.org/blog/2020/03/10/serge-dissertation.html</guid>
+            <pubDate>Tue, 10 Mar 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<div style="padding-bottom: 50px">
+<img src="/docs/assets/people/negrashov.jpg" class="center-block img-responsive" style="margin-left: 15px; margin-bottom: 10px; float: right" width="150px">
+<p>The OPQ team is delighted to announce that Serge Negrash</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Anthony Christe completes Ph.D. dissertation]]></title>
+            <link>https://openpowerquality.org/blog/2020/02/24/anthony-dissertation.html</link>
+            <guid>https://openpowerquality.org/blog/2020/02/24/anthony-dissertation.html</guid>
+            <pubDate>Mon, 24 Feb 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<div style="padding-bottom: 50px">
+<img src="/docs/assets/people/christe.png" class="center-block img-responsive" style="margin-left: 15px; margin-bottom: 10px; float: right" width="150px">
+<p>The OPQ team is delighted to announce the Anthony Christe h</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[University of Hawaii releases video on OPQ]]></title>
+            <link>https://openpowerquality.org/blog/2019/10/27/video.html</link>
+            <guid>https://openpowerquality.org/blog/2019/10/27/video.html</guid>
+            <pubDate>Sun, 27 Oct 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>As part of the <a href="https://www.hawaii.edu/research/future-focus-2019/">2019 University of Hawaii Future Focus Conference</a>, the University developed a short video on the Open Power Quality project which was shown to attendees.  This video is now publicly</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[OPQ collaborates with Electric Power Research Institute (EPRI)]]></title>
+            <link>https://openpowerquality.org/blog/2019/10/07/epri.html</link>
+            <guid>https://openpowerquality.org/blog/2019/10/07/epri.html</guid>
+            <pubDate>Mon, 07 Oct 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>The OPQ Team is pleased to announce its collaboration with EPRI (Electric Power Research Institute).  For the past six months, EPRI has been evaluating OPQ technology to assess its ability to support the evaluation of advanced power quality analytics</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[OPQ's transient classification system published in Energy 2019]]></title>
+            <link>https://openpowerquality.org/blog/2019/06/01/energy-2019.html</link>
+            <guid>https://openpowerquality.org/blog/2019/06/01/energy-2019.html</guid>
+            <pubDate>Sat, 01 Jun 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>We are pleased to announce the publication of &quot;A transient classification system implementation on an open source distributed power quality network&quot;, by Charles Dickens, Anthony J. Christe, and Philip M. Johnson, in the [Ninth International Conferenc</p>
+]]></description>
+        </item>
         <item>
             <title><![CDATA[OPQ Ph.D. proposals now available]]></title>
             <link>https://openpowerquality.org/blog/2018/11/30/phd-proposals.html</link>

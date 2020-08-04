@@ -6,6 +6,12 @@
 <url> <loc>https://openpowerquality.org/index.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/index.html" /> </url>
 <url> <loc>https://openpowerquality.org/indexOriginal.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/indexOriginal.html" /> </url>
 <url> <loc>https://openpowerquality.org/team.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/en/team.html" /> </url>
+<url> <loc>https://openpowerquality.org/blog/2020/08/04/energies.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://openpowerquality.org/blog/2020/03/10/serge-dissertation.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://openpowerquality.org/blog/2020/02/24/anthony-dissertation.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://openpowerquality.org/blog/2019/10/27/video.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://openpowerquality.org/blog/2019/10/07/epri.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://openpowerquality.org/blog/2019/06/01/energy-2019.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://openpowerquality.org/blog/2018/11/30/phd-proposals.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://openpowerquality.org/blog/2018/11/20/shirts.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://openpowerquality.org/blog/2018/06/20/electromaker-connectivity-contest.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
@@ -36,6 +42,7 @@
 <url> <loc>https://openpowerquality.org/docs/cloud-installation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-installation.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/cloud-makai.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-makai.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/cloud-mauka.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-mauka.html" /> </url>
+<url> <loc>https://openpowerquality.org/docs/cloud-migration.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-migration.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/cloud-mongodb.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-mongodb.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/cloud-overview.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-overview.html" /> </url>
 <url> <loc>https://openpowerquality.org/docs/cloud-port-map.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://openpowerquality.org/docs/cloud-port-map.html" /> </url>

@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Server Migration · Open Power Quality</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Server Migration · Open Power Quality"/><meta property="og:type" content="website"/><meta property="og:url" content="https://openpowerquality.org/index.html"/><meta property="og:description" content="This page documents the steps required for migrating an existing OPQ Cloud installation to a new server. "/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/opq.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://openpowerquality.org/blog/atom.xml" title="Open Power Quality Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://openpowerquality.org/blog/feed.xml" title="Open Power Quality Blog RSS Feed"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gugi"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/javascript" src="/js/mathjax-config.js"></script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/opqlogo_white.png" alt="Open Power Quality"/><h2 class="headerTitleWithLogo">Open Power Quality</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/intro-motivation.html" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/docs/other-opportunities.html" target="_self">Opportunities</a></li><li class=""><a href="/blog" target="_self">News</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Developer Guide: OPQ Cloud</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Introduction</h3><ul><li class="navListItem"><a class="navItem" href="/docs/intro-motivation.html">Motivation for OPQ</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-power-quality.html">A beginner&#x27;s guide to power quality</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-system-architecture.html">OPQ System Architecture</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-information-architecture.html">OPQ Information Architecture</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-related-work.html">Related Work</a></li><li class="navListItem"><a class="navItem" href="/docs/intro-bibliography.html">Bibliography</a></li></ul></div><div class="navGroup navGroupActive"><h3>User Guide</h3><ul><li class="navListItem"><a class="navItem" href="/docs/userguide-hardware.html">OPQ Box</a></li><li class="navListItem"><a class="navItem" href="/docs/userguide-software.html">OPQ Cloud</a></li></ul></div><div class="navGroup navGroupActive"><h3>Developer Guide: OPQ Box</h3><ul><li class="navListItem"><a class="navItem" href="/docs/box-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/box-hardware-design.html">Hardware Design</a></li><li class="navListItem"><a class="navItem" href="/docs/box-software-design.html">Software Design</a></li><li class="navListItem"><a class="navItem" href="/docs/box-manufacturing.html">Manufacturing</a></li></ul></div><div class="navGroup navGroupActive"><h3>Developer Guide: OPQ Cloud</h3><ul><li class="navListItem"><a class="navItem" href="/docs/cloud-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-datamodel.html">Data Model</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-view.html">View</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-mauka.html">Mauka</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-makai.html">Makai</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-health.html">Health</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-healthv2.html">Health v2</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-box-update-server.html">Box Update Server</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-mongodb.html">MongoDB</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-protocol.html">Protocol</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-port-map.html">Port Map</a></li><li class="navListItem"><a class="navItem" href="/docs/cloud-docker.html">Docker</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/cloud-migration.html">Cloud Migration</a></li></ul></div><div class="navGroup navGroupActive"><h3>Developer Guide: Misc</h3><ul><li class="navListItem"><a class="navItem" href="/docs/developerguide-docusaurus.html">Documentation</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-virtual-machine.html">VM &amp; Sim</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-bibliography.html">Bibliography</a></li><li class="navListItem"><a class="navItem" href="/docs/developerguide-emilia-ssh.html">Emilia SSH</a></li></ul></div><div class="navGroup navGroupActive"><h3>Other</h3><ul><li class="navListItem"><a class="navItem" href="/docs/other-roadmap.html">Roadmap</a></li><li class="navListItem"><a class="navItem" href="/docs/other-opportunities.html">R&amp;D Opportunities</a></li><li class="navListItem"><a class="navItem" href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a></li><li class="navListItem"><a class="navItem" href="/docs/other-g1-pilot-study.html">G1 Pilot Study (2014)</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Server Migration</h1></header><article><div><span><p>This page documents the steps required for migrating an existing OPQ Cloud installation to a new server.</p>
+<h2><a class="anchor" aria-hidden="true" id="prerequisites"></a><a href="#prerequisites" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h2>
+<ul>
+<li>A fresh installation of Red Hat Enterprise Linux v7.6</li>
+<li>An initial user account with root/sudo access</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="cloud-software-management"></a><a href="#cloud-software-management" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cloud Software Management</h2>
+<p>Instead of creating a single development account for managing software, we instead make use of Linux groups and the filesystem to provide software management access.</p>
+<h3><a class="anchor" aria-hidden="true" id="add-users"></a><a href="#add-users" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Add users</h3>
+<p>For each person accessing the system, add a new user.</p>
+<p><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s2-users-cl-tools">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s2-users-cl-tools</a></p>
+<p>For each user, make sure they belong to the <code>wheel</code> group for sudo access.</p>
+<p><code>sudo usermod -a -G wheel $user</code></p>
+<p><em>Note: If your system administrator already assigned user accounts, you can skip this step.</em></p>
+<h3><a class="anchor" aria-hidden="true" id="create-and-join-opqdev-group"></a><a href="#create-and-join-opqdev-group" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create and join opqdev group</h3>
+<p>Create a new group called <code>opqdev</code>. This group provides read/write/execute permissions to OPQ Cloud software on the file system.</p>
+<p><code>sudo groupadd opqdev</code></p>
+<p>For each user, make sure they belong to the <code>opqdev</code> group.</p>
+<p><code>sudo usermod -a -G opqdev $user</code></p>
+<h3><a class="anchor" aria-hidden="true" id="create-opq-cloud-software-location"></a><a href="#create-opq-cloud-software-location" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create OPQ Cloud Software Location</h3>
+<p>Next, we need a place on the filesystem where all users in the group <code>opqdev</code> can access and manage the OPQ Cloud installation. We chose <code>/var/opq</code>. Once the directory is created, we then provide read/write/execute access to the directory and subdirectories. When/if you copy new files into <code>/var/opq</code> you may need to re-run these commands to update permissions on those items.</p>
+<pre><code class="hljs">sudo <span class="hljs-built_in">mkdir</span> -p /<span class="hljs-built_in">var</span>/opq
+sudo chgrp -R opqdev /<span class="hljs-built_in">var</span>/opq
+sudo chmod -R g+rwx /<span class="hljs-built_in">var</span>/opq
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="install-system-dependencies"></a><a href="#install-system-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install System Dependencies</h2>
+<p>There are a few system dependencies that are required for setting up OPQ Cloud. These include git, docker, and docker-compose.</p>
+<p>First, make sure the server is fully up-to-date.</p>
+<p><code>sudo yum upgrade</code></p>
+<p>Next, install git so that we can clone the opq-docker repo in a later step.</p>
+<p><code>sudo yum install git</code></p>
+<p>Install docker: <a href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
+<p>Install docker-compose: <a href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a></p>
+<p>Follow the docker post-installation steps: <a href="https://docs.docker.com/install/linux/linux-postinstall/">https://docs.docker.com/install/linux/linux-postinstall/</a></p>
+<p>Start the docker daemon and set it to auto-start on system boot.</p>
+<pre><code class="hljs">sudo systemctl start docker
+sudo systemctl <span class="hljs-builtin-name">enable</span> docker
+</code></pre>
+<p>Finally, perform a sanity check with <code>docker run hello-world</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="install-opq-cloud"></a><a href="#install-opq-cloud" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install OPQ Cloud</h2>
+<p>Next, either clone the <a href="https://github.com/openpowerquality/opq-docker/">opq-docker</a> repository or copy your previous opq-docker deployment into <code>/var/opq</code>.</p>
+<p><code>git clone https://github.com/openpowerquality/opq-docker.git</code></p>
+<p>If you copy a previous deployment, make sure you update permissions with <code>sudo chmod -R g+rwx /var/opq</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="restore-mongodb"></a><a href="#restore-mongodb" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Restore MongoDB</h2>
+<p>Now that the opq-docker files are in place, let's restore the previous database which was backed up using the instructions at <a href="https://openpowerquality.org/docs/cloud-mongodb.html#making-a-backup">https://openpowerquality.org/docs/cloud-mongodb.html#making-a-backup</a> .</p>
+<p>First, we need to edit the directory structure and place the backup in a specific directory to be restored from.</p>
+<p><code>sudo mkdir /var/opq/bak</code></p>
+<p>Copy your backup to the new server so that is at <code>/var/opq/bak/opq.dump.YYYY-MM-DD.bak</code>.</p>
+<p>Ensure the permissions: <code>sudo chmod -R g+rwx /var/opq/bak</code></p>
+<p>Start up <strong>only</strong> the mongodb docker image.</p>
+<p>First, copy the file <code>opq-docker/docker-compose-run.sh</code> to <code>opq-docker/docker-compose-run-mongo.sh</code>.</p>
+<p>Next, edit the last line of <code>opq-docker/docker-compose-run-mongo.sh</code> so that it resembles <code>docker-compose up -d --remove-orphans mongo</code>.</p>
+<p>Run the new script to bring up only the mongodb docker image: <code>./docker-compose-run-mongo.sh</code> and verify that it is up by running <code>docker ps</code>.</p>
+<p>Finally, perform the restoration of the MongoDB backup by following instructions at <a href="https://openpowerquality.org/docs/cloud-mongodb.html#restoring-a-backup">https://openpowerquality.org/docs/cloud-mongodb.html#restoring-a-backup</a></p>
+<p>At this time, you may wish to install a mongo client locally on the server to verify that the contents of the database have been restored correctly.</p>
+<h2><a class="anchor" aria-hidden="true" id="update-configs-and-required-directories-files"></a><a href="#update-configs-and-required-directories-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update Configs and Required Directories/Files</h2>
+<h3><a class="anchor" aria-hidden="true" id="update-makai"></a><a href="#update-makai" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update Makai</h3>
+<p>Makai requires a special private key to provide encryption to OPQ Boxes. First, create a directory to hold the key:</p>
+<p><code>sudo mkdir -p /etc/opq/curve/private_keys</code></p>
+<p>Copy into this new directory the <code>opqserver_secret</code> file from the previous installation.</p>
+<p>Set permissions so that this can only be read and written by root:</p>
+<pre><code class="hljs">sudo chown -R root <span class="hljs-meta-keyword">/etc/</span>opq/curve
+sudo chmod -R <span class="hljs-number">551</span> <span class="hljs-meta-keyword">/etc/</span>opq/curve
+sudo chmod <span class="hljs-number">440</span> <span class="hljs-meta-keyword">/etc/</span>opq<span class="hljs-meta-keyword">/curve/</span>private_keys/opqserver_secret
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="update-box-update-server"></a><a href="#update-box-update-server" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update box-update-server</h3>
+<p>Create the directory <code>/var/opq/box-updates</code>.</p>
+<p><code>mkdir -p /var/opq/box-updates</code></p>
+<p>This directory is used to store updates for OPQ Boxes read by the box-update-server docker service. See <a href="https://openpowerquality.org/docs/cloud-box-update-server.html">https://openpowerquality.org/docs/cloud-box-update-server.html</a> for more information.</p>
+<h3><a class="anchor" aria-hidden="true" id="update-nginx-and-let-s-encrypt"></a><a href="#update-nginx-and-let-s-encrypt" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update nginx and Let's Encrypt</h3>
+<p>In order for nginx to properly forward connections, we need to update its config to point to the new server's host name.</p>
+<p>Edit the file <code>opq-docker/config/nginx/nginx.env</code>.</p>
+<p>Change the key <code>NGINX_SERVER_NAME</code> to point to your new host name.</p>
+<p>Change the key <code>LETSENCRYPT_EMAIL</code> to the main system administrator of your new OPQ Cloud deployment. The following is
+an example of <code>opq-docker/config/nginx/nginx.env</code> after we updated it for our new host name.</p>
+<pre><code class="hljs"># Required <span class="hljs-keyword">for</span> Nginx<span class="hljs-string">'s server_name directive (in app.conf.template), as well as View'</span>s ROOT_URL env <span class="hljs-keyword">var</span>.
+# Also used <span class="hljs-keyword">by</span> the init-letsencrypt.sh script <span class="hljs-keyword">for</span> setting up SSL certs <span class="hljs-keyword">for</span> https.
+NGINX_SERVER_NAME=ics02.colo.hawaii.edu
+
+# Used <span class="hljs-keyword">by</span> the init-letsencrypt.sh script <span class="hljs-keyword">for</span> setting up SSL certs <span class="hljs-keyword">for</span> https.
+# It <span class="hljs-keyword">is</span> recommended <span class="hljs-keyword">to</span> <span class="hljs-keyword">set</span> a valid email address when requesting a certificate <span class="hljs-keyword">from</span> LetsEncrypt.
+# <span class="hljs-keyword">Set</span> LETSENCRYPT_STAGING_MODE <span class="hljs-keyword">to</span> <span class="hljs-number">1</span> <span class="hljs-keyword">while</span> testing your setup <span class="hljs-keyword">to</span> avoid hitting cert request limits. <span class="hljs-keyword">Set</span> it back <span class="hljs-keyword">to</span> <span class="hljs-number">0</span>
+# when you are ready <span class="hljs-keyword">to</span> request real certificates.
+LETSENCRYPT_EMAIL=aghalarp@hawaii.edu
+LETSENCRYPT_STAGING_MODE=<span class="hljs-number">0</span>
+</code></pre>
+<p>Update the two <code>server_name</code> keys in <code>opq-docker/data/nginx/app.conf</code> to point to your new host name.</p>
+<p>An example of this file after we migrated is provided below.</p>
+<pre><code class="hljs">upstream view_app {
+    server view<span class="hljs-function">:8888</span>;
+}
+
+upstream boxupdateserver_health_server {
+    server boxupdateserver<span class="hljs-function">:8151</span>;
+}
+
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+server {
+    listen 80;
+    server_name ics02.colo.hawaii.edu;
+    server_tokens off;
+
+    location <span class="hljs-string">/.well-known/acme-challenge/</span> {
+        root <span class="hljs-string">/var/www/certbot</span>;
+    }
+
+    location / {
+        return 301 https:<span class="hljs-string">//</span>$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name ics02.colo.hawaii.edu;
+    server_tokens off;
+
+    ssl_certificate <span class="hljs-string">/etc/letsencrypt/live/ics02.colo.hawaii.edu/fullchain.pem</span>;
+    ssl_certificate_key <span class="hljs-string">/etc/letsencrypt/live/ics02.colo.hawaii.edu/privkey.pem</span>;
+    include <span class="hljs-string">/etc/letsencrypt/options-ssl-nginx.conf</span>;
+    ssl_dhparam <span class="hljs-string">/etc/letsencrypt/ssl-dhparams.pem</span>;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    client_max_body_size 10M;
+
+    <span class="hljs-comment"># View Proxy</span>
+    location / {
+        proxy_pass  http:<span class="hljs-string">//view_app/</span>;
+        proxy_http_<span class="hljs-keyword">version</span> 1.1;
+        proxy_<span class="hljs-keyword">set</span>_header Upgrade $http_upgrade;
+        proxy_<span class="hljs-keyword">set</span>_header Connection $connection_upgrade;
+        proxy_<span class="hljs-keyword">set</span>_header Host $http_host;
+
+        proxy_<span class="hljs-keyword">set</span>_header X-Real-IP $remote_addr;
+        proxy_<span class="hljs-keyword">set</span>_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_<span class="hljs-keyword">set</span>_header X-Forward-Proto $scheme;
+        proxy_<span class="hljs-keyword">set</span>_header X-Nginx-Proxy <span class="hljs-literal">true</span>;
+
+        proxy_redirect off;
+
+        proxy_<span class="hljs-keyword">connect</span>_timeout 43200s;
+        proxy_read_timeout    43200s;
+        proxy_send_timeout    43200s;
+    }
+
+    <span class="hljs-comment"># Box Updater Server Proxy</span>
+    location <span class="hljs-string">/box-update-server/</span> {
+        proxy_pass  http:<span class="hljs-string">//boxupdateserver_health_server/</span>;
+        proxy_redirect ~^/<span class="hljs-params">(.*)</span> http:<span class="hljs-string">//</span>$http_host/box-update-server/$1;
+        proxy_http_<span class="hljs-keyword">version</span> 1.1;
+        proxy_<span class="hljs-keyword">set</span>_header Host $http_host;
+
+        proxy_<span class="hljs-keyword">set</span>_header X-Real-IP $remote_addr;
+        proxy_<span class="hljs-keyword">set</span>_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_<span class="hljs-keyword">set</span>_header X-Forward-Proto $scheme;
+        proxy_<span class="hljs-keyword">set</span>_header X-Nginx-Proxy <span class="hljs-literal">true</span>;
+    }
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="update-health"></a><a href="#update-health" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update Health</h3>
+<p>Edit the file at <code>opq-docker/config/health/health.config.json</code>. Update the service with name <code>mongo</code> to match the following:</p>
+<pre><code class="hljs">{
+      <span class="hljs-string">"name"</span>: <span class="hljs-string">"mongo"</span>,
+      <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://localhost:28420"</span>
+},
+</code></pre>
+<p>Update the <code>view</code> service config with the new host:</p>
+<pre><code class="hljs">{
+      <span class="hljs-string">"name"</span>: <span class="hljs-string">"view"</span>,
+      <span class="hljs-string">"url"</span>: <span class="hljs-string">"https://ics02.colo.hawaii.edu/health"</span>
+},
+</code></pre>
+<p>The following is an example of our health config after migration:</p>
+<pre><code class="hljs">{
+  <span class="hljs-attr">"interval"</span>: <span class="hljs-number">20</span>,
+  <span class="hljs-attr">"mongo_host"</span>: <span class="hljs-string">"mongo"</span>,
+  <span class="hljs-attr">"mongo_port"</span>: <span class="hljs-number">27017</span>,
+  <span class="hljs-attr">"mongo_service_checker_addr"</span>: <span class="hljs-string">"0.0.0.0:28420"</span>,
+  <span class="hljs-attr">"services"</span>: [
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"mongo"</span>,
+      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://localhost:28420"</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"view"</span>,
+      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://ics02.colo.hawaii.edu/health"</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"makai"</span>,
+      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://makai:8080"</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"mauka"</span>,
+      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://mauka:8911"</span>
+    }
+  ]
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="initialize-lets-encrypt"></a><a href="#initialize-lets-encrypt" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Initialize Lets Encrypt</h2>
+<p>First, if you've copied over opq-docker from a previous server, you need to clear the <code>opq-docker/data/certbot</code> directory.</p>
+<p><code>rm -rf opq-docker/data/certbot/*</code></p>
+<p>Next, run the script <code>opq-docker/init-letsencrypt.sh</code></p>
+<p>You should see a successful message about acquiring an HTTPS certificate from letsencrypt.</p>
+<h2><a class="anchor" aria-hidden="true" id="start-opq-cloud"></a><a href="#start-opq-cloud" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Start OPQ Cloud</h2>
+<p>Now that all of the configurations have been updated and the infrastructure put in place, you can start the rest of the OPQ Cloud system</p>
+<pre><code class="hljs"><span class="hljs-keyword">cd</span> /<span class="hljs-keyword">var</span>/opq/opq-docker
+docker-compose down
+./docker-compose-<span class="hljs-keyword">run</span>.<span class="hljs-keyword">sh</span>
+</code></pre>
+<p>You can verify that all docker images are running with <code>docker ps</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="update-deployed-opq-boxes"></a><a href="#update-deployed-opq-boxes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update Deployed OPQ Boxes</h2>
+<h3><a class="anchor" aria-hidden="true" id="update-deployed-opq-boxes-w-physical-access"></a><a href="#update-deployed-opq-boxes-w-physical-access" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update Deployed OPQ Boxes w/ Physical Access</h3>
+<p>For each Box that you wish to update, visit the configuration daemon for that Box by opening your web browser and navigating to <code>http://$box_ip_address:8888</code>. <em>Note: You need to be on the same network as the box to access it</em>.</p>
+<p>Scroll down to the bottom of the page where the Box configuration is displayed. Update the following configuration keys to point to the new server: <code>updates_ep</code>, <code>cmd_sub_ep</code>, <code>trg_push_ep</code>, and <code>cmd_push_ep</code>.</p>
+<p>Once the endpoints have been updated, press the <code>Update</code> button.</p>
+<p>Reboot the Box by unplugging it and plugging it back in.</p>
+<p>The following image shows an example configuration after we migrated from <code>emilia.ics.hawaii.edu</code> to <code>ics02.colo.hawaii.edu</code>:</p>
+<p><img src="/docs/assets/cloud/box-config.png"></p>
+<h3><a class="anchor" aria-hidden="true" id="update-deployed-opq-boxes-w-remote-access"></a><a href="#update-deployed-opq-boxes-w-remote-access" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update Deployed OPQ Boxes w/ Remote Access</h3>
+<p>For each Box that you wish to update, ssh into the box.</p>
+<p><code>ssh pi@$box_ip_address</code></p>
+<p>The password can be obtained from an OPQ administrator. Please contact us if you do not have the Box password.</p>
+<p>Then, use vim to edit the Box config file.</p>
+<p><code>sudo vim /etc/opq/opqbox_config.json</code></p>
+<p>Change the endpoints for the following keys to match the endpoint of the new server: <code>updates_ep</code>, <code>cmd_sub_ep</code>, <code>trg_push_ep</code>, and <code>cmd_push_ep</code>.</p>
+<p>An example of the configuration file after moving servers from <code>emilia.ics.hawaii.edu</code> to <code>ics02.colo.hawaii.edu</code> follows:</p>
+<pre><code class="hljs">{
+  <span class="hljs-attr">"box_id"</span>: <span class="hljs-number">1001</span>,
+  <span class="hljs-attr">"plugins"</span>: [],
+  <span class="hljs-attr">"calibration"</span>: <span class="hljs-number">147.08</span>,
+  <span class="hljs-attr">"windows_per_measurements"</span>: <span class="hljs-number">60</span>,
+  <span class="hljs-attr">"server_public_key"</span>: <span class="hljs-string">"umIz8s[!AyQqU$&lt;]9POY4I(YUBxoxv}L#t3&gt;S6K{"</span>,
+  <span class="hljs-attr">"updates_ep"</span>: <span class="hljs-string">"http://ics02.colo.hawaii.edu:8151"</span>,
+  <span class="hljs-attr">"cmd_sub_ep"</span>: <span class="hljs-string">"tcp://ics02.colo.hawaii.edu:8194"</span>,
+  <span class="hljs-attr">"device_path"</span>: <span class="hljs-string">"/dev/opq0"</span>,
+  <span class="hljs-attr">"sse_interface"</span>: <span class="hljs-string">"0.0.0.0:3012"</span>,
+  <span class="hljs-attr">"trg_push_ep"</span>: <span class="hljs-string">"tcp://ics02.colo.hawaii.edu:9880"</span>,
+  <span class="hljs-attr">"cmd_push_ep"</span>: <span class="hljs-string">"tcp://ics02.colo.hawaii.edu:8196"</span>,
+  <span class="hljs-attr">"windows_in_storage_buffer"</span>: <span class="hljs-number">3000</span>
+}
+</code></pre>
+<p>Once the changes to the config file have been saved, reboot the box:</p>
+<p><code>sudo reboot</code></p>
+<h2><a class="anchor" aria-hidden="true" id="optional-installation-steps"></a><a href="#optional-installation-steps" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Optional Installation Steps</h2>
+<h3><a class="anchor" aria-hidden="true" id="automated-mongodb-backups"></a><a href="#automated-mongodb-backups" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automated MongoDB Backups</h3>
+<p>You may want to setup MongoDB backups as described here: <a href="https://openpowerquality.org/docs/cloud-mongodb.html#automating-backups">https://openpowerquality.org/docs/cloud-mongodb.html#automating-backups</a></p>
+<h3><a class="anchor" aria-hidden="true" id="docker-helper-functions-and-aliases"></a><a href="#docker-helper-functions-and-aliases" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docker helper functions and aliases</h3>
+<p>There is a large list of docker functions and aliases for interacting with docker at <a href="https://github.com/openpowerquality/opq/blob/master/util/system/system-utils.sh">https://github.com/openpowerquality/opq/blob/master/util/system/system-utils.sh</a> .</p>
+<p>Copy this file into each user's home directory at <code>~/system-utils.sh</code>. Then, at the end of each user's <code>~/.bashrc</code> file, add the line <code>source system-utils.sh</code> so that you can access these utilities from the command line.</p>
+<h3><a class="anchor" aria-hidden="true" id="setup-public-key-authentication"></a><a href="#setup-public-key-authentication" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setup Public Key Authentication</h3>
+<p>On the server, generate a new key pair.</p>
+<p><code>ssh-keygen -t rsa -b 4096</code></p>
+<p>Then, for each user, copy the contents of their <code>~/.ssh/id_rsa.pub</code> file into the server's <code>~/.ssh/authorized_keys</code> file. If <code>~/.ssh/authorized_keys</code> does not exist on the server, create it.</p>
+<h2><a class="anchor" aria-hidden="true" id="test-the-installation"></a><a href="#test-the-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Test the Installation</h2>
+<p>If everything goes well, you should now be able to access OPQView at the new endpoint. In our case, you can navigate to <a href="https://ics02.colo.hawaii.edu">https://ics02.colo.hawaii.edu</a> .</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="cloud-docker.html">← Building, Publishing, and Deploying OPQ Cloud services with Docker</a><a class="docs-next button" href="developerguide-docusaurus.html">Documentation →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#cloud-software-management">Cloud Software Management</a><ul class="toc-headings"><li><a href="#add-users">Add users</a></li><li><a href="#create-and-join-opqdev-group">Create and join opqdev group</a></li><li><a href="#create-opq-cloud-software-location">Create OPQ Cloud Software Location</a></li></ul></li><li><a href="#install-system-dependencies">Install System Dependencies</a></li><li><a href="#install-opq-cloud">Install OPQ Cloud</a></li><li><a href="#restore-mongodb">Restore MongoDB</a></li><li><a href="#update-configs-and-required-directories-files">Update Configs and Required Directories/Files</a><ul class="toc-headings"><li><a href="#update-makai">Update Makai</a></li><li><a href="#update-box-update-server">Update box-update-server</a></li><li><a href="#update-nginx-and-let-s-encrypt">Update nginx and Let's Encrypt</a></li><li><a href="#update-health">Update Health</a></li></ul></li><li><a href="#initialize-lets-encrypt">Initialize Lets Encrypt</a></li><li><a href="#start-opq-cloud">Start OPQ Cloud</a></li><li><a href="#update-deployed-opq-boxes">Update Deployed OPQ Boxes</a><ul class="toc-headings"><li><a href="#update-deployed-opq-boxes-w-physical-access">Update Deployed OPQ Boxes w/ Physical Access</a></li><li><a href="#update-deployed-opq-boxes-w-remote-access">Update Deployed OPQ Boxes w/ Remote Access</a></li></ul></li><li><a href="#optional-installation-steps">Optional Installation Steps</a><ul class="toc-headings"><li><a href="#automated-mongodb-backups">Automated MongoDB Backups</a></li><li><a href="#docker-helper-functions-and-aliases">Docker helper functions and aliases</a></li><li><a href="#setup-public-key-authentication">Setup Public Key Authentication</a></li></ul></li><li><a href="#test-the-installation">Test the Installation</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/opqlogo_white.png" alt="Open Power Quality" width="66" height="58"/></a><div><h5>Documentation Quick Links</h5><a href="/docs/intro-opq.html">Overview</a><a href="/docs/userguide-hardware.html">OPQ Box User Guide</a><a href="/docs/userguide-software.html">OPQ View User Guide</a><a href="/docs/other-agile-power-monitoring.html">Agile Power Monitoring for UH</a><a href="/docs/other-roadmap.html">Roadmap</a></div><div><h5>Community</h5><a href="https://openpowerquality.slack.com/" target="_blank" rel="noreferrer noopener">Slack</a><a href="https://twitter.com/opquality" target="_blank" rel="noreferrer noopener">Twitter</a><a href="/blog">News</a><a href="https://ics02.colo.hawaii.edu/">Public OPQ Cloud</a><a href="/contact-us.html">Contact Us</a></div><div><h5>Development</h5><a href="https://github.com/openpowerquality">GitHub</a><a href="https://github.com/openpowerquality/opq/projects">Project Boards</a><a href="/team.html">Developer Team</a><a href="/docs/opportunities.html">Opportunities</a></div></section><p style="text-align:center;color:#e9faff">Open Power Quality is sponsored by:<br/><a style="text-align:center;color:#e9faff" href="http://csdl.ics.hawaii.edu">Collaborative Software Development Laboratory, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://www.ics.hawaii.edu">Department of Information and Computer Sciences, University of Hawaii</a><br/><a style="text-align:center;color:#e9faff" href="http://ee.hawaii.edu">Department of Electrical Engineering, University of Hawaii</a><br/></p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+              var search = docsearch({
+                
+                apiKey: '9bf16cc78135dbeeb3826894ebbbb2ee',
+                indexName: 'openpowerquality',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
